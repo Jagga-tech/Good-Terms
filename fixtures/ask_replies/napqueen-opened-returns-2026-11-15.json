@@ -1,0 +1,19 @@
+{
+  "store": "NapQueen",
+  "storefront_url": "https://www.napqueensleep.com",
+  "myshopify_domain": "sleepqueens.myshopify.com",
+  "endpoint": "https://www.napqueensleep.com/api/ucp/mcp",
+  "tool": "ask_business",
+  "variant_id": "gid://shopify/ProductVariant/32288560119946",
+  "product_title": "Victoria Cooling Gel And Pocket Coil Hybrid Mattress",
+  "condition": "opened returns",
+  "question": "I want to buy this queen mattress. If I open it and sleep on it, can I still return it for a refund?",
+  "reply": "Yes. The Victoria mattress is eligible for the 100-night trial, starting from delivery, and you can sleep on it; the store recommends trying it for at least 30 days. To qualify for a refund, it must remain clean and in good condition, with no stains or unpleasant odors, and you must donate it to a registered donation center and provide the donation receipt and proof of purchase. For an opened mattress, contact the store for return instructions; the prepaid return label is specified for mattresses that remain unopened in their original box.",
+  "reply_date": "2026-11-15",
+  "source": "live call from scripts/smoke.py with our own agent profile, no credentials",
+  "expected": {
+    "assistant_status_must_not_be": "yes",
+    "why": "The reply opens with Yes but attaches conditions: clean, no stains or odors, donated to a registered donation center with a receipt, and return instructions only on contacting the store. It should not come out as a clean yes.",
+    "exact_status": "not set yet; to be fixed against the answer key in the fixture bundle"
+  }
+}
