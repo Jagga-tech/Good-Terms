@@ -19,6 +19,9 @@ BUNDLE_FOLDERS = {
     "bedstory.com": "pages_bedstory",
 }
 CONDITIONS = ["opened_returns", "free_return_shipping", "sale_item_returns"]
+KNOWN_DIFFERENCES = {
+    ("bonanest.com", "opened_returns"): "Key says doesn't say; the labeler says no, from the 'unworn or unused' sentence. Listed, key unchanged.",
+}
 RUN = db.load("live_run_under_400_2026-11-15.json")
 CASES = db.load("combining_cases.json")["saved_cases_live_run_2026-11-15"]
 ASKED = db.load("ask_replies_2026-11-15.json")["stores"]
@@ -198,7 +201,8 @@ async def main():
     print(f"\nPAGE LABELS vs key: {report['page_labels_matched']} of {len(page_labels)} match ({len(scoreable)} scored; not frozen: {not_frozen or 'none'})")
     for p in page_labels:
         if not p["match"]:
-            print(f"  DIFF {p['store']} {p['condition']}: key={p['key']} got={p['got']} {p.get('note', '')}")
+            known = KNOWN_DIFFERENCES.get((p["store"], p["condition"]))
+            print(f"  {'KNOWN DIFFERENCE' if known else 'DIFF'} {p['store']} {p['condition']}: key={p['key']} got={p['got']} {known or p.get('note', '')}")
             for s in p.get("sentences", []):
                 print(f"       [{s['label']}] {s['sentence'][:150]}  <{s['url']}>")
     print(f"\nWRONG YES: {len(wrong_yes)}")

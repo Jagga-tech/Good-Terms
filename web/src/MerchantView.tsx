@@ -27,7 +27,7 @@ function Evidence({ row }: { row: Row }) {
       {row.page_sentences.map((sentence) => (
         <StoreWords key={sentence.sentence} sentence={sentence} date={row.date_read} />
       ))}
-      <Reply row={row} label="Your store's assistant says" />
+      <Reply row={row} label={row.assistant_reply ? "Your store's assistant says" : "Your store's assistant"} />
     </>
   )
 }

@@ -31,6 +31,15 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - Requests to one store are paced (0.4 s apart in a check, 1 s when freezing) and wait and retry on HTTP 429.
 - robots.txt is honored for every address. A store listed in `BARRED` in `api/reader.py` is never read.
 - Never change the answer key to make a check pass. Report the difference.
+- Known difference from the key, left as it is: BonaNest, opened returns. The key says doesn't say; the labeler says no.
+
+## Asking stores' assistants
+
+- Ask without credentials has a small shared limit. One check of six stores is 18 questions. About 200 questions in an hour got us blocked for 21 minutes on 2026-11-15.
+- Every reply is saved with the time it was asked and reused for the same store, product and question for the rest of the day (`labels.db`, table `replies`).
+- Tests never call Ask live; `tests/conftest.py` makes any attempt fail. They use saved replies only.
+- When Shopify blocks Ask, no further question is sent until the wait is over, and the screen says so in plain words.
+- Do not run live checks back to back. Space rehearsals out.
 
 ## Fixtures
 

@@ -328,3 +328,70 @@ def test_a_clearance_sentence_does_not_answer_for_a_sale_priced_item():
     assert check(clearance) == []
     assert check(clearance, listed=True)[0]["label"] == "no"
     assert check(sale)[0]["label"] == "no"
+
+
+def run_store_with_ask(fake_ask, monkeypatch, api):
+    monkeypatch.setattr(check, "ask", fake_ask)
+    labeler = StubLabeler({}, replies={"opened_returns": "yes", "free_return_shipping": "yes", "sale_item_returns": "yes"})
+    check_id, store = store_check(Site(), labeler, replies=None)
+    asyncio.run(store.run())
+    return api.get(f"/api/checks/{check_id}").json()["stores"][0]
+
+
+def test_a_reply_is_saved_with_its_time_and_reused_for_the_rest_of_the_day(api, monkeypatch):
+    asked = []
+
+    async def fake_ask(client, domain, question, variant):
+        asked.append(question)
+        return f"Reply number {len(asked)}."
+
+    first = run_store_with_ask(fake_ask, monkeypatch, api)
+    assert len(asked) == 3
+    second = run_store_with_ask(fake_ask, monkeypatch, api)
+    assert len(asked) == 3
+    for before, after in zip(first["rows"], second["rows"]):
+        assert before["assistant_reply"] == after["assistant_reply"]
+        assert before["reply_time"] == after["reply_time"]
+        assert len(before["reply_time"]) == len("2026-11-15 14:02")
+    from api import replies
+
+    monkeypatch.setattr(replies, "now", lambda: "2099-01-01 09:00")
+    run_store_with_ask(fake_ask, monkeypatch, api)
+    assert len(asked) == 6
+
+
+def test_a_blocked_ask_is_said_in_plain_words_and_is_never_a_yes(api, monkeypatch):
+    from api.shopify import ShopifyError
+
+    async def blocked(client, domain, question, variant):
+        raise ShopifyError("HTTP 429", 429, 1265)
+
+    store = run_store_with_ask(blocked, monkeypatch, api)
+    for row in store["rows"]:
+        assert row["assistant_reply"] is None and row["assistant_status"] == "unavailable"
+        assert row["assistant_text"].startswith("Shopify's limit on questions to store assistants was reached")
+        assert "asked again after" in row["assistant_text"]
+        assert row["status_shown"] != "assistant_only_yes"
+
+
+def test_after_a_long_429_no_further_question_is_sent(monkeypatch):
+    from api import shopify
+
+    calls = []
+
+    async def limited(request):
+        calls.append(request.url.host)
+        body = {"jsonrpc": "2.0", "id": 1, "error": {"code": -32000, "message": "Rate limit exceeded", "data": "Too many requests, please retry after 1265 seconds"}}
+        return httpx.Response(429, json=body)
+
+    monkeypatch.setattr(shopify, "ask_blocked_until", 0.0)
+
+    async def two_asks():
+        async with httpx.AsyncClient(transport=httpx.MockTransport(limited)) as client:
+            for domain in ("a.myshopify.com", "b.myshopify.com"):
+                with pytest.raises(shopify.ShopifyError) as problem:
+                    await shopify.ask(client, domain, "q", "gid://shopify/ProductVariant/1")
+                assert problem.value.status == 429 and problem.value.retry_after > 1200
+
+    asyncio.run(two_asks())
+    assert calls == ["a.myshopify.com"]

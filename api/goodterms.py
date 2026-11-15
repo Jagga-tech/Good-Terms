@@ -70,6 +70,7 @@ def store_view(conn, store, offer, replies_in=None, pages_read=None):
                 "assistant_status": assistant,
                 "assistant_reply": row["assistant_reply"] if replies_in else None,
                 "reply_time": row["reply_time"] if replies_in else None,
+                "assistant_text": row["reply_note"] if replies_in and not row["assistant_reply"] else None,
                 "status_shown": shown,
                 "status_text": texts.status_text(shown, pages),
                 "counts_toward_meets_all_3": shown == "yes",

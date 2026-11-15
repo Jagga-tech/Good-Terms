@@ -68,6 +68,7 @@ CREATE TABLE findings (
     assistant_status TEXT NOT NULL CHECK (assistant_status IN ('yes', 'no', 'doesnt_say', 'unavailable', 'pending')),
     assistant_reply TEXT,
     reply_time TEXT,
+    reply_note TEXT,
     pages_disagree INTEGER NOT NULL DEFAULT 0,
     read_note TEXT,
     PRIMARY KEY (check_id, store_domain, condition),

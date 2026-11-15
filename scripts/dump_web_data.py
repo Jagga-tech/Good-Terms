@@ -10,7 +10,7 @@ import time
 
 from fastapi.testclient import TestClient
 
-from api import db, goodterms
+from api import db, goodterms, texts
 from api.main import app
 
 OUT = db.ROOT / "web" / "test-data.json"
@@ -50,6 +50,12 @@ def main():
             client,
             "UPDATE findings SET page_status = 'doesnt_say', page_sentences = '[]'"
             " WHERE store_domain = 'sweetnight.com' AND condition = 'sale_item_returns'",
+        )
+        data["ask_blocked"] = variant(
+            client,
+            "UPDATE findings SET assistant_reply = NULL, reply_time = NULL, assistant_status = 'unavailable',"
+            f" reply_note = '{texts.ask_blocked(1265).replace(chr(39), chr(39) * 2)}'"
+            " WHERE store_domain = 'sweetnight.com'",
         )
     OUT.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"wrote {OUT.relative_to(db.ROOT)}")

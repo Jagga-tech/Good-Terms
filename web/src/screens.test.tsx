@@ -7,7 +7,7 @@ import { CheckView, ConditionRow, StoreEntry } from './BuyersCheck'
 import { MerchantPage, MerchantStore } from './MerchantView'
 
 const data = raw as unknown as Record<string, Check> & { stores: StoreName[]; merchant: Record<string, Store> }
-const checks = ['final', 'replay_start', 'replay_replies', 'replay_partial', 'could_not_read', 'two_yes_one_assistant_only']
+const checks = ['final', 'replay_start', 'replay_replies', 'replay_partial', 'could_not_read', 'two_yes_one_assistant_only', 'ask_blocked']
 
 const text = (markup: string) =>
   markup
@@ -144,7 +144,7 @@ test('both screens show the same sentence, reply, link and date for the same row
           expect(text(screen)).toContain(`read ${row.date_read}`)
         }
         expect(text(screen)).toContain(row.assistant_reply!)
-        expect(text(screen)).toContain(`replied ${row.reply_time}`)
+        expect(text(screen)).toContain(`asked ${row.reply_time}`)
       }
   }
 })
@@ -195,4 +195,15 @@ test('the two screens keep separate state, and Merchant View does not open on th
 
 test('every screen has the footer', () => {
   expect(text(renderToStaticMarkup(<Footer />)).trim()).toBe('Prototype. Not affiliated with Shopify.')
+})
+
+test('a blocked Ask is said on screen in plain words, on both screens', () => {
+  const store = named(data.ask_blocked, 'SweetNight')
+  const said = store.rows[0].assistant_text!
+  expect(said).toMatch(/^Shopify's limit on questions to store assistants was reached/)
+  expect(entry(store)).toContain(said)
+  expect(entry(store)).toContain("From the store's assistant")
+  const merchant = text(renderToStaticMarkup(<MerchantStore store={store} />))
+  expect(merchant).toContain(said)
+  expect(merchant).not.toMatch(/this store|the merchant/i)
 })

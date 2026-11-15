@@ -25,14 +25,14 @@ export function StoreWords({ sentence, date }: { sentence: Sentence; date: strin
 }
 
 export function Reply({ row, label }: { row: Row; label: string }) {
-  if (!row.assistant_reply) return null
+  if (!row.assistant_reply && !row.assistant_text) return null
   return (
     <div className="reply">
       <p className="label">
         {label}
-        {row.reply_time && <span> · replied {row.reply_time}</span>}
+        {row.reply_time && <span> · asked {row.reply_time}</span>}
       </p>
-      <p>{row.assistant_reply}</p>
+      <p>{row.assistant_reply ?? row.assistant_text}</p>
     </div>
   )
 }

@@ -1,7 +1,19 @@
 """Every status and result wording the screens show. The web app holds none of these."""
 
+import time
+
 STILL_READING = "Still reading this store's pages"
+ASK_FAILED = "The store's assistant did not answer."
 COULD_NOT_READ = "We couldn't read this store's pages"
+
+
+def ask_blocked(seconds):
+    """Plain words for a question Shopify would not let us send."""
+    again = time.strftime("%I:%M %p", time.localtime(time.time() + (seconds or 60))).lstrip("0")
+    return (
+        "Shopify's limit on questions to store assistants was reached, so the assistant was not asked."
+        f" It can be asked again after {again}."
+    )
 
 
 def status_text(shown, page_status):

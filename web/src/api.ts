@@ -12,6 +12,7 @@ export type Row = {
   assistant_status: string
   assistant_reply: string | null
   reply_time: string | null
+  assistant_text: string | null
   status_shown: string
   status_text: string
   counts_toward_meets_all_3: boolean

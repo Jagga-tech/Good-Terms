@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 import httpx
 
-from api import db
+from api import db, replies, texts
 from api.combine import page_status
 from api.reader import Reader, key
 from api.shopify import ShopifyError, ask
@@ -190,35 +190,44 @@ class StoreCheck:
         return self.check_id, self.store
 
     async def ask_one(self, condition):
+        """A saved reply from today is reused. Otherwise the store's assistant is asked once."""
+        note = None
+        asked = today()
+        asking = (self.store, self.offer["variant_id"], condition["question"])
         if self.saved_replies is not None:
             reply = self.saved_replies.get(condition["id"])
+        elif replies.lookup(*asking):
+            reply, asked = replies.lookup(*asking)
         else:
             try:
-                reply = await ask(
-                    self.client, self.offer["myshopify_domain"], condition["question"], self.offer["variant_id"]
-                )
-            except (ShopifyError, httpx.HTTPError):
+                reply = await ask(self.client, self.offer["myshopify_domain"], condition["question"], asking[1])
+            except ShopifyError as problem:
                 reply = None
+                note = texts.ask_blocked(problem.retry_after) if problem.status == 429 else texts.ASK_FAILED
+            except httpx.HTTPError:
+                reply, note = None, texts.ASK_FAILED
+            if reply:
+                asked = replies.remember(*asking, reply)
         write(
-            "UPDATE findings SET assistant_reply = ?, reply_time = ?, assistant_status = ?"
+            "UPDATE findings SET assistant_reply = ?, reply_time = ?, reply_note = ?, assistant_status = ?"
             " WHERE check_id = ? AND store_domain = ? AND condition = ?",
-            (reply, today(), "pending" if reply else "unavailable", *self.where(), condition["id"]),
+            (reply, asked if reply else None, note, "pending" if reply else "unavailable", *self.where(), condition["id"]),
         )
         return condition["id"], reply
 
     async def ask_all(self):
         """Three questions at once. Each reply is saved the moment it arrives, then labeled."""
-        replies = dict(await asyncio.gather(*(self.ask_one(c) for c in self.conds)))
+        answered = dict(await asyncio.gather(*(self.ask_one(c) for c in self.conds)))
         write(
             "UPDATE offers SET replies_in = 1, replies_at = ? WHERE check_id = ? AND store_domain = ?",
             (time.time(), *self.where()),
         )
         try:
-            labels = await self.labeler.replies(self.conds, self.product, replies)
+            labels = await self.labeler.replies(self.conds, self.product, answered)
         except Exception:
             labels = {}
         for condition in self.conds:
-            status = labels.get(condition["id"], "unavailable")
+            status = labels.get(condition["id"], "unavailable") if answered.get(condition["id"]) else "unavailable"
             self.assistant[condition["id"]] = status
             write(
                 "UPDATE findings SET assistant_status = ?"
