@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import datetime, timezone
 
@@ -30,6 +31,7 @@ def store_view(conn, store, offer):
         return {
             "domain": store,
             "name": None,
+            "storefront_url": None,
             "checked": False,
             "progress": None,
             "result": "not_checked",
@@ -45,9 +47,7 @@ def store_view(conn, store, offer):
                 "condition": row["condition"],
                 "condition_label": row["label"],
                 "page_status": pages,
-                "sentence": row["sentence"] if pages_read else None,
-                "page_summary": row["page_summary"] if pages_read else None,
-                "source_url": row["source_url"] if pages_read else None,
+                "page_sentences": json.loads(row["page_sentences"]) if pages_read else [],
                 "date_read": row["date_read"] if pages_read else None,
                 "assistant_status": row["assistant_status"],
                 "assistant_reply": row["assistant_reply"],
@@ -61,6 +61,7 @@ def store_view(conn, store, offer):
     return {
         "domain": store,
         "name": offer["seller_name"] if offer else None,
+        "storefront_url": offer["storefront_url"] if offer else None,
         "checked": True,
         "progress": {
             "replies_in": bool(offer and offer["replies_in"]),
@@ -68,6 +69,18 @@ def store_view(conn, store, offer):
         },
         "result": store_result(rows, pages_read),
         "rows": rows,
+    }
+
+
+def offer_view(offer):
+    if offer["price_cents"] is None:
+        return None
+    return {
+        "product_title": offer["product_title"],
+        "variant_id": offer["variant_id"],
+        "variant_labels": json.loads(offer["variant_labels"]),
+        "price_cents": offer["price_cents"],
+        "price_basis": offer["price_basis"],
     }
 
 
@@ -98,18 +111,18 @@ def create_check(body: NewCheck):
         ).lastrowid
         for store in dict.fromkeys(map(domain, body.stores)):
             known = latest_offer(conn, store)
-            conn.execute(
-                "INSERT INTO offers VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (
-                    check_id,
-                    store,
-                    known and known["seller_name"],
-                    known and known["myshopify_domain"],
-                    known and known["total"],
-                    int(bool(known)),
-                    int(bool(known)),
-                ),
-            )
+            if known:
+                conn.execute(
+                    "INSERT INTO offers SELECT ?, store_domain, seller_name, storefront_url,"
+                    " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
+                    " price_basis, replies_in, pages_read FROM offers"
+                    " WHERE check_id = ? AND store_domain = ?",
+                    (check_id, known["check_id"], store),
+                )
+            else:
+                conn.execute(
+                    "INSERT INTO offers (check_id, store_domain) VALUES (?, ?)", (check_id, store)
+                )
     conn.close()
     return {"id": check_id}
 
@@ -130,7 +143,7 @@ def get_check(check_id: int):
             "search_text": check["search_text"],
             "requested_size": check["requested_size"],
             "stores": [
-                {**store_view(conn, offer["store_domain"], offer), "total": offer["total"]}
+                {**store_view(conn, offer["store_domain"], offer), "offer": offer_view(offer)}
                 for offer in offers
             ],
         }

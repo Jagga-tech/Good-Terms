@@ -37,7 +37,7 @@ These two override the plan where they differ.
 
 Rulings made during M1:
 
-3. Seed: the six original stores only (`rows_six_stores.json` plus the 18 replies in `ask_replies_2026-11-15.json`). Their page findings are summaries, not the stores' exact sentences, so they sit in `page_summary` and `sentence` stays empty until M3 re-reads the stores. A summary is never shown as the store's own words.
+3. Seed: the six stores of the live run under $400 (`live_run_under_400_2026-11-15.json`), with catalog prices. Novilla, SweetNight, NapQueen and BedStory have their pages read, with the exact sentences from `combining_cases.json`. Dwellinhaus and Lee Furniture have their replies saved, unlabeled, and their pages not read. No yes row exists without the store's exact sentence; the database refuses one. The six original stores are used only as combining test cases.
 4. BedStory's two rows the key marks not scoreable (opened returns, sale items): page status "doesn't say", flagged, both sentences shown. A hedged sentence ("unclear") counts as "doesn't say".
 5. NapQueen's replies that open with yes and attach conditions keep the answer key's label, yes.
 

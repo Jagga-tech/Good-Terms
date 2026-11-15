@@ -11,8 +11,7 @@ from api.main import app
 from api.mcp_server import mcp
 
 CASES = db.load("combining_cases.json")
-KEY = db.load("rows_six_stores.json")
-REPLIES = db.load("ask_replies_2026-11-15.json")
+RUN = db.load("live_run_under_400_2026-11-15.json")
 SAVED = CASES["saved_cases_live_run_2026-11-15"]
 PAGES = ["yes", "no", "doesnt_say", "unreadable", "pending"]
 ASSISTANT = ["yes", "no", "doesnt_say", "unavailable", "pending"]
@@ -108,37 +107,71 @@ def test_two_page_yeses_and_one_assistant_only_yes_is_not_meets_all_3():
 
 
 def test_six_stores_return_rows_identical_to_the_fixtures(client):
-    pairs = {(p["store"], p["condition"]): p for p in CASES["six_original_stores"]}
-    check = {store["domain"]: store for store in client.get("/api/checks/1").json()["stores"]}
-    assert list(check) == list(KEY["stores"])
-    for store, data in KEY["stores"].items():
-        view = client.get(f"/api/stores/{store}").json()
-        assert view["name"] == data["name"]
-        assert view["progress"] == {"replies_in": True, "pages_read": True}
-        assert check[store]["rows"] == view["rows"]
-        assert check[store]["total"] == data["total"]
-        replies = {r["condition"]: r for r in REPLIES["stores"][store]["replies"]}
-        assert [row["condition"] for row in view["rows"]] == list(KEY["conditions"])
-        for row in view["rows"]:
-            finding = data["findings"][row["condition"]]
-            pair = pairs[(store, row["condition"])]
-            assert row["page_status"] == db.PAGE_STATUS[finding["status"]] == pair["pages"]
-            assert row["page_summary"] == finding["finding"]
-            assert row["source_url"] == finding["url"]
-            assert row["date_read"] == KEY["read_at"]
-            assert row["assistant_reply"] == replies[row["condition"]]["reply"]
-            assert row["assistant_status"] == replies[row["condition"]]["reply_label"] == pair["assistant"]
-            assert row["status_shown"] == pair["status_shown"]
-            assert row["counts_toward_meets_all_3"] == pair["counts_toward_meets_all_3"]
-    results = {store: client.get(f"/api/stores/{store}").json()["result"] for store in KEY["stores"]}
-    assert results == {
-        "novillashop.com": "meets_all_3",
-        "bonanest.com": "says_no",
-        "homehavenstoreshop.com": "says_no",
-        "novilla.cn": "not_answered_on_pages",
-        "napqueensleep.com": "not_answered_on_pages",
-        "withushome.com": "says_no",
+    check = client.get("/api/checks/1").json()
+    assert [store["name"] for store in check["stores"]] == [o["name"].strip() for o in RUN["offers"].values()]
+    for store, offer in zip(check["stores"], RUN["offers"].values()):
+        view = client.get(f"/api/stores/{store['domain']}").json()
+        assert {**view, "offer": store["offer"]} == store
+        assert store["offer"] == {
+            "product_title": offer["title"],
+            "variant_id": offer["variant"],
+            "variant_labels": offer["labels"],
+            "price_cents": offer["price"],
+            "price_basis": "catalog price",
+        }
+        assert offer["url"].endswith(store["domain"])
+        cases = {c["condition"]: c for c in SAVED if c["store"] == store["name"]}
+        assert store["progress"] == {"replies_in": True, "pages_read": bool(cases)}
+        assert [row["condition"] for row in store["rows"]] == list(db.REPLY_KEYS)
+        for row in store["rows"]:
+            assert row["assistant_reply"] == offer[db.REPLY_KEYS[row["condition"]]]
+            assert row["reply_time"] == RUN["searched_at"]
+            if not cases:
+                assert row["status_shown"] == row["page_status"] == row["assistant_status"] == "pending"
+                assert row["page_sentences"] == []
+                continue
+            case = cases[row["condition"]]
+            expected = saved_row(case)
+            assert row["page_sentences"] == [
+                {"sentence": s["sentence"], "url": s["url"], "label": s["label"]}
+                for s in case["page_sentences"]
+            ]
+            assert row["assistant_status"] == case["assistant"]
+            assert row["page_status"] == expected["page_status"]
+            assert row["status_shown"] == expected["status_shown"]
+            assert row["contradiction"] == expected["contradiction"]
+            assert row["date_read"] == RUN["searched_at"]
+    assert {store["name"]: store["result"] for store in check["stores"]} == {
+        "NapQueen": "not_answered_on_pages",
+        "Novilla": "meets_all_3",
+        "SweetNight": "meets_all_3",
+        "Dwellinhaus": "still_reading",
+        "BedStory": "says_no",
+        "Lee Furniture, NC": "still_reading",
     }
+
+
+def test_every_yes_row_has_the_stores_exact_sentence(client):
+    yes_rows = 0
+    for store in client.get("/api/checks/1").json()["stores"]:
+        for row in store["rows"]:
+            if row["page_status"] == "yes" or row["status_shown"] == "yes":
+                yes_rows += 1
+                assert any(s["label"] == "yes" and s["sentence"] for s in row["page_sentences"])
+    assert yes_rows == 7
+    conn = db.connect()
+    with pytest.raises(db.sqlite3.IntegrityError):
+        conn.execute("UPDATE findings SET page_sentences = '[]' WHERE page_status = 'yes'")
+    conn.close()
+
+
+def test_seed_holds_an_assistant_only_yes_and_a_pages_disagree_case(client):
+    napqueen = client.get("/api/stores/napqueensleep.com").json()
+    assert [row["status_shown"] for row in napqueen["rows"]] == ["yes", "doesnt_say", "assistant_only_yes"]
+    assert napqueen["rows"][2]["counts_toward_meets_all_3"] is False
+    shipping = client.get("/api/stores/bedstory.com").json()["rows"][1]
+    assert shipping["status_shown"] == "no" and shipping["contradiction"] is True
+    assert [s["label"] for s in shipping["page_sentences"]] == ["yes", "no"]
 
 
 def test_no_row_is_yes_while_pages_are_being_read(client):
@@ -151,7 +184,7 @@ def test_no_row_is_yes_while_pages_are_being_read(client):
         for row in store["rows"]:
             assert row["status_shown"] == "pending"
             assert row["counts_toward_meets_all_3"] is False
-            assert row["sentence"] is None and row["page_summary"] is None
+            assert row["page_sentences"] == []
             assert row["assistant_reply"]
     assert client.get("/api/stores/novillashop.com").json()["result"] == "still_reading"
 
@@ -166,7 +199,7 @@ def test_unknown_store_is_not_checked_never_a_yes(client):
 
 
 def test_mcp_tool_returns_the_same_rows(client):
-    stores = list(KEY["stores"]) + ["example.com"]
+    stores = [db.store_domain(o["url"]) for o in RUN["offers"].values()] + ["example.com"]
     result = asyncio.run(mcp.call_tool("check_stores", {"stores": stores}))
     from_tool = [json.loads(item.text) for item in result.content]
     assert from_tool == [client.get(f"/api/stores/{store}").json() for store in stores]
