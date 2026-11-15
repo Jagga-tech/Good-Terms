@@ -74,6 +74,8 @@ async def one_run(labeler):
         "replies_seconds": max(replies) if replies else None,
         "done_seconds": max(s["done_seconds"] for s in stores),
         "early_yes": early_yes,
+        "replies_received": sum(bool(row["assistant_reply"]) for s in stores for row in s["rows"]),
+        "replies_asked": sum(len(s["rows"]) for s in stores),
         "meets_all_3": [s["name"] for s in stores if s["result"] == "meets_all_3"],
         "price_gap": (view["price_gap"] or {}).get("text"),
         "stores": stores,
@@ -91,7 +93,8 @@ async def main():
         print(
             f"\nRUN {number}: search {result['search_seconds']}s, {result['stores_checked']} stores,"
             f" replies in {result['replies_seconds']}s, all done {result['done_seconds']}s,"
-            f" yes shown before pages read: {len(result['early_yes'])}"
+            f" yes shown before pages read: {len(result['early_yes'])},"
+            f" assistant replies received: {result['replies_received']} of {result['replies_asked']}"
         )
         for store in result["stores"]:
             statuses = ", ".join(row["status_shown"] for row in store["rows"])
@@ -99,7 +102,7 @@ async def main():
                 f"  {store['name'][:22]:22} {store['price']:>8}  replies {store['replies_seconds']}s  done {store['done_seconds']}s"
                 f"  pages {store['pages_read']}  {store['result']}  [{statuses}]"
             )
-        print(f"  meets all 3: {result['meets_all_3'] or 'none'}")
+        print(f"  meets all 3: {result['meets_all_3'] or 'none'}; model asked {labeler.asked} times so far, saved labels reused {labeler.reused} times")
         print(f"  {result['price_gap']}")
         if number < runs:
             await asyncio.sleep(20)
@@ -112,14 +115,25 @@ async def main():
     print(f"  all stores done under {DONE_TARGET:.0f}s: {fast_done} of {runs}; slowest {max(r['done_seconds'] for r in results)}s")
     print(f"  yes shown before pages read: {sum(len(r['early_yes']) for r in results)}")
     print(f"  demo rule (one store meets all 3): held in {sum(bool(r['meets_all_3']) for r in results)} of {runs} runs")
+    seen = {}
+    for number, result in enumerate(results, 1):
+        for store in result["stores"]:
+            seen.setdefault(store["name"], []).append([row["status_shown"] for row in store["rows"]])
+    flips = {name: rows for name, rows in seen.items() if any(r != rows[0] for r in rows)}
+    print(f"  stores whose rows changed between runs: {list(flips) or 'none'}")
     last = results[-1]
-    print("\nEVERY YES ROW in the last run, with its sentence:")
+    print("\nALL ROWS in the last run, with every yes and no sentence:")
     for store in last["stores"]:
+        print(f"\n{store['name']}, {store['price']}: {store['result_text']}")
         for row in store["rows"]:
-            if row["status_shown"] == "yes":
-                for sentence in row["page_sentences"]:
-                    heading = f" (under the heading \"{sentence['heading']}\")" if sentence.get("heading") else ""
-                    print(f"  {store['name']} / {row['condition_label']}{heading}: \"{sentence['sentence']}\" <{sentence['url']}>")
+            flag = f"  [{row['contradiction_text']}]" if row["contradiction_text"] else ""
+            print(f"  {row['condition_label']}: {row['status_text']} (pages {row['page_status']}, assistant {row['assistant_status']}){flag}")
+            for sentence in row["page_sentences"]:
+                if sentence["label"] in ("yes", "no"):
+                    heading = f"under \"{sentence['heading']}\": " if sentence.get("heading") else ""
+                    print(f"      {sentence['label'].upper()}: {heading}\"{sentence['sentence']}\" <{sentence['url']}>")
+            if row["assistant_status"] == "no" and row["page_status"] != "no":
+                print(f"      NO from the assistant: \"{row['assistant_reply']}\"")
     print(f"\nwrote {out.relative_to(db.ROOT)}")
 
 

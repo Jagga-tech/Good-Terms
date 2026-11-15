@@ -81,6 +81,9 @@ class StubLabeler:
     async def replies(self, conditions, product, replies):
         return self.reply_labels
 
+    async def recheck(self, condition, product, finding):
+        return finding["label"]
+
 
 def finding(status, sentence, path, heading=""):
     return {"status": status, "sentence": sentence, "url": BASE + path, "heading": heading}
@@ -249,3 +252,74 @@ def test_no_checkout_or_deprecated_tool_is_called_anywhere():
         source = path.read_text()
         for name in ("complete_checkout", "create_checkout", "create_cart", "search_shop_policies_and_faqs"):
             assert name not in source, (path.name, name)
+
+
+def test_a_cancellation_sentence_never_counts_for_a_return_condition():
+    cancel = "Cancellations after shipping are subject to a 20% restocking fee, and the customer is responsible for the return shipping cost."
+    texts = [(BASE + "/pages/returns", f"{cancel} {FREE}")]
+    for status in ("yes", "no", "unclear", "doesnt_say"):
+        assert quote_check([finding(status, cancel, "/pages/returns")], texts, "free_return_shipping") == []
+    kept = quote_check([finding("no", cancel, "/pages/returns"), finding("yes", FREE, "/pages/returns")], texts, "free_return_shipping")
+    assert [k["label"] for k in kept] == ["yes"]
+    shipped = "If the order has already shipped, customers may be responsible for return shipping costs."
+    under = [finding("unclear", shipped, "/pages/returns", "What is the cancellation policy?")]
+    assert quote_check(under, [(BASE + "/pages/returns", f"What is the cancellation policy? {shipped}")], "free_return_shipping") == []
+
+
+def test_a_sentence_is_not_a_sale_yes_only_because_it_mentions_a_sale():
+    trial = "All mattresses bought during the Labor Day Sale are backed by our 100-Night Risk-Free Trial."
+    same = "Mattresses bought on sale come with the same 100-night trial (after a 30-night break-in period) and 10-year warranty."
+    unchanged = "Buying on sale doesn't change your coverage."
+    returned = "Sale items can be returned within 30 days."
+    texts = [(BASE + "/pages/sale-terms", " ".join([trial, same, unchanged, returned]))]
+    check = lambda sentence: quote_check([finding("yes", sentence, "/pages/sale-terms")], texts, "sale_item_returns")
+    assert check(trial) == []
+    assert check(same) and check(unchanged) and check(returned)
+
+
+def test_the_same_text_gets_the_same_label_and_is_asked_once(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    from api import labeler
+
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
+    monkeypatch.delenv("LABEL_CACHE", raising=False)
+    answers = iter(["yes", "no", "doesnt_say"])
+    calls = []
+
+    async def create(**request):
+        calls.append(request["messages"][0]["content"])
+        answer = {"conditions": [{"condition": "opened_returns", "findings": [{"status": next(answers), "sentence": YES, "url": "x", "heading": ""}]}]}
+        return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="text", text=json.dumps(answer))])
+
+    def make():
+        made = labeler.Labeler(cache=tmp_path / "labels.db")
+        made.client = SimpleNamespace(messages=SimpleNamespace(create=create))
+        return made
+
+    conds = [{"id": "opened_returns", "label": "Opened returns", "definition": "d", "question": "q"}]
+    ask = lambda lab, text: asyncio.run(lab.pages(conds, "Cloud Mattress", [(BASE + "/pages/returns", text)]))
+    first = ask(make(), YES)
+    again = ask(make(), YES)
+    assert first == again and len(calls) == 1
+    assert first["opened_returns"][0]["status"] == "yes"
+    changed = ask(make(), YES + " New words on the page.")
+    assert len(calls) == 2 and changed["opened_returns"][0]["status"] == "no"
+    assert ask(make(), YES) == first and len(calls) == 2
+
+
+def test_a_sentence_about_something_else_cannot_put_a_yes_in_doubt():
+    address = "If you need to change the address during the delivering period, the additional charge is on you."
+    texts = [(BASE + "/pages/returns", f"{FREE} {address}")]
+    kept = quote_check([finding("yes", FREE, "/pages/returns"), finding("unclear", address, "/pages/returns")], texts, "free_return_shipping")
+    assert [k["label"] for k in kept] == ["yes"]
+
+
+def test_a_clearance_sentence_does_not_answer_for_a_sale_priced_item():
+    clearance = "Clearance Items: All clearance items are considered final sale and are not eligible for returns."
+    sale = "Sale items and clearance items cannot be returned."
+    texts = [(BASE + "/pages/returns", f"{clearance} {sale}")]
+    check = lambda sentence, listed=False: quote_check([finding("no", sentence, "/pages/returns")], texts, "sale_item_returns", listed)
+    assert check(clearance) == []
+    assert check(clearance, listed=True)[0]["label"] == "no"
+    assert check(sale)[0]["label"] == "no"

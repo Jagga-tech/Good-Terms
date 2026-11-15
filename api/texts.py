@@ -81,6 +81,9 @@ def price_gap(stores):
     best = min(meeting, key=price)
     gap["cheapest_meeting_all_3"] = {"name": best["name"], "price_cents": price(best)}
     gap["difference_cents"] = price(best) - price(cheapest)
+    if best is cheapest:
+        gap["text"] = f"{line} It also says yes to all 3 of your conditions."
+        return gap
     gap["text"] = (
         f"{line} Cheapest that says yes to all 3 of your conditions: {dollars(price(best))}"
         f" at {best['name']}. Difference: {dollars(gap['difference_cents'])}."

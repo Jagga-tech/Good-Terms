@@ -23,20 +23,49 @@ def today():
     return datetime.now(timezone.utc).date().isoformat()
 
 
+RETURNED = r"return|refund|money.back|send (it |them )?back"
 YES_WORDS = {
-    "opened_returns": re.compile(r"return|refund|money.back|send (it |them )?back", re.I),
-    "free_return_shipping": re.compile(r"free|no (extra )?(cost|charge)|prepaid|pre-paid|we('ll| will)? (pay|cover)|our expense|complimentary", re.I),
-    "sale_item_returns": re.compile(r"sale|discount|promo|clearance|deal|reduced|markdown", re.I),
+    "opened_returns": [RETURNED],
+    "free_return_shipping": [
+        r"free|no (extra )?(cost|charge)|prepaid|pre-paid|we('ll| will)? (pay|cover)|our expense|complimentary"
+    ],
+    "sale_item_returns": [
+        r"sale|discount|promo|clearance|deal|reduced|markdown",
+        RETURNED + r"|same|(doesn.t|does not|won.t|will not) (change|affect)|unchanged|regardless|still appl",
+    ],
 }
+TOPIC_WORDS = {
+    "opened_returns": [RETURNED + r"|exchange|unused|unopened|opened|unworn|original (packag|condition)|same condition"],
+    "free_return_shipping": [
+        RETURNED + r"|pick.?up",
+        r"free|shipping|label|cost|fee|charge|pay|responsible|expense|pick.?up|prepaid|deduct",
+    ],
+    "sale_item_returns": [r"sale|discount|promo|clearance|closeout|deal|reduced|markdown"],
+}
+CLEARANCE_ONLY = re.compile(r"clearance|closeout|final sale", re.I)
+OTHER_SALE = re.compile(r"sale|discount|promo|deal|reduced|markdown", re.I)
+CANCELLATION = re.compile(r"\bcancel", re.I)
+PER_LABEL = 2
 
 
-def quote_check(findings, texts, condition=None):
+def clearance_only(sentence):
+    """True when a sentence speaks of clearance or final-sale items and of no other sale."""
+    return bool(CLEARANCE_ONLY.search(sentence)) and not OTHER_SALE.search(CLEARANCE_ONLY.sub("", sentence))
+
+
+def quote_check(findings, texts, condition=None, in_clearance=False):
     """Keep a finding only if its sentence is in a saved page word for word.
 
     texts is a list of (url, text). A sentence found on a different saved page than the one
     named keeps its real page. A yes is also dropped when the sentence itself does not use
-    the words its condition is about: a trial length alone is not a yes to opened returns.
+    the words its condition is about: a trial length alone is not a yes to opened returns,
+    and a sentence is not a yes to sale-item returns only because it mentions a sale. A
+    sentence about cancelling an order never counts for a return condition. A sentence that
+    answers must use the words of its condition, so a sentence about something else on some
+    page cannot put a yes in doubt. A sentence about clearance or final-sale items alone does
+    not answer for a sale-priced item, unless we found the product in the clearance collection.
     If any kept finding answers the condition, the closest-sentence findings are dropped.
+    At most two sentences are kept per status.
     """
     squashed = [(url, squash(text)) for url, text in texts]
     kept = []
@@ -48,13 +77,21 @@ def quote_check(findings, texts, condition=None):
         home = next(((u, t) for u, t in named + squashed if sentence in t), None)
         if not home:
             continue
-        if finding["status"] == "yes" and condition and not YES_WORDS[condition].search(sentence):
+        if CANCELLATION.search(sentence) or CANCELLATION.search(finding.get("heading") or ""):
+            continue
+        answers = finding["status"] != "doesnt_say"
+        needed = TOPIC_WORDS.get(condition, []) if answers else []
+        needed = needed + (YES_WORDS.get(condition, []) if finding["status"] == "yes" else [])
+        if not all(re.search(words, sentence, re.I) for words in needed):
+            continue
+        if answers and condition == "sale_item_returns" and clearance_only(sentence) and not in_clearance:
             continue
         entry = {"sentence": sentence, "url": home[0], "label": finding["status"]}
         heading = re.sub(r"^[^A-Za-z0-9]+", "", squash(finding.get("heading") or ""))
         if heading and heading in home[1]:
             entry["heading"] = heading
-        if entry not in kept:
+        same = [k for k in kept if k["label"] == entry["label"]]
+        if entry not in kept and len(same) < PER_LABEL:
             kept.append(entry)
     answering = [entry for entry in kept if entry["label"] != "doesnt_say"]
     return answering or kept[:1]
@@ -191,7 +228,19 @@ class StoreCheck:
         if not texts:
             return
         raw = await self.labeler.pages(self.conds, self.product, texts, self.facts)
-        self.findings = {c["id"]: quote_check(raw.get(c["id"], []), texts, c["id"]) for c in self.conds}
+        in_clearance = any("is listed" in fact for fact in self.facts)
+        for c in self.conds:
+            found = quote_check(raw.get(c["id"], []), texts, c["id"], in_clearance)
+            if any(f["label"] == "yes" for f in found):
+                found = [f for f in found if await self.stands(c, f)]
+            self.findings[c["id"]] = found
+
+    async def stands(self, condition, finding):
+        """A sentence may put a yes in doubt only if it still says so when read on its own."""
+        if finding["label"] not in ("no", "unclear"):
+            return True
+        again = await self.labeler.recheck(condition, self.product, finding)
+        return again in ("no", "unclear")
 
     def page_statuses(self):
         return {c["id"]: page_status([f["label"] for f in self.findings.get(c["id"], [])])[0] for c in self.conds}

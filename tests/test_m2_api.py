@@ -44,6 +44,10 @@ def test_price_gap_says_so_when_no_store_meets_all_three():
     gap = texts.price_gap(stores)
     assert gap["text"] == "Cheapest overall: $99.50 at B. No store says yes to all 3 of your conditions."
     assert gap["difference_cents"] is None
+    stores[1]["result"] = "meets_all_3"
+    same = texts.price_gap(stores)
+    assert same["text"] == "Cheapest overall: $99.50 at B. It also says yes to all 3 of your conditions."
+    assert "$0.00" not in same["text"] and same["difference_cents"] == 0
 
 
 def test_finished_check_is_sorted_yes_then_unanswered_then_no_cheapest_first(client):

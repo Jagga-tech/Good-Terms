@@ -194,7 +194,7 @@ async def main():
     out = db.ROOT / "reports" / "m3_frozen.json"
     out.write_text(json.dumps(report, indent=1, ensure_ascii=False), encoding="utf-8")
 
-    print(f"model {labeler.model}, effort {labeler.effort}")
+    print(f"model {labeler.model}, effort {labeler.effort}; model asked {labeler.asked} times, saved labels reused {labeler.reused} times")
     print(f"\nPAGE LABELS vs key: {report['page_labels_matched']} of {len(page_labels)} match ({len(scoreable)} scored; not frozen: {not_frozen or 'none'})")
     for p in page_labels:
         if not p["match"]:

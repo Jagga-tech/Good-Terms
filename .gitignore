@@ -11,3 +11,4 @@ web/test-data.json
 screenshots/
 *.tsbuildinfo
 reports/
+labels.db
