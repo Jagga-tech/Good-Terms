@@ -5,6 +5,8 @@ dev:
 
 test:
 	uv run pytest -q
+	uv run python -m scripts.dump_web_data
+	npm --prefix web test
 
 smoke:
 	python3 scripts/smoke.py

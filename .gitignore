@@ -7,3 +7,6 @@ dist/
 *.db
 .DS_Store
 GoodTerms prototype spec and build plan.pdf
+web/test-data.json
+screenshots/
+*.tsbuildinfo

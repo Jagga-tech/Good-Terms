@@ -22,6 +22,10 @@ CREATE TABLE checks (
     id INTEGER PRIMARY KEY,
     search_text TEXT,
     requested_size TEXT,
+    budget_cents INTEGER,
+    saved_on TEXT,
+    replay_started REAL,
+    replay_pace REAL,
     created TEXT NOT NULL
 );
 CREATE TABLE offers (
@@ -95,9 +99,12 @@ def reset():
                 (condition, label, questions[condition], definition),
             )
         conn.execute(
-            "INSERT INTO checks VALUES (1, ?, 'Queen', ?)",
+            "INSERT INTO checks (id, search_text, requested_size, budget_cents, saved_on, created)"
+            " VALUES (1, ?, 'Queen', ?, ?, ?)",
             (
                 f"{run['query']}, under ${run['max_price_usd']}, shipping to {run['ships_to']}",
+                run["max_price_usd"] * 100,
+                run["searched_at"],
                 run["searched_at"],
             ),
         )

@@ -110,8 +110,10 @@ def test_two_page_yeses_and_one_assistant_only_yes_is_not_meets_all_3():
 
 def test_six_stores_return_rows_identical_to_the_fixtures(client):
     check = client.get("/api/checks/1").json()
-    assert [store["name"] for store in check["stores"]] == [o["name"].strip() for o in RUN["offers"].values()]
-    for store, offer in zip(check["stores"], RUN["offers"].values()):
+    assert sorted(store["name"] for store in check["stores"]) == sorted(o["name"].strip() for o in RUN["offers"].values())
+    by_name = {o["name"].strip(): o for o in RUN["offers"].values()}
+    for store in check["stores"]:
+        offer = by_name[store["name"]]
         view = client.get(f"/api/stores/{store['domain']}").json()
         assert {**view, "offer": store["offer"]} == store
         assert store["offer"] == {
@@ -119,7 +121,9 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
             "variant_id": offer["variant"],
             "variant_labels": offer["labels"],
             "price_cents": offer["price"],
+            "price_text": f"${offer['price'] / 100:.2f}",
             "price_basis": "catalog price",
+            "within_budget": True,
         }
         assert offer["url"].endswith(store["domain"])
         cases = {c["condition"]: c for c in SAVED if c["store"] == store["name"]}
@@ -195,7 +199,7 @@ def test_unknown_store_is_not_checked_never_a_yes(client):
     assert view["result"] == "not_checked" and view["rows"] == [] and view["checked"] is False
     check_id = client.post("/api/checks", json={"stores": ["https://www.example.com/p", "novillashop.com"]}).json()["id"]
     stores = client.get(f"/api/checks/{check_id}").json()["stores"]
-    assert [s["result"] for s in stores] == ["not_checked", "meets_all_3"]
+    assert {s["domain"]: s["result"] for s in stores} == {"example.com": "not_checked", "novillashop.com": "meets_all_3"}
     assert client.get("/api/checks/999").status_code == 404
 
 
