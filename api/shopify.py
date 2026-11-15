@@ -47,7 +47,7 @@ async def tool(client, url, name, arguments):
     return result["structuredContent"]
 
 
-async def ask(client, myshopify_domain, question, variant_id):
+async def ask(client, endpoint, question, variant_id):
     """One ask_business call with the product attached. Returns the reply word for word.
 
     On HTTP 429 it waits and retries once when the wait is short. When Shopify asks for a
@@ -61,7 +61,7 @@ async def ask(client, myshopify_domain, question, variant_id):
         if time.time() < ask_blocked_until:
             raise ShopifyError("Ask is blocked", 429, ask_blocked_until - time.time())
         try:
-            reply = await tool(client, f"https://{myshopify_domain}/api/ucp/mcp", "ask_business", arguments)
+            reply = await tool(client, endpoint, "ask_business", arguments)
             return (reply.get("answer") or {}).get("plain") or None
         except ShopifyError as problem:
             if problem.status != 429:

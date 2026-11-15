@@ -25,6 +25,7 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - `make frozen` runs the labeler and pipeline on frozen page text and saved replies, scored against the answer key. It calls the model and never calls a store.
 - `make live` runs five timed live checks: real search, Ask calls, paced page reads and model labels.
 - `uv run python -m scripts.freeze_pages <product url or domain>` reads a store's pages once and freezes the text under `fixtures/`.
+- `uv run python -m scripts.capture_search` runs the demo search once, live, and saves every raw response as a fixture. It calls the catalog and stores' public `/.well-known/ucp` files only, never Ask.
 
 ## Reading real stores
 

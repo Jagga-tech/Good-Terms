@@ -390,7 +390,7 @@ def test_after_a_long_429_no_further_question_is_sent(monkeypatch):
         async with httpx.AsyncClient(transport=httpx.MockTransport(limited)) as client:
             for domain in ("a.myshopify.com", "b.myshopify.com"):
                 with pytest.raises(shopify.ShopifyError) as problem:
-                    await shopify.ask(client, domain, "q", "gid://shopify/ProductVariant/1")
+                    await shopify.ask(client, f"https://{domain}/api/ucp/mcp", "q", "gid://shopify/ProductVariant/1")
                 assert problem.value.status == 429 and problem.value.retry_after > 1200
 
     asyncio.run(two_asks())

@@ -4,6 +4,7 @@ import time
 
 STILL_READING = "Still reading this store's pages"
 ASK_FAILED = "The store's assistant did not answer."
+NO_ASSISTANT = "No reply available. This store does not offer an assistant to ask."
 COULD_NOT_READ = "We couldn't read this store's pages"
 
 

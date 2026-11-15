@@ -46,6 +46,8 @@ CREATE TABLE offers (
     product_url TEXT,
     checkout_url TEXT,
     replies_at REAL,
+    endpoint TEXT,
+    ask_offered INTEGER,
     done_at REAL,
     PRIMARY KEY (check_id, store_domain)
 );

@@ -134,8 +134,8 @@ def start_check(offers, search_text=None, requested_size=None, budget_cents=None
             conn.execute(
                 "INSERT INTO offers (check_id, store_domain, seller_name, storefront_url,"
                 " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
-                " price_basis, rows_check, product_url, checkout_url)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', ?, ?, ?)",
+                " price_basis, rows_check, product_url, checkout_url, endpoint, ask_offered)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', ?, ?, ?, ?, ?)",
                 (
                     check_id,
                     offer["store_domain"],
@@ -149,6 +149,8 @@ def start_check(offers, search_text=None, requested_size=None, budget_cents=None
                     check_id,
                     offer["product_url"],
                     offer.get("checkout_url"),
+                    offer.get("endpoint"),
+                    offer.get("ask_offered"),
                 ),
             )
             for condition in conditions(conn):
@@ -196,11 +198,14 @@ class StoreCheck:
         asking = (self.store, self.offer["variant_id"], condition["question"])
         if self.saved_replies is not None:
             reply = self.saved_replies.get(condition["id"])
+        elif self.offer.get("ask_offered") == 0:
+            reply, note = None, texts.NO_ASSISTANT
         elif replies.lookup(*asking):
             reply, asked = replies.lookup(*asking)
         else:
+            endpoint = self.offer.get("endpoint") or f"https://{self.offer['myshopify_domain']}/api/ucp/mcp"
             try:
-                reply = await ask(self.client, self.offer["myshopify_domain"], condition["question"], asking[1])
+                reply = await ask(self.client, endpoint, condition["question"], asking[1])
             except ShopifyError as problem:
                 reply = None
                 note = texts.ask_blocked(problem.retry_after) if problem.status == 429 else texts.ASK_FAILED
