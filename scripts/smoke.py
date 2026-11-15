@@ -1,7 +1,9 @@
 """M0 smoke test: four live Shopify calls with our own agent profile and no credentials.
 
-Runs one catalog search, one get_product, one tools/list and one ask_business.
-Exits 0 only if all four pass. Usage: python3 scripts/smoke.py
+First checks that the pinned profile address serves the same file as docs/agent-profile.json
+with a public Cache-Control header. Then runs one catalog search, one get_product,
+one tools/list and one ask_business. Exits 0 only if everything passes.
+Usage: python3 scripts/smoke.py
 """
 
 import json
@@ -10,10 +12,13 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
 PROFILE = os.environ.get(
-    "AGENT_PROFILE_URL", "https://jagga-tech.github.io/Good-Terms/agent-profile.json"
+    "AGENT_PROFILE_URL",
+    "https://cdn.jsdelivr.net/gh/Jagga-tech/Good-Terms@c4141f1e304f2776f109ed555a9f1fa1f6d2bd69/docs/agent-profile.json",
 )
+LOCAL_PROFILE = Path(__file__).resolve().parent.parent / "docs" / "agent-profile.json"
 CATALOG = "https://catalog.shopify.com/api/ucp/mcp"
 HEADERS = {
     "Content-Type": "application/json",
@@ -59,8 +64,21 @@ def has_size(variant):
     return any(option.get("label") == SIZE for option in variant.get("options", []))
 
 
+def check_profile():
+    request = urllib.request.Request(PROFILE, headers={"User-Agent": HEADERS["User-Agent"]})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        cache = response.headers.get("Cache-Control", "")
+        served = json.loads(response.read())
+    if "public" not in cache:
+        raise SystemExit(f"FAIL profile: Cache-Control is '{cache}', needs public")
+    if served != json.loads(LOCAL_PROFILE.read_text()):
+        raise SystemExit("FAIL profile: pinned address differs from docs/agent-profile.json")
+    print(f"PASS profile: matches docs/agent-profile.json, Cache-Control: {cache}")
+
+
 def main():
     print(f"profile: {PROFILE}")
+    check_profile()
 
     found = tool(
         CATALOG,
@@ -122,7 +140,7 @@ def main():
     if not answer:
         raise SystemExit(f"FAIL ask_business: empty answer {json.dumps(reply)[:400]}")
     print(f"PASS ask_business: {answer}")
-    print("SMOKE OK: 4 of 4 live calls passed, no Shopify credentials used")
+    print("SMOKE OK: profile check and 4 of 4 live calls passed, no Shopify credentials used")
 
 
 if __name__ == "__main__":

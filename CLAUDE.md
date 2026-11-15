@@ -10,6 +10,12 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - If the plan is unclear or something does not work live, say so first. Do not guess.
 - The model key lives in the owner's own `.env`. Never ask for it in chat and never write it to a file.
 
+## Agent profile
+
+- The profile is `docs/agent-profile.json`, served by jsDelivr from this GitHub repo. GitHub Pages is off: Shopify rejects its Cache-Control header, which lacks `public`.
+- The one address is pinned in `scripts/smoke.py`.
+- Rule: whenever `docs/agent-profile.json` changes, update the pinned address in the same commit and run `make smoke` again. A commit cannot hold its own hash, so pin the new address to a new tag (`@profile-2`, `@profile-3`, ...), tag that commit, and push the tag with it. `make smoke` fails if the pinned address and the file differ.
+
 ## Commands
 
 - `make dev` starts the API (port 8000) and the web app.
