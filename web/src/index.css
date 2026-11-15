@@ -1,0 +1,13 @@
+:root {
+  --green: #3f7d5c;
+  --white: #f6f8fb;
+  --navy: #223354;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: var(--white);
+  color: var(--navy);
+  font-family: system-ui, sans-serif;
+}
