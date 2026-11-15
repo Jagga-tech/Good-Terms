@@ -30,8 +30,8 @@ def store_view(conn, store, offer, replies_in=None, pages_read=None):
     """One store as every screen and tool sees it: progress, result and the rows."""
     found = conn.execute(
         "SELECT f.*, c.label, c.question FROM findings f JOIN conditions c ON c.id = f.condition"
-        " WHERE f.store_domain = ? ORDER BY c.rowid",
-        (store,),
+        " WHERE f.check_id = ? AND f.store_domain = ? ORDER BY c.rowid",
+        (offer["rows_check"] if offer else None, store),
     ).fetchall()
     if not found:
         return {
@@ -45,7 +45,7 @@ def store_view(conn, store, offer, replies_in=None, pages_read=None):
             "rows": [],
         }
     if replies_in is None:
-        replies_in = bool(offer and offer["replies_in"])
+        replies_in = True
     if pages_read is None:
         pages_read = bool(offer and offer["pages_read"])
     rows = []
@@ -83,7 +83,10 @@ def store_view(conn, store, offer, replies_in=None, pages_read=None):
         "name": offer["seller_name"] if offer else None,
         "storefront_url": offer["storefront_url"] if offer else None,
         "checked": True,
-        "progress": {"replies_in": replies_in, "pages_read": pages_read},
+        "progress": {
+            "replies_in": replies_in and bool(offer["replies_in"]),
+            "pages_read": pages_read,
+        },
         "result": result,
         "result_text": texts.result_text(result, rows),
         "rows": rows,
@@ -106,8 +109,8 @@ def offer_view(offer, budget_cents):
 
 def latest_offer(conn, store):
     return conn.execute(
-        "SELECT * FROM offers WHERE store_domain = ? AND seller_name IS NOT NULL"
-        " ORDER BY check_id DESC LIMIT 1",
+        "SELECT * FROM offers WHERE store_domain = ? AND pages_read = 1"
+        " AND rows_check IS NOT NULL ORDER BY check_id DESC LIMIT 1",
         (store,),
     ).fetchone()
 
@@ -134,7 +137,8 @@ def copy_offer(conn, check_id, source_check, store):
     conn.execute(
         "INSERT INTO offers SELECT ?, store_domain, seller_name, storefront_url,"
         " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
-        " price_basis, replies_in, pages_read FROM offers"
+        " price_basis, replies_in, pages_read, rows_check, product_url, checkout_url,"
+        " replies_at, done_at FROM offers"
         " WHERE check_id = ? AND store_domain = ?",
         (check_id, source_check, store),
     )
@@ -239,8 +243,9 @@ def list_stores():
     conn = db.connect()
     try:
         found = conn.execute(
-            "SELECT store_domain, seller_name FROM offers WHERE check_id = 1 AND pages_read = 1"
-            " ORDER BY seller_name COLLATE NOCASE"
+            "SELECT store_domain, MAX(seller_name) AS seller_name FROM offers"
+            " WHERE pages_read = 1 AND rows_check IS NOT NULL"
+            " GROUP BY store_domain ORDER BY seller_name COLLATE NOCASE"
         ).fetchall()
         return [{"domain": row["store_domain"], "name": row["seller_name"]} for row in found]
     finally:

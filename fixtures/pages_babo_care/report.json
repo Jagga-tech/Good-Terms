@@ -1,0 +1,55 @@
+{
+ "store": "babo-care.com",
+ "product_url": "https://babo-care.com/products/liboria-queen-mattress-10-inch-cooling-gel-memory-foam-pocket-spring-hybrid-mattress-in-a-box-pressure-relief-certipur-us-certified",
+ "product": {},
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://babo-care.com/products/liboria-queen-mattress-10-inch-cooling-gel-memory-foam-pocket-spring-hybrid-mattress-in-a-box-pressure-relief-certipur-us-certified",
+   "status": "200",
+   "via": "product page",
+   "chars": 9435
+  },
+  {
+   "url": "https://babo-care.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 2264
+  },
+  {
+   "url": "https://babo-care.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 2084
+  },
+  {
+   "url": "https://babo-care.com/pages/refund-policy",
+   "status": "404",
+   "via": "second return-policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://babo-care.com/pages/faq",
+   "status": "200",
+   "via": "Learn More",
+   "chars": 2719
+  },
+  {
+   "url": "https://babo-care.com/pages/warranty",
+   "status": "200",
+   "via": "Warranty",
+   "chars": 1821
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://babo-care.com/pages/faq": "Learn More",
+  "https://babo-care.com/policies/refund-policy": "Return & Refund Policy",
+  "https://babo-care.com/policies/shipping-policy": "Shipping",
+  "https://babo-care.com/pages/warranty": "Warranty",
+  "https://babo-care.com/pages/refund-policy": "second return-policy address"
+ },
+ "facts": [
+  "This product is not listed in the store's clearance collection."
+ ]
+}

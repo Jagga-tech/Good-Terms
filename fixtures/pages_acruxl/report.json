@@ -1,0 +1,51 @@
+{
+ "store": "acruxl.com",
+ "product_url": "https://acruxl.com/products/yilicy-12-inch-queen-adult-mattress-with-pocket-spring-hybrid-memory-foam-medium-firm-mattress",
+ "product": {},
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://acruxl.com/products/yilicy-12-inch-queen-adult-mattress-with-pocket-spring-hybrid-memory-foam-medium-firm-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 3055
+  },
+  {
+   "url": "https://acruxl.com/policies/refund-policy",
+   "status": "404",
+   "via": "policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://acruxl.com/pages/refund-policy",
+   "status": "200",
+   "via": "page the store links to",
+   "chars": 6468
+  },
+  {
+   "url": "https://acruxl.com/policies/shipping-policy",
+   "status": "404",
+   "via": "policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://acruxl.com/pages/shipping-policy",
+   "status": "200",
+   "via": "page the store links to",
+   "chars": 5305
+  },
+  {
+   "url": "https://acruxl.com/pages/faq",
+   "status": "200",
+   "via": "FAQ",
+   "chars": 7271
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://acruxl.com/pages/faq": "FAQ",
+  "https://acruxl.com/pages/refund-policy": "Refund Policy",
+  "https://acruxl.com/pages/shipping-policy": "Shipping Policy"
+ },
+ "facts": []
+}

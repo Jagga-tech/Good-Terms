@@ -26,6 +26,7 @@ CREATE TABLE checks (
     saved_on TEXT,
     replay_started REAL,
     replay_pace REAL,
+    started_at REAL,
     created TEXT NOT NULL
 );
 CREATE TABLE offers (
@@ -41,9 +42,24 @@ CREATE TABLE offers (
     price_basis TEXT,
     replies_in INTEGER NOT NULL DEFAULT 0,
     pages_read INTEGER NOT NULL DEFAULT 0,
+    rows_check INTEGER,
+    product_url TEXT,
+    checkout_url TEXT,
+    replies_at REAL,
+    done_at REAL,
     PRIMARY KEY (check_id, store_domain)
 );
+CREATE TABLE pages (
+    check_id INTEGER NOT NULL REFERENCES checks(id),
+    store_domain TEXT NOT NULL,
+    url TEXT NOT NULL,
+    status TEXT NOT NULL,
+    via TEXT,
+    fetched TEXT,
+    text TEXT
+);
 CREATE TABLE findings (
+    check_id INTEGER NOT NULL REFERENCES checks(id),
     store_domain TEXT NOT NULL,
     condition TEXT NOT NULL REFERENCES conditions(id),
     page_status TEXT NOT NULL CHECK (page_status IN ('yes', 'no', 'doesnt_say', 'unreadable', 'pending')),
@@ -54,7 +70,7 @@ CREATE TABLE findings (
     reply_time TEXT,
     pages_disagree INTEGER NOT NULL DEFAULT 0,
     read_note TEXT,
-    PRIMARY KEY (store_domain, condition),
+    PRIMARY KEY (check_id, store_domain, condition),
     CHECK (page_status != 'yes' OR json_array_length(page_sentences) > 0)
 );
 """
@@ -113,7 +129,10 @@ def reset():
             store = store_domain(offer["url"])
             saved = {case["condition"]: case for case in cases if case["store"] == name}
             conn.execute(
-                "INSERT INTO offers VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', 1, 1)",
+                "INSERT INTO offers (check_id, store_domain, seller_name, storefront_url,"
+                " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
+                " price_basis, replies_in, pages_read, rows_check)"
+                " VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', 1, 1, 1)",
                 (
                     store,
                     name,
@@ -134,9 +153,9 @@ def reset():
                     for s in case["page_sentences"]
                 ]
                 conn.execute(
-                    "INSERT INTO findings (store_domain, condition, page_status, page_sentences,"
-                    " date_read, assistant_status, assistant_reply, reply_time, pages_disagree,"
-                    " read_note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO findings (check_id, store_domain, condition, page_status,"
+                    " page_sentences, date_read, assistant_status, assistant_reply, reply_time,"
+                    " pages_disagree, read_note) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (
                         store,
                         condition,

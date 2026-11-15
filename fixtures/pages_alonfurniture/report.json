@@ -1,0 +1,67 @@
+{
+ "store": "alonfurniture.com",
+ "product_url": "https://alonfurniture.com/products/innerspring-memory-foam-mattress-medium-firm",
+ "product": {},
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://alonfurniture.com/products/innerspring-memory-foam-mattress-medium-firm",
+   "status": "200",
+   "via": "product page",
+   "chars": 9607
+  },
+  {
+   "url": "https://alonfurniture.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 3489
+  },
+  {
+   "url": "https://alonfurniture.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 4881
+  },
+  {
+   "url": "https://alonfurniture.com/pages/refund-return",
+   "status": "200",
+   "via": "Return & Exchange",
+   "chars": 3689
+  },
+  {
+   "url": "https://alonfurniture.com/pages/refund-policy",
+   "status": "404",
+   "via": "second return-policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://alonfurniture.com/pages/faq",
+   "status": "200",
+   "via": "Need help? FAQ",
+   "chars": 5625
+  },
+  {
+   "url": "https://alonfurniture.com/pages/shipping-policy",
+   "status": "200",
+   "via": "Delivery & Shipping",
+   "chars": 4279
+  },
+  {
+   "url": "https://alonfurniture.com/pages/warranty-program",
+   "status": "200",
+   "via": "Warranty Program",
+   "chars": 4539
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://alonfurniture.com/pages/faq": "Need help? FAQ",
+  "https://alonfurniture.com/policies/shipping-policy": "Shipping",
+  "https://alonfurniture.com/pages/shipping-policy": "Delivery & Shipping",
+  "https://alonfurniture.com/pages/refund-return": "Return & Exchange",
+  "https://alonfurniture.com/pages/warranty-program": "Warranty Program",
+  "https://alonfurniture.com/pages/coupon-policy": "Coupons",
+  "https://alonfurniture.com/pages/refund-policy": "second return-policy address"
+ },
+ "facts": []
+}

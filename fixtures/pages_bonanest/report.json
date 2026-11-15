@@ -1,0 +1,55 @@
+{
+ "store": "bonanest.com",
+ "product_url": "https://bonanest.com/products/lunara-gel-memory-foam-mattress",
+ "product": {
+  "title": "Lunara Fiberglass-Free Memory Foam Mattress in a Box - Firm Support, Cooling Cover, CertiPUR-US Certified",
+  "variant": "Queen / 6\" Thickness"
+ },
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://bonanest.com/products/lunara-gel-memory-foam-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 6736
+  },
+  {
+   "url": "https://bonanest.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 3172
+  },
+  {
+   "url": "https://bonanest.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 4347
+  },
+  {
+   "url": "https://bonanest.com/pages/refund-policy",
+   "status": "200",
+   "via": "Return",
+   "chars": 2294
+  },
+  {
+   "url": "https://bonanest.com/pages/return-form",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 2294
+  },
+  {
+   "url": "https://bonanest.com/pages/faq",
+   "status": "200",
+   "via": "FAQ",
+   "chars": 2294
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://bonanest.com/pages/refund-policy": "Return",
+  "https://bonanest.com/pages/faq": "FAQ",
+  "https://bonanest.com/policies/shipping-policy": "Shipping Policy",
+  "https://bonanest.com/pages/return-form": "sitemap"
+ },
+ "facts": []
+}

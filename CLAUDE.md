@@ -13,7 +13,7 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 ## Agent profile
 
 - The profile is `docs/agent-profile.json`, served by jsDelivr from this GitHub repo. GitHub Pages is off: Shopify rejects its Cache-Control header, which lacks `public`.
-- The one address is pinned in `scripts/smoke.py`.
+- The one address is pinned in `docs/agent-profile.url`. The smoke script and the API both read it from there.
 - Rule: whenever `docs/agent-profile.json` changes, update the pinned address in the same commit and run `make smoke` again. A commit cannot hold its own hash, so pin the new address to a new tag (`@profile-2`, `@profile-3`, ...), tag that commit, and push the tag with it. `make smoke` fails if the pinned address and the file differ.
 
 ## Commands
@@ -22,6 +22,15 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - `make test` runs the tests.
 - `make smoke` runs the four live Shopify calls with our own agent profile.
 - `uv run python -m api.mcp_server` runs the MCP tool `check_stores` (add `--http` for HTTP).
+- `make frozen` runs the labeler and pipeline on frozen page text and saved replies, scored against the answer key. It calls the model and never calls a store.
+- `make live` runs five timed live checks: real search, Ask calls, paced page reads and model labels.
+- `uv run python -m scripts.freeze_pages <product url or domain>` reads a store's pages once and freezes the text under `fixtures/`.
+
+## Reading real stores
+
+- Requests to one store are paced (0.4 s apart in a check, 1 s when freezing) and wait and retry on HTTP 429.
+- robots.txt is honored for every address. A store listed in `BARRED` in `api/reader.py` is never read.
+- Never change the answer key to make a check pass. Report the difference.
 
 ## Fixtures
 
@@ -41,6 +50,7 @@ Rulings made during M1:
 4. BedStory's two rows the key marks not scoreable (opened returns, sale items): page status "doesn't say", flagged, both sentences shown. A hedged sentence ("unclear") counts as "doesn't say".
 5. NapQueen's replies that open with yes and attach conditions keep the answer key's label, yes.
 6. Opened returns, after re-checking the page text: Novilla's sentence swapped for one naming returns and opened mattresses; SweetNight's sentence is shown with its section heading; NapQueen is downgraded to an assistant-only yes because its page hedges on an opened mattress.
+8. A yes is dropped in code when its sentence does not use the words its condition is about (return or refund for opened returns, free or prepaid for return shipping, sale or discount for sale items). This follows the owner's ruling that a trial length alone is not a clean yes.
 7. The "couldn't read" state has no saved store. It is covered in tests only; no made-up store goes on screen.
 
 ## Guardrails

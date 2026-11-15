@@ -1,0 +1,55 @@
+{
+ "store": "withushome.com",
+ "product_url": "https://withushome.com/products/b0fm49h9m8",
+ "product": {
+  "title": "Twin Mattress 10 Inch Twin Size Mattresses - Memory Foam & Individually Pocket Coils Springs, Pressure Relief | Motion Isolation, Edge Support, CertiPUR-US Certified, Medium Firm",
+  "variant": "Default Title"
+ },
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://withushome.com/products/b0fm49h9m8",
+   "status": "200",
+   "via": "product page",
+   "chars": 5085
+  },
+  {
+   "url": "https://withushome.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 3750
+  },
+  {
+   "url": "https://withushome.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 2952
+  },
+  {
+   "url": "https://withushome.com/pages/refund-policy",
+   "status": "200",
+   "via": "Returns & Refunds Policy",
+   "chars": 3196
+  },
+  {
+   "url": "https://withushome.com/pages/shipping-delivery",
+   "status": "200",
+   "via": "Shipping & Delivery",
+   "chars": 2957
+  },
+  {
+   "url": "https://withushome.com/pages/shipping-policy",
+   "status": "200",
+   "via": "Shipping policy",
+   "chars": 2953
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://withushome.com/policies/shipping-policy": "shipping",
+  "https://withushome.com/pages/refund-policy": "Returns & Refunds Policy",
+  "https://withushome.com/pages/shipping-delivery": "Shipping & Delivery",
+  "https://withushome.com/pages/shipping-policy": "Shipping policy"
+ },
+ "facts": []
+}

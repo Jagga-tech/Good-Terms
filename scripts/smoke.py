@@ -14,11 +14,9 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-PROFILE = os.environ.get(
-    "AGENT_PROFILE_URL",
-    "https://cdn.jsdelivr.net/gh/Jagga-tech/Good-Terms@c4141f1e304f2776f109ed555a9f1fa1f6d2bd69/docs/agent-profile.json",
-)
-LOCAL_PROFILE = Path(__file__).resolve().parent.parent / "docs" / "agent-profile.json"
+DOCS = Path(__file__).resolve().parent.parent / "docs"
+PROFILE = os.environ.get("AGENT_PROFILE_URL") or (DOCS / "agent-profile.url").read_text().strip()
+LOCAL_PROFILE = DOCS / "agent-profile.json"
 CATALOG = "https://catalog.shopify.com/api/ucp/mcp"
 HEADERS = {
     "Content-Type": "application/json",

@@ -1,0 +1,52 @@
+{
+ "store": "www.novilla.cn",
+ "product_url": "https://www.novilla.cn/products/2875-avenco-hybrid-mattress-with-individual-pocket-spring-and-gel-memory-foam",
+ "product": {
+  "title": "2875 Avenco  Hybrid Mattress with Individual Pocket Spring and Gel Memory Foam",
+  "variant": "10 inch / Queen"
+ },
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://www.novilla.cn/products/2875-avenco-hybrid-mattress-with-individual-pocket-spring-and-gel-memory-foam",
+   "status": "200",
+   "via": "product page",
+   "chars": 4978
+  },
+  {
+   "url": "https://www.novilla.cn/policies/refund-policy",
+   "status": "404",
+   "via": "policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://www.novilla.cn/pages/refund-policy",
+   "status": "404",
+   "via": "page the store links to",
+   "chars": 0
+  },
+  {
+   "url": "https://www.novilla.cn/pages/return-policy",
+   "status": "404",
+   "via": "page the store links to",
+   "chars": 0
+  },
+  {
+   "url": "https://www.novilla.cn/policies/shipping-policy",
+   "status": "404",
+   "via": "policy address",
+   "chars": 0
+  },
+  {
+   "url": "https://www.novilla.cn/pages/shipping-policy",
+   "status": "404",
+   "via": "page the store links to",
+   "chars": 0
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://www.novilla.cn/pages/refund-policy": "second return-policy address"
+ },
+ "facts": []
+}

@@ -1,7 +1,7 @@
-.PHONY: dev test smoke
+.PHONY: dev test smoke frozen live
 
 dev:
-	@sh -c 'trap "kill 0" EXIT; uv run uvicorn api.main:app --reload --port 8000 & npm --prefix web run dev'
+	@sh -c 'trap "kill 0" EXIT; uv run --env-file .env uvicorn api.main:app --reload --port 8000 & npm --prefix web run dev'
 
 test:
 	uv run pytest -q
@@ -10,3 +10,9 @@ test:
 
 smoke:
 	python3 scripts/smoke.py
+
+frozen:
+	uv run --env-file .env python -m scripts.m3_frozen
+
+live:
+	uv run --env-file .env python -m scripts.m3_live

@@ -1,0 +1,57 @@
+{
+ "store": "homehavenstoreshop.com",
+ "product_url": "https://homehavenstoreshop.com/",
+ "product": {
+  "title": null,
+  "note": "no mattress in the store's product list; the home page was read in its place"
+ },
+ "read_at": "2026-11-15",
+ "pages": [
+  {
+   "url": "https://homehavenstoreshop.com/",
+   "status": "200",
+   "via": "product page",
+   "chars": 9862
+  },
+  {
+   "url": "https://homehavenstoreshop.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 4046
+  },
+  {
+   "url": "https://homehavenstoreshop.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 4367
+  },
+  {
+   "url": "https://homehavenstoreshop.com/pages/refund-policy",
+   "status": "200",
+   "via": "Refund Policy",
+   "chars": 4046
+  },
+  {
+   "url": "https://homehavenstoreshop.com/pages/shipping-delivery",
+   "status": "200",
+   "via": "Shipping & Delivery",
+   "chars": 4371
+  },
+  {
+   "url": "https://homehavenstoreshop.com/pages/shipping-policy",
+   "status": "200",
+   "via": "Shipping Policy",
+   "chars": 4367
+  }
+ ],
+ "blocked": [],
+ "candidates": {
+  "https://homehavenstoreshop.com/pages/refund-policy": "Refund Policy",
+  "https://homehavenstoreshop.com/pages/shipping-delivery": "Shipping & Delivery",
+  "https://homehavenstoreshop.com/pages/shipping-policy": "Shipping Policy",
+  "https://homehavenstoreshop.com/policies/contact-information": "Contact information",
+  "https://homehavenstoreshop.com/policies/refund-policy": "Refund policy",
+  "https://homehavenstoreshop.com/policies/shipping-policy": "Shipping policy"
+ },
+ "facts": []
+}

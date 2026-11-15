@@ -191,7 +191,7 @@ def test_no_row_is_yes_while_pages_are_being_read(client):
             assert row["counts_toward_meets_all_3"] is False
             assert row["page_sentences"] == []
             assert row["assistant_reply"]
-    assert client.get("/api/stores/novillashop.com").json()["result"] == "still_reading"
+    assert client.get("/api/stores/novillashop.com").json()["result"] == "not_checked"
 
 
 def test_unknown_store_is_not_checked_never_a_yes(client):
