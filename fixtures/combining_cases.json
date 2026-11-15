@@ -345,6 +345,90 @@
    "assistant": "doesnt_say",
    "assistant_reply": "The return information doesn’t specify whether this mattress can be returned after opening and sleeping on it, or whether sale purchases are treated differently. It does say mattress returns within the trial period are free of charge, but the trial period’s terms aren’t provided.",
    "note": "Two pages disagree, and the stricter one is hedged ('may not be'). Either 'no' or 'doesn't say' passes. A yes fails."
+  },
+  {
+   "store": "Dwellinhaus",
+   "condition": "opened_returns",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "no",
+   "assistant_reply": "The store’s policy requires returns to be unused and in their original packaging, so a mattress you’ve opened and slept on would not meet the stated return conditions for a change of mind. You have 14 calendar days after delivery to request a return, and approved change-of-mind refunds may exclude original shipping costs and payment processing fees where permitted by law.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Dwellinhaus",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "doesnt_say",
+   "assistant_reply": "The return policy does not specify whether return shipping or pickup is free, or who pays for return shipping. It also requires the mattress to be unused and in its original packaging, so a mattress you’ve opened and slept on may not meet the return conditions; contact the store within 14 days of delivery to ask about eligibility.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Dwellinhaus",
+   "condition": "sale_item_returns",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "no",
+   "assistant_reply": "The store’s policy allows returns within 14 calendar days of delivery only if the item is unused and in its original packaging, so a mattress you’ve opened and slept on would not meet the stated return conditions. Sale items are generally non-returnable, except where required by applicable law. The policy doesn’t specify any mattress-specific exception.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Lee Furniture, NC",
+   "condition": "opened_returns",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "no",
+   "assistant_reply": "No. Lee Furniture’s policy says all sales are final, with no refunds or exchanges, so the mattress cannot be returned for a refund even if you open it and try it.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Lee Furniture, NC",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "doesnt_say",
+   "assistant_reply": "The store’s policy says all sales are final, with no refunds or exchanges. It doesn’t specify return shipping or pickup fees; based on this policy, a return after opening and sleeping on the mattress isn’t offered.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Lee Furniture, NC",
+   "condition": "sale_item_returns",
+   "pages": "doesnt_say",
+   "pages_not_read": true,
+   "read_note": "Pages were not read in this saved run.",
+   "page_sentences": [],
+   "assistant": "no",
+   "assistant_reply": "No. The store’s policy says all sales are final, with no refunds or exchanges; it does not state an exception for sale-priced mattresses or opened and slept-on mattresses.",
+   "note": "Reply label signed off by the owner on 2026-11-15. The store's pages were not read, so a no here comes from the store's assistant alone.",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
   }
  ],
  "store_results_live_run_2026-11-15": [
@@ -371,6 +455,16 @@
     "says_no",
     "not_answered_on_pages"
    ]
+  },
+  {
+   "store": "Dwellinhaus",
+   "page_yes": 0,
+   "result": "says_no"
+  },
+  {
+   "store": "Lee Furniture, NC",
+   "page_yes": 0,
+   "result": "says_no"
   }
  ],
  "six_original_stores": [

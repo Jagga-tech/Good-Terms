@@ -49,7 +49,7 @@ CREATE TABLE findings (
     assistant_reply TEXT,
     reply_time TEXT,
     pages_disagree INTEGER NOT NULL DEFAULT 0,
-    cut_short INTEGER NOT NULL DEFAULT 0,
+    read_note TEXT,
     PRIMARY KEY (store_domain, condition),
     CHECK (page_status != 'yes' OR json_array_length(page_sentences) > 0)
 );
@@ -74,7 +74,8 @@ def reset():
     """Rebuild the database from the fixtures: the six stores of the live run under $400.
 
     Four stores have their pages read, with the exact sentences from the saved combining
-    cases. The other two have their assistant's replies saved and their pages not read.
+    cases. The other two were closed with their assistant's replies and a note that their
+    pages were not read.
     """
     DB.unlink(missing_ok=True)
     run = load("live_run_under_400_2026-11-15.json")
@@ -105,7 +106,7 @@ def reset():
             store = store_domain(offer["url"])
             saved = {case["condition"]: case for case in cases if case["store"] == name}
             conn.execute(
-                "INSERT INTO offers VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', 1, ?)",
+                "INSERT INTO offers VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', 1, 1)",
                 (
                     store,
                     name,
@@ -115,20 +116,11 @@ def reset():
                     offer["variant"],
                     json.dumps(offer["labels"]),
                     offer["price"],
-                    int(bool(saved)),
                 ),
             )
             for condition in labels:
-                case = saved.get(condition)
+                case = saved[condition]
                 reply = offer[REPLY_KEYS[condition]]
-                if not case:
-                    conn.execute(
-                        "INSERT INTO findings (store_domain, condition, page_status,"
-                        " assistant_status, assistant_reply, reply_time)"
-                        " VALUES (?, ?, 'pending', 'pending', ?, ?)",
-                        (store, condition, reply, run["searched_at"]),
-                    )
-                    continue
                 status, disagree = page_status([s["label"] for s in case["page_sentences"]])
                 sentences = [
                     {key: value for key, value in s.items() if key != "file"}
@@ -136,18 +128,19 @@ def reset():
                 ]
                 conn.execute(
                     "INSERT INTO findings (store_domain, condition, page_status, page_sentences,"
-                    " date_read, assistant_status, assistant_reply, reply_time, pages_disagree)"
-                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    " date_read, assistant_status, assistant_reply, reply_time, pages_disagree,"
+                    " read_note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (
                         store,
                         condition,
                         case.get("pages", status),
                         json.dumps(sentences, ensure_ascii=False),
-                        run["searched_at"],
+                        None if case.get("pages_not_read") else run["searched_at"],
                         case["assistant"],
                         reply,
                         run["searched_at"],
                         int(disagree),
+                        case.get("read_note"),
                     ),
                 )
     conn.close()

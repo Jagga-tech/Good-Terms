@@ -37,9 +37,11 @@ These two override the plan where they differ.
 
 Rulings made during M1:
 
-3. Seed: the six stores of the live run under $400 (`live_run_under_400_2026-11-15.json`), with catalog prices. Novilla, SweetNight, NapQueen and BedStory have their pages read, with the exact sentences from `combining_cases.json`. Dwellinhaus and Lee Furniture have their replies saved, unlabeled, and their pages not read. No yes row exists without the store's exact sentence; the database refuses one. The six original stores are used only as combining test cases.
+3. Seed: the six stores of the live run under $400 (`live_run_under_400_2026-11-15.json`), with catalog prices. Novilla, SweetNight, NapQueen and BedStory have their pages read, with the exact sentences from `combining_cases.json`. Dwellinhaus and Lee Furniture are closed with their replies (labels signed off by the owner) and the note "Pages were not read in this saved run." No yes row exists without the store's exact sentence; the database refuses one. The six original stores are used only as combining test cases.
 4. BedStory's two rows the key marks not scoreable (opened returns, sale items): page status "doesn't say", flagged, both sentences shown. A hedged sentence ("unclear") counts as "doesn't say".
 5. NapQueen's replies that open with yes and attach conditions keep the answer key's label, yes.
+6. Opened returns, after re-checking the page text: Novilla's sentence swapped for one naming returns and opened mattresses; SweetNight's sentence is shown with its section heading; NapQueen is downgraded to an assistant-only yes because its page hedges on an opened mattress.
+7. The "couldn't read" state has no saved store. It is covered in tests only; no made-up store goes on screen.
 
 ## Guardrails
 

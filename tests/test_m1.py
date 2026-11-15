@@ -123,15 +123,11 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
         }
         assert offer["url"].endswith(store["domain"])
         cases = {c["condition"]: c for c in SAVED if c["store"] == store["name"]}
-        assert store["progress"] == {"replies_in": True, "pages_read": bool(cases)}
+        assert store["progress"] == {"replies_in": True, "pages_read": True}
         assert [row["condition"] for row in store["rows"]] == list(db.REPLY_KEYS)
         for row in store["rows"]:
             assert row["assistant_reply"] == offer[db.REPLY_KEYS[row["condition"]]]
             assert row["reply_time"] == RUN["searched_at"]
-            if not cases:
-                assert row["status_shown"] == row["page_status"] == row["assistant_status"] == "pending"
-                assert row["page_sentences"] == []
-                continue
             case = cases[row["condition"]]
             expected = saved_row(case)
             assert row["page_sentences"] == [
@@ -142,14 +138,15 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
             assert row["page_status"] == expected["page_status"]
             assert row["status_shown"] == expected["status_shown"]
             assert row["contradiction"] == expected["contradiction"]
-            assert row["date_read"] == RUN["searched_at"]
+            assert row["read_note"] == case.get("read_note")
+            assert row["date_read"] == (None if case.get("pages_not_read") else RUN["searched_at"])
     assert {store["name"]: store["result"] for store in check["stores"]} == {
         "NapQueen": "not_answered_on_pages",
         "Novilla": "meets_all_3",
         "SweetNight": "meets_all_3",
-        "Dwellinhaus": "still_reading",
+        "Dwellinhaus": "says_no",
         "BedStory": "says_no",
-        "Lee Furniture, NC": "still_reading",
+        "Lee Furniture, NC": "says_no",
     }
 
 

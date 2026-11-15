@@ -55,7 +55,7 @@ def store_view(conn, store, offer):
                 "status_shown": shown,
                 "counts_toward_meets_all_3": shown == "yes",
                 "contradiction": flag,
-                "read_cut_short": bool(row["cut_short"]),
+                "read_note": row["read_note"] if pages_read else None,
             }
         )
     return {
