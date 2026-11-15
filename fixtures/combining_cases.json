@@ -119,14 +119,15 @@
      "url": "https://www.novillashop.com/policies/refund-policy",
      "file": "pages_novilla/policies_refund_policy.txt",
      "label": "yes",
-     "sentence": "After 30 nights and within 100 days of delivery, if you're still not satisfied, contact our Customer Care Team."
+     "sentence": "Free Returns still apply — we just handle returns a little differently for opened mattresses."
     }
    ],
    "assistant": "yes",
    "assistant_reply": "Yes. You can return an opened mattress if you’re still dissatisfied after at least 30 nights and request the return within 100 days of delivery. It must be in sanitary, donatable condition, with no rips, stains, or excessive wear; the mattress sleep trial applies to mattresses bought directly from novillashop.com.",
    "status_shown": "yes",
    "counts_toward_meets_all_3": true,
-   "contradiction_flag": false
+   "contradiction_flag": false,
+   "note": "Owner's ruling, 2026-11-15, after re-checking the saved page text. Sentence swapped for one that names returns and opened mattresses."
   },
   {
    "store": "Novilla",
@@ -174,12 +175,13 @@
      "url": "https://www.sweetnight.com/pages/return-policy",
      "file": "pages_sweetnight/pages_return_policy.txt",
      "label": "yes",
-     "sentence": "After 30 nights and within 100 days of delivery, if you're still not satisfied, contact our Customer Care Team."
+     "sentence": "For this reason, we require a minimum 30-night trial before accepting a return request.",
+     "heading": "Already Sleeping on It? (Opened)"
     }
    ],
    "assistant": "yes",
    "assistant_reply": "Yes. If you buy the mattress directly from SweetNight, you can return it if you’re still unsatisfied after sleeping on it for at least 30 nights, as long as the return is requested within 100 days of delivery and the mattress is clean and donatable, without stains, tears, or excessive wear. The return policy applies to purchases from SweetNight’s official website; third-party purchases follow the retailer’s policy.",
-   "note": "robots.txt blocked /policies/refund-policy and /policies/shipping-policy at this store. The reader used /pages/return-policy.",
+   "note": "robots.txt blocked /policies/refund-policy and /policies/shipping-policy at this store. The reader used /pages/return-policy. Owner's ruling, 2026-11-15, after re-checking the saved page text. The sentence says 'return'; 'opened' comes from the section heading, so the heading is shown with it.",
    "status_shown": "yes",
    "counts_toward_meets_all_3": true,
    "contradiction_flag": false
@@ -223,20 +225,21 @@
   {
    "store": "NapQueen",
    "condition": "opened_returns",
-   "pages": "yes",
+   "pages": "doesnt_say",
    "page_sentences": [
     {
      "url": "https://www.napqueensleep.com/policies/refund-policy",
      "file": "pages_napqueen/policies_refund_policy.txt",
-     "label": "yes",
-     "sentence": "You've got 100 nights, from the day it's delivered, to see if it's your dream sleep match."
+     "label": "doesnt_say",
+     "sentence": "In the event the mattress is opened/unboxed, please contact us and we will assist you with the next steps."
     }
    ],
    "assistant": "yes",
    "assistant_reply": "Yes, the Victoria mattress is included in the 100-night sleep trial, so you can open it and try it. If you’re unhappy, contact NapQueen within 100 nights of delivery; the mattress must be clean and free of stains or odors, and you’ll need proof of purchase and a receipt showing donation to a registered donation center. The store’s information says opened mattresses may need different return steps, so contact customer service for return authorization and instructions; refunds can’t be processed without proof of donation.",
-   "status_shown": "yes",
-   "counts_toward_meets_all_3": true,
-   "contradiction_flag": false
+   "status_shown": "assistant_only_yes",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false,
+   "note": "Owner's ruling, 2026-11-15, after re-checking the saved page text. Downgraded from yes: the page hedges on an opened mattress, so the assistant's yes stands alone."
   },
   {
    "store": "NapQueen",
@@ -357,8 +360,8 @@
   },
   {
    "store": "NapQueen",
-   "page_yes": 1,
-   "assistant_only_yes": 1,
+   "page_yes": 0,
+   "assistant_only_yes": 2,
    "result": "not_answered_on_pages"
   },
   {
@@ -470,10 +473,10 @@
   {
    "store": "napqueensleep.com",
    "condition": "opened_returns",
-   "pages": "yes",
+   "pages": "doesnt_say",
    "assistant": "doesnt_say",
-   "status_shown": "yes",
-   "counts_toward_meets_all_3": true
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
   },
   {
    "store": "napqueensleep.com",

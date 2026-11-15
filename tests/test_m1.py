@@ -56,7 +56,9 @@ def test_every_saved_combining_case(case):
 @pytest.mark.parametrize("case", SAVED, ids=lambda c: f"{c['store']}-{c['condition']}")
 def test_saved_page_sentences_are_in_the_saved_page_text(case):
     for sentence in case["page_sentences"]:
-        assert sentence["sentence"] in (db.FIXTURES / sentence["file"]).read_text(encoding="utf-8")
+        text = (db.FIXTURES / sentence["file"]).read_text(encoding="utf-8")
+        assert sentence["sentence"] in text
+        assert sentence.get("heading", "") in text
 
 
 @pytest.mark.parametrize("expected", CASES["store_results_live_run_2026-11-15"], ids=lambda e: e["store"])
@@ -133,7 +135,7 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
             case = cases[row["condition"]]
             expected = saved_row(case)
             assert row["page_sentences"] == [
-                {"sentence": s["sentence"], "url": s["url"], "label": s["label"]}
+                {key: value for key, value in s.items() if key != "file"}
                 for s in case["page_sentences"]
             ]
             assert row["assistant_status"] == case["assistant"]
@@ -158,7 +160,7 @@ def test_every_yes_row_has_the_stores_exact_sentence(client):
             if row["page_status"] == "yes" or row["status_shown"] == "yes":
                 yes_rows += 1
                 assert any(s["label"] == "yes" and s["sentence"] for s in row["page_sentences"])
-    assert yes_rows == 7
+    assert yes_rows == 6
     conn = db.connect()
     with pytest.raises(db.sqlite3.IntegrityError):
         conn.execute("UPDATE findings SET page_sentences = '[]' WHERE page_status = 'yes'")
@@ -167,8 +169,10 @@ def test_every_yes_row_has_the_stores_exact_sentence(client):
 
 def test_seed_holds_an_assistant_only_yes_and_a_pages_disagree_case(client):
     napqueen = client.get("/api/stores/napqueensleep.com").json()
-    assert [row["status_shown"] for row in napqueen["rows"]] == ["yes", "doesnt_say", "assistant_only_yes"]
-    assert napqueen["rows"][2]["counts_toward_meets_all_3"] is False
+    assert [row["status_shown"] for row in napqueen["rows"]] == ["assistant_only_yes", "doesnt_say", "assistant_only_yes"]
+    assert not any(row["counts_toward_meets_all_3"] for row in napqueen["rows"])
+    sweetnight = client.get("/api/stores/sweetnight.com").json()["rows"][0]
+    assert sweetnight["page_sentences"][0]["heading"] == "Already Sleeping on It? (Opened)"
     shipping = client.get("/api/stores/bedstory.com").json()["rows"][1]
     assert shipping["status_shown"] == "no" and shipping["contradiction"] is True
     assert [s["label"] for s in shipping["page_sentences"]] == ["yes", "no"]

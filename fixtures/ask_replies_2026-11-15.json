@@ -142,8 +142,8 @@
      "http": "200",
      "reply": "Possibly. The 100-night trial applies to select mattresses purchased from NapQueen’s website; the store recommends trying one for at least 30 days. To qualify for a refund, the mattress must be clean and free of stains and odors, and you must donate it to a registered donation center and provide proof of donation. The policy says to contact NapQueen for next steps if the mattress has been opened; it doesn’t specify whether a slept-on mattress will be accepted.",
      "reply_label": "doesnt_say",
-     "page_label": "yes",
-     "agrees": false
+     "page_label": "doesnt_say",
+     "agrees": true
     },
     {
      "condition": "free_return_shipping",
@@ -198,5 +198,5 @@
    ]
   }
  },
- "agreement": "16 of 18"
+ "agreement": "17 of 18"
 }

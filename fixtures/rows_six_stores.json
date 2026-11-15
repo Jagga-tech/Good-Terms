@@ -46,7 +46,7 @@
       "name": "NapQueen",
       "total": "189.00",
       "findings": {
-        "opened_returns": {"status": "confirms", "finding": "100-night trial, but the mattress must be donated to a registered center with proof before a refund.", "url": "https://www.napqueensleep.com/policies/refund-policy"},
+        "opened_returns": {"status": "doesnt_say", "finding": "100-night trial, but the mattress must be donated to a registered center with proof before a refund.", "url": "https://www.napqueensleep.com/policies/refund-policy"},
         "free_return_shipping": {"status": "doesnt_say", "finding": "A prepaid label is offered only while the mattress is unopened in its box.", "url": "https://www.napqueensleep.com/policies/refund-policy"},
         "sale_item_returns": {"status": "doesnt_say", "finding": "The policy does not mention sale items.", "url": "https://www.napqueensleep.com/policies/refund-policy"}
       }

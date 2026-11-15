@@ -131,7 +131,7 @@ def reset():
                     continue
                 status, disagree = page_status([s["label"] for s in case["page_sentences"]])
                 sentences = [
-                    {"sentence": s["sentence"], "url": s["url"], "label": s["label"]}
+                    {key: value for key, value in s.items() if key != "file"}
                     for s in case["page_sentences"]
                 ]
                 conn.execute(
