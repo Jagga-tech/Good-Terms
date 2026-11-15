@@ -313,6 +313,11 @@ def test_a_sentence_about_something_else_cannot_put_a_yes_in_doubt():
     texts = [(BASE + "/pages/returns", f"{FREE} {address}")]
     kept = quote_check([finding("yes", FREE, "/pages/returns"), finding("unclear", address, "/pages/returns")], texts, "free_return_shipping")
     assert [k["label"] for k in kept] == ["yes"]
+    vague = "These amounts will be deducted from your refund."
+    pays = "If the return is for personal reasons, you will need to cover the shipping costs."
+    both = [(BASE + "/pages/returns", f"{vague} {pays}")]
+    assert quote_check([finding("no", vague, "/pages/returns")], both, "free_return_shipping") == []
+    assert quote_check([finding("no", pays, "/pages/returns")], both, "free_return_shipping")[0]["label"] == "no"
 
 
 def test_a_clearance_sentence_does_not_answer_for_a_sale_priced_item():

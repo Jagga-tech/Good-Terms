@@ -42,6 +42,7 @@ TOPIC_WORDS = {
     ],
     "sale_item_returns": [r"sale|discount|promo|clearance|closeout|deal|reduced|markdown"],
 }
+PAYS_WORDS = {"free_return_shipping": [r"shipping|label|pick.?up|freight|postage|removal"]}
 CLEARANCE_ONLY = re.compile(r"clearance|closeout|final sale", re.I)
 OTHER_SALE = re.compile(r"sale|discount|promo|deal|reduced|markdown", re.I)
 CANCELLATION = re.compile(r"\bcancel", re.I)
@@ -62,7 +63,8 @@ def quote_check(findings, texts, condition=None, in_clearance=False):
     and a sentence is not a yes to sale-item returns only because it mentions a sale. A
     sentence about cancelling an order never counts for a return condition. A sentence that
     answers must use the words of its condition, so a sentence about something else on some
-    page cannot put a yes in doubt. A sentence about clearance or final-sale items alone does
+    page cannot put a yes in doubt. A no to free return shipping must name what the buyer
+    pays for; "these amounts will be deducted" on its own does not. A sentence about clearance or final-sale items alone does
     not answer for a sale-priced item, unless we found the product in the clearance collection.
     If any kept finding answers the condition, the closest-sentence findings are dropped.
     At most two sentences are kept per status.
@@ -82,6 +84,7 @@ def quote_check(findings, texts, condition=None, in_clearance=False):
         answers = finding["status"] != "doesnt_say"
         needed = TOPIC_WORDS.get(condition, []) if answers else []
         needed = needed + (YES_WORDS.get(condition, []) if finding["status"] == "yes" else [])
+        needed = needed + (PAYS_WORDS.get(condition, []) if finding["status"] in ("no", "unclear") else [])
         if not all(re.search(words, sentence, re.I) for words in needed):
             continue
         if answers and condition == "sale_item_returns" and clearance_only(sentence) and not in_clearance:
