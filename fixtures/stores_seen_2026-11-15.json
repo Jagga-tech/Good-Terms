@@ -1,0 +1,62 @@
+{
+ "observed_at": "2026-11-15",
+ "requested_size": "Queen",
+ "note": "Stores seen on 2026-11-15, for reference only. This is not a store list for the search: the search is live and never pinned. IDs and prices change.",
+ "stores": [
+  {
+   "name": "Novilla",
+   "storefront": "https://www.novillashop.com",
+   "myshopify_domain": "novilla-us.myshopify.com",
+   "product": "Bliss Memory Foam Mattress, 6 inch / Queen",
+   "variant_id": "gid://shopify/ProductVariant/41389706805382",
+   "price_usd": 164.99,
+   "all_three_yes_on_2026_11_15": true
+  },
+  {
+   "name": "Bear Mattress",
+   "storefront": "https://www.bearmattress.com",
+   "myshopify_domain": "bear-mattress.myshopify.com",
+   "product": "Bear Original, Medium-Firm / Queen",
+   "variant_id": "gid://shopify/ProductVariant/53250251948397",
+   "price_usd": 998.0,
+   "all_three_yes_on_2026_11_15": true,
+   "caveat": "Sale-item yes comes from the store's assistant only. The three questions were asked with the Original Hybrid variant attached; re-ask with this variant."
+  },
+  {
+   "name": "Casper Sleep",
+   "storefront": "https://casper.com",
+   "myshopify_domain": "e75063-e5.myshopify.com",
+   "product": "Element Mattress / Queen",
+   "variant_id": "gid://shopify/ProductVariant/41824213729361",
+   "price_usd": 645.0,
+   "all_three_yes_on_2026_11_15": false
+  },
+  {
+   "name": "NapQueen",
+   "storefront": "https://www.napqueensleep.com",
+   "myshopify_domain": "sleepqueens.myshopify.com",
+   "product": null,
+   "variant_id": null,
+   "price_usd": null,
+   "all_three_yes_on_2026_11_15": false
+  },
+  {
+   "name": "BonaNest",
+   "storefront": "https://bonanest.com",
+   "myshopify_domain": "vj9pyi-pp.myshopify.com",
+   "product": null,
+   "variant_id": null,
+   "price_usd": null,
+   "all_three_yes_on_2026_11_15": false
+  },
+  {
+   "name": "HomeHaven Store",
+   "storefront": "https://homehavenstoreshop.com",
+   "myshopify_domain": "6tp8m6-rm.myshopify.com",
+   "product": null,
+   "variant_id": null,
+   "price_usd": null,
+   "all_three_yes_on_2026_11_15": false
+  }
+ ]
+}

@@ -1,0 +1,202 @@
+{
+ "asked_at": "2026-11-15",
+ "tool": "ask_business",
+ "credentials": "none",
+ "profile": "https://shopify.dev/ucp/agent-profiles/draft/valid-with-capabilities.json",
+ "labels_by": "assistant, not independently checked",
+ "stores": {
+  "novillashop.com": {
+   "endpoint": "https://novilla-us.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "Yes. After sleeping on it for at least 30 nights, you can request a free return if you’re still dissatisfied, provided it’s within 100 days of delivery and in sanitary, donatable condition—with no rips, stains, or excessive wear. Contact the Customer Care Team at support@novilla.us to start the return. The sleep trial applies to mattresses bought directly from novillashop.com; clearance items are final sale.",
+     "reply_label": "yes",
+     "page_label": "yes",
+     "agrees": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "Return shipping is free for an opened mattress if you’ve slept on it for at least 30 nights and request the return within 100 days of delivery. It must be in sanitary, donatable condition, with no rips, stains, or excessive wear.",
+     "reply_label": "yes",
+     "page_label": "yes",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "It depends on whether the mattress was a clearance item. Clearance mattresses are final sale and can’t be returned for a change of mind or personal preference. For other mattresses bought directly from novillashop.com, the 100-night trial applies: unopened or unused mattresses that can be restored to their original packaging may be returned within 30 days of delivery; opened mattresses can be returned after at least 30 nights and within 100 days, if they’re in sanitary, donatable condition. The policy doesn’t specify whether other sale or discounted mattresses are excluded.",
+     "reply_label": "doesnt_say",
+     "page_label": "yes",
+     "agrees": false
+    }
+   ]
+  },
+  "bonanest.com": {
+   "endpoint": "https://vj9pyi-pp.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "You may still be able to return it: if the mattress has fully expanded, the return may be accepted, but you’ll be responsible for return shipping. Returns must be requested within 30 days of delivery, and the mattress must be unrolled; contact bonanestcs@gmail.com to start the return.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "If the mattress has been fully expanded or inflated, it may still be accepted for return, but you’ll be responsible for the return shipping cost. It must be unrolled and still in its original compressed, deflated condition to qualify under the stated mattress return conditions; the policy doesn’t specify whether shipping is free in that case.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "No. The store’s policy says sale items cannot be returned. For mattresses generally, returns must be requested within 30 days of delivery; expanded mattresses may still be accepted, but you would pay return shipping.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    }
+   ]
+  },
+  "homehavenstoreshop.com": {
+   "endpoint": "https://6tp8m6-rm.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "The store’s policy requires returned items to be unused and in their original packaging, so a mattress you’ve opened and slept on would not meet the stated return conditions. The policy does not specify whether mattresses have a separate exception; contact support@homehavenstoreshop.com about your specific item.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "The return policy requires items to be unused and in their original packaging, so an opened mattress may not qualify for return. If a return is approved, the store provides a return shipping label, but the information doesn’t specify whether return shipping is free or whether you’ll be charged.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "No. Sale items are non-returnable, so a mattress bought on sale or at a discount cannot be returned under the store’s policy.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    }
+   ]
+  },
+  "novilla.cn": {
+   "endpoint": "https://novillalife.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "The store’s information doesn’t specify whether you can return a mattress after opening and sleeping on it.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "The store’s information doesn’t specify whether return shipping is free or paid for an opened mattress.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "The store’s available information doesn’t specify whether discounted or sale mattresses can be returned.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    }
+   ]
+  },
+  "napqueensleep.com": {
+   "endpoint": "https://sleepqueens.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "Possibly. The 100-night trial applies to select mattresses purchased from NapQueen’s website; the store recommends trying one for at least 30 days. To qualify for a refund, the mattress must be clean and free of stains and odors, and you must donate it to a registered donation center and provide proof of donation. The policy says to contact NapQueen for next steps if the mattress has been opened; it doesn’t specify whether a slept-on mattress will be accepted.",
+     "reply_label": "doesnt_say",
+     "page_label": "yes",
+     "agrees": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "Free prepaid return shipping is provided only while the mattress remains unopened in its original box. For an opened mattress, the policy doesn’t say whether return shipping is free or paid; contact NapQueen for next steps.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "The return policy doesn’t specify whether sale or discounted mattresses are treated differently. Select mattresses bought from NapQueen’s website are covered by a 100-night trial, subject to conditions: the mattress must be clean and free of stains or odors, and a refund requires proof of purchase and a donation receipt. If you bought it through another marketplace, returns must be handled through that platform.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    }
+   ]
+  },
+  "withushome.com": {
+   "endpoint": "https://kqmkkq-bq.myshopify.com/api/ucp/mcp",
+   "replies": [
+    {
+     "condition": "opened_returns",
+     "question": "Can I return a mattress after opening it and sleeping on it?",
+     "http": "200",
+     "reply": "The store’s policy requires returned items to be unused and in their original packaging, so a mattress you’ve slept on would not meet the stated return conditions. You must request a return within 14 calendar days of receiving it and obtain authorization first.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "question": "If I return an opened mattress, is return shipping free or do I pay for it?",
+     "http": "200",
+     "reply": "The policy doesn’t specify whether return shipping is free or paid. It says accepted returns receive a return shipping label, but opened mattresses may not qualify because returns must be unused and in their original packaging.",
+     "reply_label": "doesnt_say",
+     "page_label": "doesnt_say",
+     "agrees": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "question": "Can I return a mattress that I bought on sale or at a discount?",
+     "http": "200",
+     "reply": "Sale items are generally non-returnable, except where required by applicable law. The policy doesn’t specify whether every discounted mattress is treated as a sale item; for a specific mattress, contact the store within 14 calendar days of delivery. Regular returns require the item to be unused, in its original packaging, and with proof of purchase.",
+     "reply_label": "no",
+     "page_label": "no",
+     "agrees": true
+    }
+   ]
+  }
+ },
+ "agreement": "16 of 18"
+}

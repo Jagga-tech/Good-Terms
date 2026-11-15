@@ -1,0 +1,467 @@
+{
+ "store": "www.bearmattress.com",
+ "pages": [
+  {
+   "url": "https://www.bearmattress.com/products/bear-original-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 19518
+  },
+  {
+   "url": "https://www.bearmattress.com/",
+   "status": "429",
+   "via": "home page"
+  },
+  {
+   "url": "https://www.bearmattress.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 8521
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 15852
+  },
+  {
+   "url": "https://www.bearmattress.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 8506
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/privacy-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 30954
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/return-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 15852,
+   "same_text_as": "https://www.bearmattress.com/pages/refund-policy"
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/shipping-information",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 11732
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/sleep-trial",
+   "status": "429",
+   "via": "sitemap"
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/bear-original-warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 10411
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/bear-hybrid-warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 11201
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/memorial-day-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9846
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/july-4th-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 11593
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9850
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/labor-day-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9820
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/bear-pro-warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 10398
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/black-friday-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9935
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/cyber-monday-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9846
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/new-year-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 10435
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 70639
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/presidents-day-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9848
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/terms-and-conditions-of-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 22766
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/outdated-warranties",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 18540
+  },
+  {
+   "url": "https://www.bearmattress.com/apps/help-center",
+   "status": "403",
+   "via": "link 'FAQ' on /products/bear-original-mattress"
+  },
+  {
+   "url": "https://www.bearmattress.com/pages/reviews",
+   "status": "200",
+   "via": "link '5 Star Rating I'm a triathlete' on /pages/memorial-day-sale",
+   "chars": 9176
+  }
+ ],
+ "blocked": [],
+ "product": {
+  "title": "Bear Original",
+  "tags": [
+   "Bear Mattress",
+   "best-affordable-mattress",
+   "best-cooling-mattress",
+   "best-for-back-pain",
+   "best-for-back-sleepers",
+   "best-for-joint-pain",
+   "best-for-pressure-relief",
+   "best-for-side-sleepers",
+   "best-for-stomach-sleepers",
+   "foam-mattress",
+   "foundational-tier",
+   "gift_eligible"
+  ],
+  "variant": "Twin / Medium-Firm",
+  "price": 71200,
+  "compare_at": null,
+  "available": true
+ },
+ "collections": {
+  "special-deals": {
+   "products": 2,
+   "has_item": false
+  }
+ },
+ "passages": {
+  "https://www.bearmattress.com/products/bear-original-mattress": {
+   "opened": [
+    "Bear is so confident that you\u2019ll love your mattress, we are giving you an industry best, 365-night mattress trial.",
+    "If you don\u2019t, just let us know within your 365-night trial and our friendly, in-house customer service team will gladly assist with the return.",
+    "Plush and protective cover fabric is infused with fibers that convert excess body heat into infrared energy.",
+    "Soothing memory foam infused with gel for its cooling effect.",
+    "You have 365 nights to try your new Bear mattress from the comfort of your own home!",
+    "If you aren\u2019t completely satisfied with your mattress after a 30-night break-in period, you can request a free return before the 365-night trial period ends."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/policies/refund-policy": {
+   "opened": [
+    "Please see our Free Trial Period and Returns policy for details."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/refund-policy": {
+   "opened": [
+    "Experience Hibernation-Caliber Sleep, Guaranteed with Bear's 365-Night Mattress Trial.",
+    "Bear = Awesome Mattress \u2013 Very high quality, sleeps cool, excellent support, great customer service, great trial option...",
+    "How long until I can sleep on my Bear mattress?",
+    "Bear mattresses will be good to sleep on as soon as it\u2019s fully expanded.",
+    "A new mattress is a big change and we feel that 30 nights is enough time to adjust and decide whether or not the Bear Mattress is right for you.",
+    "Absolutely no refunds or returns will be granted after 365 nights."
+   ],
+   "shipping": [
+    "Select the item(s) you want to return, and you will be guided through the process of obtaining a return shipping label."
+   ],
+   "sale": [
+    "Products sold as \u201cCloseout\u201d or \u201cClearance\u201d are final sale and cannot be exchanged, returned, or refunded.",
+    "Your new, exchanged mattress is not eligible for a return, refund or trial period.",
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/policies/shipping-policy": {
+   "opened": [],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/privacy-policy": {
+   "opened": [
+    "Brooklyn Bedding, LLC, its affiliates and subsidiaries (collectively, \u201cwe,\u201d \u201cus,\u201d or \u201cour\u201d) have created this privacy policy (this \u201cPrivacy Policy\u201d) because we know that you care about how information you provide to us is used and shared.",
+    "The Tracking Technologies used on the Websites and the Services include the following, among others:",
+    "Web Beacons: We use Web beacons, also known as pixel tags or clear GIFs, to demonstrate that a webpage or email address was accessed or opened, or that certain content was viewed or clicked.",
+    "ALL SUCH INFORMATION IS PUBLIC INFORMATION AND MAY BE VIEWED, COLLECTED, USED, MODIFIED AND/OR DISCLOSED FOR ANY PURPOSE BY US AND THE PUBLIC.",
+    "If you are located outside of the United States, please be aware that your information, including your personal information, may be transferred to, processed, maintained, and used on computers, servers, and systems located outside of your state, province, country, or other governmental jurisdiction "
+   ],
+   "shipping": [
+    "You are responsible for reviewing those policies."
+   ],
+   "sale": [
+    "In addition to collecting information, we use cookies to help us authenticate users, provide content of interest to you, analyze which features you use most frequently, and measure and optimize advertising and promotional effectiveness.",
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/shipping-information": {
+   "opened": [
+    "We recommend you unboxing your mattress within 30 days.",
+    "Your mattress will begin to expand immediately!",
+    "The bed should be completely expanded in less than a minute!",
+    "While your mattress can be used right away, we recommend giving it a full 24hrs to completely decompress.",
+    "We recommend you unbox you mattress within 30 days of delivery."
+   ],
+   "shipping": [
+    "Receive alerts, provide delivery instructions or request a hold at location for pick up using FedEx's Delivery Manager.",
+    "This free membership allows you to customize delivery times, request vacation holds, and even request the package to be held at a local Fedex facility for future pick up or deliver to a different address."
+   ],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/bear-original-warranty": {
+   "opened": [],
+   "shipping": [
+    "During the first ten (10) years of original ownership, if the mattress is deemed defective, Bear shall be responsible for the repair or replacement costs of the mattress with the exception of any handling or transportation costs associated with repairs or replacements."
+   ],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/bear-hybrid-warranty": {
+   "opened": [],
+   "shipping": [
+    "During the first ten (10) years of original ownership, if the mattress is deemed defective, Bear Mattress LLC shall be responsible for the repair or replacement costs of the mattress with the exception of any handling or transportation costs associated with repairs or replacements."
+   ],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/memorial-day-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/july-4th-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!"
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/labor-day-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/bear-pro-warranty": {
+   "opened": [],
+   "shipping": [
+    "During the first ten (10) years of original ownership, if the mattress is deemed defective, Bear shall be responsible for the repair or replacement costs of the mattress with the exception of any handling or transportation costs associated with repairs or replacements."
+   ],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/black-friday-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/cyber-monday-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/new-year-sale": {
+   "opened": [
+    "Our 365-Night trial is more than triple the industry norm.",
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/warranty": {
+   "opened": [
+    "Bear Mattress\u00ae warrants the Mattress in its original packaging against the defects in material and workmanship set forth below (\"Defects\") for the full period of the Original Purchaser\u2019s ownership and use, from the time the Mattress is purchased by the Original Purchaser (the \u201cOriginal Purchase Date",
+    "In no event will a substitution model be used as a replacement except in the case of a discontinued Mattress.",
+    "In this event, a Mattress of like build and design, at Bear Mattress\u00ae\u2019s discretion, will be used as a replacement for the defective Mattress.",
+    "Comfort preference beyond the 365-night trial period.",
+    "Physical abuse or damage to the structure and/or cover material, including but not limited to, burns, cuts, tears, liquid damage, or stains; provided, that the Defect is caused by such abuse or damage.",
+    "Mattresses sold \"as-is\", \"preconditioned\", \"reconditioned\", \"used\", \"comfort return\", \"returned\", \"previously owned\", or any other similar wording indicating that the Mattress is not \"new\" or of \"first quality\", or has previously been purchased or used by another consumer."
+   ],
+   "shipping": [
+    "The Purchaser is responsible for all shipping costs to Brooklyn Bedding LLC.",
+    "Brooklyn Bedding LLC is not responsible for any incidental or consequential damages resulting from the use of its products.",
+    "Seller will pay all shipping costs to deliver such replacement parts to a location within the United States.",
+    "Coverage during Years 2: If a Product has defects in materials or workmanship during the second year after the Warranty Start Date, Seller will supply a new or refurbished replacement Product or Product part free of charge to (as instructed in writing by Buyer) Buyer or Buyer\u2019s Customer, upon the te",
+    "Buyer will pay all shipping costs to deliver such replacement Structural Parts for all warranty claims made during the third through tenth years after the Warranty Start Date.",
+    "Buyer or Buyer\u2019s Customer will be responsible for removing any defective Product or Product part and installing any replacement Product or Product part, including without limitation any labor, service, and handling fees and costs."
+   ],
+   "sale": [
+    "Closeout and Clearance Items",
+    "Note: Products sold as \u201cCloseout\u201d or \u201cClearance\u201d items may be covered by shorter warranty terms than those stated below.",
+    "Please refer to the \u201cCloseout and Clearance Items\u201d section below for further details about a particular Product\u2019s warranty terms.",
+    "Bear Mattress Closeout and Clearance Items",
+    "Unless otherwise indicated, products purchased from Bear that are marked as \u201cCloseout\u201d or \u201cClearance\u201d are subject to the modified limited warranty terms described below:",
+    "Your new Bear Mattress that was purchased that was marked as a \u201cCloseout\u201d or \u201cClearance\u201d item is covered by the Mattress Warranty described above, provided that the term of such warranty extends for a period of 5 years from the date you purchased the Bear Mattress."
+   ]
+  },
+  "https://www.bearmattress.com/pages/presidents-day-sale": {
+   "opened": [
+    "I seriously love this mattress and have never slept better.",
+    "This mattress is probably one of the best I\u2019ve ever slept on!",
+    "Try it for 365 nights in your own home."
+   ],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion."
+   ]
+  },
+  "https://www.bearmattress.com/pages/terms-and-conditions-of-sale": {
+   "opened": [
+    "UPS, FEDEX) that is used to deliver the Product to you.",
+    "Subject to the Return Exceptions and Return Procedure and Conditions set forth below, you may return any Product within the applicable trial period (each, a \"Trial Period\"), provided that the Product has been used for the required break-in period (if any) and is located in the United States (excludi",
+    "You can find a summary of our trial policies at https://www.bearmattress.com/pages/return-policy.",
+    "Return requests received after the applicable Trial Period will not be eligible for return.",
+    "If a return is requested within the applicable Trial Period, we require pickup and removal of the mattress within 45 days after the Trial Period.",
+    "Trial Policies depend on the specific product and are outlined below."
+   ],
+   "shipping": [
+    "You are responsible for filing any claims with the carrier for damaged or lost shipments.",
+    "If a return is requested within the applicable Trial Period, we require pickup and removal of the mattress within 45 days after the Trial Period.",
+    "Your failure to schedule a pickup within 45 days will void your eligibility to return the Product.",
+    "Return shipping and removal costs are free and will be scheduled by our team.",
+    "We will not reimburse you for return shipping, removal, or other costs incurred without our express written consent.",
+    "Return shipping and removal costs are free and will be scheduled by our team, provided you are returning the Product from within the United States (not including U.S."
+   ],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Any Product that is marked as \u201cFinal Sale,\u201d \"Clearance,\" or \u201cFactory Clearance,\u201d may not be returned or exchanged, except in the event of a defect as defined in the applicable Product Warranty.",
+    "If you make a purchase that includes multiple Products as part of a bundle or with a promotional discount, and you return all Products in the bundle, you will be refunded the entire amount paid less any discount, offer code or shipping fees.",
+    "If you return one or more Products from a bundle, and the discount you received is less than the price of the Product(s) you wish to return, you will be refunded the price of the Product(s) you wish to return less the discounted amount.",
+    "In no event will a Product provided for free as part of a bundle or promotional discount be eligible for a refund.",
+    "Products are not eligible for an exchange."
+   ]
+  },
+  "https://www.bearmattress.com/pages/outdated-warranties": {
+   "opened": [
+    "Bear warrants the Mattress in its original packaging sold to you against",
+    "the foundation or base used.",
+    "discoloration caused by abnormal care including, but not limited to liquid",
+    "\u201cpreconditioned\u201d, \u201creconditioned\u201d, \u201cused\u201d, \u201creturned\u201d, \u201cpreviously owned\u201d,",
+    "of \u201cfirst quality\u201d, or has previously been purchased or used by another",
+    "In order for this Warranty to apply, the Mattresses must be used on a"
+   ],
+   "shipping": [
+    "for the shipping costs associated with returning your mattress."
+   ],
+   "sale": [
+    "Note: Products sold as \u201cCloseout\u201d or \u201cClearance\u201d items may be covered by",
+    "\u201cCloseout and Clearance Items\u201d section below for further details about a",
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  },
+  "https://www.bearmattress.com/pages/reviews": {
+   "opened": [],
+   "shipping": [],
+   "sale": [
+    "In addition, Products may be offered by us or other retailers at the same or lower prices during future promotional events beginning on or after the last day of any advertised promotion.",
+    "Members receive promotional discounts, access to exclusive Bear content, early product release notifications, and much more."
+   ]
+  }
+ }
+}

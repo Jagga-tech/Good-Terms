@@ -1,0 +1,595 @@
+{
+ "asked_at": "2026-11-15",
+ "tool": "ask_business",
+ "credentials": "none",
+ "product_attached": true,
+ "profile": "https://shopify.dev/ucp/agent-profiles/draft/valid-with-capabilities.json",
+ "questions": {
+  "q1": "If I buy this mattress, open it and sleep on it, can I still return it for a refund if I don't like it?",
+  "q2": "If I return this mattress after opening it and sleeping on it, is the return shipping or pickup free, or do I have to pay for it?",
+  "q3": "This mattress is discounted right now. If I buy it at the sale price, can I still return it after opening it and sleeping on it?"
+ },
+ "screened_on_q1_only": {
+  "sweetnightmattress.myshopify.com": {
+   "name": "SweetNight",
+   "url": "https://www.sweetnight.com",
+   "variant": "gid://shopify/ProductVariant/36909440762011",
+   "title": "Island Hybrid Mattress",
+   "price": 23399,
+   "opts": [
+    "Queen",
+    "10\""
+   ],
+   "q1": "Yes. If you buy it directly from SweetNight, you can return an opened mattress if you’re still unsatisfied after a minimum 30-night adjustment period, as long as you request the return within 100 days of delivery and the mattress is clean and in donatable condition, without stains, tears, or excessive wear. This applies to the referenced Queen, 10-inch Island Hybrid Mattress."
+  },
+  "discount-muebles.myshopify.com": {
+   "name": "ShipItFurniture",
+   "url": "https://shipitfurniture.com",
+   "variant": "gid://shopify/ProductVariant/54521039192374",
+   "title": "Queen Mattress 12 Inch Hybrid Mattresses Euro Top Medium Firm for Back & Lumbar Support, 365 Night Trial, Individual Pocket Spring Bed for Motion Isolation & Pressure Relief (12 Inch, Queen)",
+   "price": 28399,
+   "opts": [
+    "Queen",
+    "12 Lnch"
+   ],
+   "q1": "Probably not. The store’s return policy requires an item to be in its original condition and packaging, and says used products aren’t eligible for a refund. Although the mattress listing advertises a 365-night comfort trial, the store’s return information doesn’t explain how that trial applies to an opened or used mattress, so the policies conflict on that point."
+  },
+  "ab922b-91.myshopify.com": {
+   "name": "Ablyea",
+   "url": "https://ablyea.com",
+   "variant": "gid://shopify/ProductVariant/45064630993086",
+   "title": "Memory Foam Bamboo Fiber Mattress",
+   "price": 34999,
+   "opts": [
+    "Queen",
+    "12\" / Enhanced Support"
+   ],
+   "q1": "Yes. The mattress has a 100-day trial from delivery, so you can try it and request a return within that period if you don’t like it. It must be clean, suitable for return, recycling, or donation, and free of customer-caused damage; get return authorization from customer support before sending it back or arranging disposal. For preference returns, you’re responsible for applicable return shipping and logistics costs, which may be deducted from your refund."
+  },
+  "bebr04-eu.myshopify.com": {
+   "name": " Essentials Zone (B02-S24)",
+   "url": "https://essentialszone.store",
+   "variant": "gid://shopify/ProductVariant/51405140000804",
+   "title": "Queen Mattress for Back Pain, 12\" Hybrid Mattresses in a Box, Individual Pocket Coils, Medium Firm Feel, CertiPUR-US® Certified Memory Foam, 100-Night Trial, Personalized Support & Pressure Relief",
+   "price": 37699,
+   "opts": [],
+   "q1": "The return policy allows return requests within 7 days of receiving your order, and says items must be in their original condition and packaging. It doesn’t specify whether a mattress you’ve opened and slept on qualifies, so a refund in that situation isn’t confirmed; contact essentialszone@helpex.store to check before buying."
+  },
+  "0zz1ig-ce.myshopify.com": {
+   "name": "Dwellinhaus",
+   "url": "https://dwellinhaus.com",
+   "variant": "gid://shopify/ProductVariant/44720265560118",
+   "title": "Novilla 12 Inch Queen Mattress in a Box, Gel Memory Foam Queen Size Bed Mattress for Cooling Night Sleep, Comfort Sleep & Pressure Relief, CertiPUR-US Certified",
+   "price": 31319,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "The store’s policy requires returns to be unused and in their original packaging, so a mattress you’ve opened and slept on would not meet the stated return conditions for a change of mind. You have 14 calendar days after delivery to request a return, and approved change-of-mind refunds may exclude original shipping costs and payment processing fees where permitted by law."
+  },
+  "rcvr0x-j8.myshopify.com": {
+   "name": "ModernFurnitureDeals",
+   "url": "https://modernfurnituredeals.com",
+   "variant": "gid://shopify/ProductVariant/57887931957431",
+   "title": "Novilla Queen Size Mattress, 10 Inch Memory Foam Mattress Queen in a Box",
+   "price": 32318,
+   "opts": [
+    "80 in",
+    "60 in",
+    "10 in"
+   ],
+   "q1": "The mattress listing advertises a 100-day free trial, but the store’s return policy requires items to be unused and in their original packaging, so it doesn’t confirm that you can return it after opening and sleeping on it. The policy gives 30 days after delivery to request a return, and change-of-mind returns incur return shipping costs. The store’s information doesn’t explain how the mattress trial interacts with these return conditions."
+  },
+  "zinususa.myshopify.com": {
+   "name": "Zinus, Inc.",
+   "url": "https://www.zinus.com",
+   "variant": "gid://shopify/ProductVariant/43472211542079",
+   "title": "Balanced Comfort Luxe Hybrid Mattress",
+   "price": 79900,
+   "opts": [
+    "Full"
+   ],
+   "q1": "Yes, if purchased on Zinus.com, you can try the mattress during the 100-night trial, including sleeping on it. To qualify for a full refund, contact Zinus within 100 nights of delivery; the mattress must be in good condition, without stains or unusual smells, and you’ll need proof of purchase and the required documents. If you bought it through a partner retailer, that retailer’s return terms apply."
+  },
+  "80vzz4-qy.myshopify.com": {
+   "name": "Ma boutique",
+   "url": "https://80vzz4-qy.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/58276244259198",
+   "title": "Novilla 14 Inch Queen Mattress, Queen Memory Foam Mattress with AiryFlow Cooling System for Cool Night, Pressure Relief, Ergonomic Support for Spinal Alignment, CertiPUR-US Certified, Medium Firm",
+   "price": 5699,
+   "opts": [],
+   "q1": "The mattress includes a 100-night in-home trial, so you can open it and try sleeping on it. The store’s information doesn’t specify whether you can return it for a refund if you decide you don’t like it, or what return conditions apply."
+  },
+  "qu0kz1-d1.myshopify.com": {
+   "name": "Ma boutique",
+   "url": "https://trendecke.shop",
+   "variant": "gid://shopify/ProductVariant/54794757898587",
+   "title": "Crayan Queen Size Hybrid Memory Foam Mattress, 10 Inch in a Box",
+   "price": 5657,
+   "opts": [],
+   "q1": "The mattress listing advertises a 100-night trial, but the store’s return policy says returns must generally be unused and in the condition received, and that refunds may be reduced if an item has been used. It doesn’t clarify whether sleeping on this mattress qualifies for a refund under the trial, so contact the store before buying or returning it. The general return window is 30 days after delivery, and you must request approval before sending it back."
+  },
+  "engineered-sleep.myshopify.com": {
+   "name": "Engineered Sleep",
+   "url": "https://engineeredsleep.com",
+   "variant": "gid://shopify/ProductVariant/40481644019799",
+   "title": "Today Mattress",
+   "price": 47920,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Yes. For the Today Mattress, you can return it for a full refund within the 100-night sleep trial after it ships; the policy doesn’t exclude trying or sleeping on it. A full refund has no restocking fee. Contact hello@engineeredsleep.com to start the return."
+  },
+  "sitnsleepsocal.myshopify.com": {
+   "name": "Sit 'n Sleep",
+   "url": "https://www.sitnsleep.com",
+   "variant": "gid://shopify/ProductVariant/43022410350651",
+   "title": "DreamCloud Classic Hybrid Mattress",
+   "price": 69900,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "You can open and sleep on it, but a refund isn’t guaranteed. The DreamCloud mattress is eligible for a one-time return or exchange under the 120-night trial: sleep on it for at least 30 days, then within the additional 90 days you may return it or choose another mattress. A $99.99 delivery fee applies, with no restocking fee; the trial excludes closeouts, floor samples, and mattresses that are dirty, stained, or abused."
+  },
+  "af-rentall.myshopify.com": {
+   "name": "Appliance & Furniture RentAll",
+   "url": "https://af-rentall.com",
+   "variant": "gid://shopify/ProductVariant/45810799247599",
+   "title": "Nectar Premier Hybrid 5.1 Queen Mattress (M14131)",
+   "price": 2799,
+   "opts": [
+    "Rent Request",
+    "Weekly"
+   ],
+   "q1": "The mattress listing includes a 365-night trial, but the store’s information doesn’t specify whether you can return it for a refund after opening and sleeping on it, or what conditions apply."
+  },
+  "mattress-overstock-kentucky.myshopify.com": {
+   "name": "Mattress Overstock | Mattress Store | Kentucky",
+   "url": "https://mattressoverstock.us",
+   "variant": "gid://shopify/ProductVariant/42759577010351",
+   "title": "Nectar Premier Mattress",
+   "price": 54900,
+   "opts": [],
+   "q1": "No—Mattress Overstock does not offer cash refunds, including after you’ve opened and slept on the mattress. The referenced Nectar Premier qualifies for a one-time comfort exchange, not a refund: Nectar’s trial is 365 nights, but you must sleep on it at least 30 nights and have bought and kept using a Mattress Overstock protector purchased with the mattress. The exchange is for store credit toward another mattress of the same size and equal or greater value, with a $79 redelivery fee; contact the store within the trial window to start."
+  },
+  "inofia.myshopify.com": {
+   "name": "INOFIA",
+   "url": "https://www.inofia.com",
+   "variant": "gid://shopify/ProductVariant/39930389659751",
+   "title": "Inofia Hybrid Mattress, Breathable Knit Cover, Multi-layer Memory Foam & Innerspring Coils",
+   "price": 49999,
+   "opts": [
+    "Queen (80\"L x 60\"W)",
+    "12\" Thickness"
+   ],
+   "q1": "Yes. You can open and sleep on the mattress during the 101-night trial, which starts on delivery; Inofia recommends trying it for at least four weeks. Email service@inofia.com before the trial ends to start a return. If the return is because you don’t like it, you’re responsible for return shipping, and a refund is issued if the return is approved."
+  },
+  "907124.myshopify.com": {
+   "name": "The QE Store",
+   "url": "https://www.theqestore.com",
+   "variant": "gid://shopify/ProductVariant/52713468592407",
+   "title": "Queen Size Thermoregulating Hybrid Memory Foam Mattress",
+   "price": 47599,
+   "opts": [],
+   "q1": "The mattress listing advertises a 100-night sleep trial, but the store’s return policy requires items to be unused and in their original packaging. It doesn’t specify whether sleeping on the mattress is allowed under the trial or whether that trial guarantees a refund, so a refund after opening and using it isn’t confirmed."
+  },
+  "psb4yy-1n.myshopify.com": {
+   "name": "Quick Snap09",
+   "url": "https://quicksnap09.store",
+   "variant": "gid://shopify/ProductVariant/53708387320122",
+   "title": "Novilla 12 Inch Queen Mattress, Hybrid Queen Mattresses in a Box with Smarts™ Coil Pocket Spring for Pressure Relief, Medium Firm Colchones with Comfort Foam, CertiPUR-US Certified",
+   "price": 27549,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "The store’s return policy says items must be unused and in their original packaging, so an opened and slept-on mattress would not meet those stated return conditions. The mattress listing separately mentions a 100-night trial, but the store’s information does not explain how that trial works or whether it allows a refund after use."
+  },
+  "szby3q-4g.myshopify.com": {
+   "name": "Market Snap01 ",
+   "url": "https://marketsnap01.store",
+   "variant": "gid://shopify/ProductVariant/52068978295080",
+   "title": "Five Star Mattress Tranquility 7-Inch Firm – Queen– Supportive Coils, Breathable Foam – Bed-in-a-Box– 100 Night Trial, 10-Year Limited Warranty",
+   "price": 46042,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "The return policy allows returns within 7 days of delivery only if the item is unused, in its original packaging, and in the same condition as received. It doesn’t specify a mattress trial exception, so opening and sleeping on the mattress would not meet the stated eligibility requirements. Shipping costs are non-refundable, and you’re responsible for return shipping."
+  },
+  "cq1zjr-ff.myshopify.com": {
+   "name": "curiouscabinet",
+   "url": "https://curiouscabinet.online",
+   "variant": "gid://shopify/ProductVariant/42990117388368",
+   "title": "Casper Sleep Element Queen Mattress - Medium Feel - Motion Isolation - Breathable, Cooling Memory Foam - 100-Night Trial - CertiPUR-US",
+   "price": 78599,
+   "opts": [],
+   "q1": "The store’s return policy says items generally must be returned in the condition received, so an opened and slept-on mattress may not qualify; it does not specify a mattress trial or exception for this product. The product listing advertises a 100-night trial, but the store’s return terms say returns must be requested within 30 days of delivery. If an eligible return is approved, the policy describes a 15% processing fee and says minor signs of use may lead to a partial refund; contact support to confirm how these rules apply to the mattress."
+  },
+  "ff7bb0-f7.myshopify.com": {
+   "name": "LeafyLoom",
+   "url": "https://www.leafyloom.org",
+   "variant": "gid://shopify/ProductVariant/41634421571651",
+   "title": "Novilla Queen Mattress, 12 Inch Queen Memory Foam Mattress for Supportive & Pressure Relief, Removable Washable Mattress Cover,CertiPUR-US Certified Mattress Queen, Firm",
+   "price": 38249,
+   "opts": [],
+   "q1": "The store’s return policy requires an item to be unused and in its original packaging, so sleeping on the mattress would not meet the stated eligibility conditions. You have 30 days after receiving it to request a return, and any refund is subject to approval after inspection. The mattress listing mentions a 100-night trial, but the store’s return policy does not explain whether that trial allows returns after use."
+  },
+  "dpasfg-ay.myshopify.com": {
+   "name": "The Home Edit",
+   "url": "https://thehome-edit.com",
+   "variant": "gid://shopify/ProductVariant/48112717758718",
+   "title": "Serta Sleeptrue Medium 12\" Queen Hybrid Mattress in a Box, Cooling, Breathable, and Pressure Relieving - 100 Night Trial, CertiPUR-US Certified and 10 Year Limited Warranty",
+   "price": 64103,
+   "opts": [
+    "Queen",
+    "60 in",
+    "79.5 in",
+    "12 in"
+   ],
+   "q1": "The mattress is advertised with a 100-night trial, but the store’s return policy says returns must be unused and in their original packaging. It doesn’t explain whether opening or sleeping on the mattress qualifies under the trial or allows a refund, so that’s unclear. Contact the store at royalkht0329@gmail.com before opening it to confirm."
+  },
+  "y0knug-ay.myshopify.com": {
+   "name": "Furn Mivo",
+   "url": "https://furnmivo.com",
+   "variant": "gid://shopify/ProductVariant/47401750757538",
+   "title": "10-Inch Queen Mattress with Memory Foam, Medium-Firm Bed Mattress",
+   "price": 19640,
+   "opts": [
+    "Queen (80\"x 60\")"
+   ],
+   "q1": "No. The return policy requires items to be unused, undamaged, and in their original packaging, so a mattress you’ve opened and slept on would not meet those conditions. Returns are accepted within 7 days of delivery; the store’s information does not specify any trial-period exception."
+  },
+  "t1d1vj-uc.myshopify.com": {
+   "name": "FurniCurate Lounge",
+   "url": "https://cozycrest-home.com",
+   "variant": "gid://shopify/ProductVariant/47467740987579",
+   "title": "Serta Sleeptrue Firm 12\" Queen Memory Foam Mattress in a Box, Cooling, Breathable, and Pressure Relieving - 100 Night Trial, CertiPUR-US Certified and 10 Year Limited Warranty",
+   "price": 63338,
+   "opts": [],
+   "q1": "The mattress is advertised with a 100-night trial, but the store’s return policy requires an item to be unused and in its original packaging. The information doesn’t explain how the trial affects those requirements, so it doesn’t confirm that you can return it for a refund after opening and sleeping on it."
+  },
+  "folvuty-ud02vpnz.myshopify.com": {
+   "name": "FOLVUTY ",
+   "url": "https://folvuty.com",
+   "variant": "gid://shopify/ProductVariant/51610148569366",
+   "title": "FOLVUTY DreamPlus 14 Inch Queen Cooling Hybrid Mattress",
+   "price": 29999,
+   "opts": [],
+   "q1": "No, not under the standard return policy: the item must be unused and in its original packaging, so opening and sleeping on it would not meet those eligibility requirements. You have 30 days after receiving it to request a return; for a change of mind, you also pay return shipping."
+  },
+  "7ec395.myshopify.com": {
+   "name": "NEXOES",
+   "url": "https://nexoes.com",
+   "variant": "gid://shopify/ProductVariant/52021029765409",
+   "title": "Cooling Gel Memory Foam Mattress – Medium Firm, Motion Isolation, Pressure-Relieving Bed in a Box",
+   "price": 11999,
+   "opts": [
+    "75 in",
+    "6 in"
+   ],
+   "q1": "The store’s policy requires returns to be unused and in the original packaging, so opening and sleeping on the mattress would not meet the stated return conditions. You have 30 days after receiving it to request a return; refunds are issued only after the return is received, inspected, and approved."
+  },
+  "uhvrj7-m0.myshopify.com": {
+   "name": " Fidak Zahra ",
+   "url": "https://fidakzahra.com",
+   "variant": "gid://shopify/ProductVariant/50416143892837",
+   "title": "Casper Sleep Element Queen Mattress - Medium Feel - Motion Isolation - Breathable, Cooling Memory Foam - 100-Night Trial - CertiPUR-US",
+   "price": 78599,
+   "opts": [],
+   "q1": "The mattress listing advertises a 100-night trial and hassle-free returns, so you can try it, including sleeping on it, and return it if you don’t like it. The listing does not specify the refund conditions or return procedure."
+  },
+  "uxknp6-hi.myshopify.com": {
+   "name": "Haven & Hearth",
+   "url": "https://havenhearth1.com",
+   "variant": "gid://shopify/ProductVariant/43054375632962",
+   "title": "Novilla Queen Size Mattress, 10 Inch Hybrid with Gel Memory Foam & Individually Wrapped Pocket Coils Innerspring, Queen Spring Mattresses for a Cozy & Peaceful Sleep",
+   "price": 51973,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "You have 30 days after delivery to request a return, but the mattress must be unused and in its original packaging with tags, so sleeping on it would not meet the stated return conditions. The policy doesn’t specify a separate sleep-trial exception or guarantee a refund; approved refunds are issued after the return is received and inspected."
+  },
+  "17kcay-eu.myshopify.com": {
+   "name": "Varemio",
+   "url": "https://varemio.com",
+   "variant": "gid://shopify/ProductVariant/54155288641647",
+   "title": "Mattress Queen Memory-Foam and Wrapped-Coil Hybrid with 10-Inch Profile and 80 x 60-Inch Dimensions",
+   "price": 19540,
+   "opts": [
+    "Queen (80\"x 60\")"
+   ],
+   "q1": "No—after opening and sleeping on it, the mattress would be used, and the store’s policy only accepts unused, undamaged items in their original packaging with all accessories, returned within 7 days of delivery. It does not specify a comfort-based exception."
+  },
+  "haven-mattress.myshopify.com": {
+   "name": "Haven CANADA",
+   "url": "https://havenmattress.ca",
+   "variant": "gid://shopify/ProductVariant/44537042731087",
+   "title": "Resort Edition",
+   "price": 105500,
+   "opts": [
+    "Twin",
+    "Medium-Plush",
+    "Mattress Alone"
+   ],
+   "q1": "Yes. The referenced Resort Edition qualifies for the 100-night trial, and you can sleep on it at home. Returns are eligible from Night 31 through Night 100; first you’ll need to complete the comfort adjustment period and a required consult. If it still isn’t right, you may choose one full-refund return per household, provided the mattress is clean and in donatable condition."
+  },
+  "bedsstories.myshopify.com": {
+   "name": "BedStory ",
+   "url": "https://bedstory.com",
+   "variant": "gid://shopify/ProductVariant/43390983110716",
+   "title": "White Brown Mattress",
+   "price": 29999,
+   "opts": [
+    "Queen",
+    "12\""
+   ],
+   "q1": "The referenced White Brown Mattress includes a 365-night trial, and mattress returns within the trial period are free. The store’s information doesn’t specify whether you can return it after opening and sleeping on it, or whether you’ll receive a refund if you simply don’t like it. Refunds are typically processed within 5–7 business days once a return is confirmed."
+  },
+  "1k4bh2-xp.myshopify.com": {
+   "name": "Hexura",
+   "url": "https://hexura.shop",
+   "variant": "gid://shopify/ProductVariant/49104305848505",
+   "title": "Casper Sleep Element Queen Mattress - Medium Feel - Motion Isolation - Breathable, Cooling Memory Foam - 100-Night Trial - CertiPUR-US",
+   "price": 72500,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Probably not. The store’s policy requires returns to be unused and in their original condition and packaging, so sleeping on the mattress would not meet those conditions. Although the product description mentions a 100-night trial, the store’s return information doesn’t explain how that trial affects its return requirements; change-of-mind returns that are approved must be requested within 14 calendar days of delivery, and the return-label cost is deducted from the refund."
+  }
+ },
+ "asked_all_three": {
+  "sweetnightmattress.myshopify.com": {
+   "name": "SweetNight",
+   "url": "https://www.sweetnight.com",
+   "variant": "gid://shopify/ProductVariant/36909440762011",
+   "title": "Island Hybrid Mattress",
+   "price": 23399,
+   "opts": [
+    "Queen",
+    "10\""
+   ],
+   "http": "200",
+   "secs": 3.3,
+   "q1": "Yes. If you buy it directly from SweetNight, you can return an opened mattress if you’re still unsatisfied after a minimum 30-night adjustment period, as long as you request the return within 100 days of delivery and the mattress is clean and in donatable condition, without stains, tears, or excessive wear. This applies to the referenced Queen, 10-inch Island Hybrid Mattress.",
+   "q2": "For a mattress bought directly from SweetNight, an opened mattress can be returned after at least 30 nights of adjustment and within 100 days of delivery, if it’s in sanitary, donatable condition. For a return because you’re unsatisfied with its quality, the store says to contact customer service for a free return shipping label. It doesn’t specify whether pickup is available. If the return is for another reason, the store says it won’t provide a return label or cover related costs, so you may have to pay.",
+   "q3": "Yes. SweetNight’s mattress trial allows returns within 100 days of delivery after at least 30 nights of adjustment, provided the mattress is in sanitary, donatable condition—free from stains, tears, or excessive wear. The policy does not specify an exception for sale-price purchases."
+  },
+  "ab922b-91.myshopify.com": {
+   "name": "Ablyea",
+   "url": "https://ablyea.com",
+   "variant": "gid://shopify/ProductVariant/45064630993086",
+   "title": "Memory Foam Bamboo Fiber Mattress",
+   "price": 34999,
+   "opts": [
+    "Queen",
+    "12\" / Enhanced Support"
+   ],
+   "http": "200",
+   "secs": 3.7,
+   "q1": "Yes. The mattress has a 100-day trial from delivery, so you can try it and request a return within that period if you don’t like it. It must be clean, suitable for return, recycling, or donation, and free of customer-caused damage; get return authorization from customer support before sending it back or arranging disposal. For preference returns, you’re responsible for applicable return shipping and logistics costs, which may be deducted from your refund.",
+   "q2": "For a comfort or other non-defect return, you’re responsible for the actual return shipping, freight, pickup, or other logistics costs; these may be deducted from your refund. Opening and sleeping on the mattress isn’t itself listed as a reason the return is ineligible, but it must be clean and suitable for return, recycling, or donation, meet the other return conditions, and be within the 100-day trial. Contact customer support for authorization and instructions before arranging pickup or sending it back.",
+   "q3": "Yes. The Queen, 12-inch mattress is eligible for a 100-day trial from delivery, and opening it and sleeping on it is consistent with that trial. To qualify for a return, request authorization within the trial period; the mattress must be clean, free of customer-caused damage, and suitable for return, recycling, or donation. For a preference-based return, you’re responsible for applicable return shipping or logistics costs, which may be deducted from the refund. The policy doesn’t specify a separate rule for sale-priced mattresses."
+  },
+  "zinususa.myshopify.com": {
+   "name": "Zinus, Inc.",
+   "url": "https://www.zinus.com",
+   "variant": "gid://shopify/ProductVariant/43472211542079",
+   "title": "Balanced Comfort Luxe Hybrid Mattress",
+   "price": 79900,
+   "opts": [
+    "Full"
+   ],
+   "http": "200",
+   "secs": 3.7,
+   "q1": "Yes, if purchased on Zinus.com, you can try the mattress during the 100-night trial, including sleeping on it. To qualify for a full refund, contact Zinus within 100 nights of delivery; the mattress must be in good condition, without stains or unusual smells, and you’ll need proof of purchase and the required documents. If you bought it through a partner retailer, that retailer’s return terms apply.",
+   "q2": "The return policy allows a mattress return within 100 nights of delivery if it remains in good condition, but it doesn’t specify whether return shipping or pickup is free or whether you must pay. If Zinus’s service partners picked up your old mattress or box spring for disposal, $75 per unit will be deducted from your refund.",
+   "q3": "Yes. For a mattress purchased on Zinus.com, the 100-night trial applies regardless of sale pricing, and you can decide after delivery whether it’s right for you. To qualify for a full refund, it must remain in good condition, with no stains or unusual smells, and you’ll need proof of purchase; contact Zinus to start a return."
+  },
+  "engineered-sleep.myshopify.com": {
+   "name": "Engineered Sleep",
+   "url": "https://engineeredsleep.com",
+   "variant": "gid://shopify/ProductVariant/40481644019799",
+   "title": "Today Mattress",
+   "price": 47920,
+   "opts": [
+    "Queen"
+   ],
+   "http": "200",
+   "secs": 3.7,
+   "q1": "Yes. For the Today Mattress, you can return it for a full refund within the 100-night sleep trial after it ships; the policy doesn’t exclude trying or sleeping on it. A full refund has no restocking fee. Contact hello@engineeredsleep.com to start the return.",
+   "q2": "The Today Mattress has a 100-night sleep trial, and it can be returned after shipping for a full refund with no restocking fee. However, the store’s information doesn’t specify whether return shipping or pickup is free, or whether you would have to pay for it. Contact hello@engineeredsleep.com to arrange the return.",
+   "q3": "Yes, if it’s the Today Mattress: it has a 100-night sleep trial, and the return policy allows a refund for mattress returns within that period after shipping confirmation. The policy doesn’t say whether opening or sleeping on it affects eligibility, or whether the sale price changes the return terms; contact hello@engineeredsleep.com to confirm."
+  },
+  "bedsstories.myshopify.com": {
+   "name": "BedStory ",
+   "url": "https://bedstory.com",
+   "variant": "gid://shopify/ProductVariant/43390983110716",
+   "title": "White Brown Mattress",
+   "price": 29999,
+   "opts": [
+    "Queen",
+    "12\""
+   ],
+   "http": "200",
+   "secs": 2.9,
+   "q1": "The referenced White Brown Mattress includes a 365-night trial, and mattress returns within the trial period are free. The store’s information doesn’t specify whether you can return it after opening and sleeping on it, or whether you’ll receive a refund if you simply don’t like it. Refunds are typically processed within 5–7 business days once a return is confirmed.",
+   "q2": "The store says mattress returns within the trial period are free of charge, so return shipping or pickup should not cost you if your return is within that period. It doesn’t specify whether the return is arranged as a pickup or how it works after the trial period.",
+   "q3": "The White Brown Mattress includes a 365-night trial, and the store says mattress returns within the trial period are free. The return information doesn’t specify whether a mattress can be returned after opening and sleeping on it, or whether buying at the sale price affects eligibility."
+  },
+  "nolah.myshopify.com": {
+   "name": "Nolah Mattress",
+   "url": "https://www.nolahsleep.com",
+   "domain": "nolah.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/31930317144143",
+   "title": "Nolah Original",
+   "price": 94185,
+   "opts": [
+    "Standard Cover",
+    "Queen"
+   ],
+   "q1": "The store’s information doesn’t specify whether you can return an opened and used mattress for a refund if you don’t like it. It directs customers to its Free Trial Period and Returns policy for details.",
+   "q2": "The store’s information directs you to its Free Trial Period and Returns policy, but it doesn’t specify whether return shipping or pickup is free—or whether you’d pay a fee after opening and sleeping on the mattress.",
+   "q3": "The store’s information doesn’t specify whether the Nolah Original can be returned after opening and sleeping on it, or whether sale purchases have different return terms. It directs buyers to its Free Trial Period and Returns policy for details."
+  },
+  "bear-mattress.myshopify.com": {
+   "name": "Bear Mattress ",
+   "url": "https://www.bearmattress.com",
+   "domain": "bear-mattress.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/53202623463789",
+   "title": "Original Hybrid",
+   "price": 118400,
+   "opts": [
+    "Without Cooling Upgrade",
+    "Medium-Firm",
+    "Queen"
+   ],
+   "q1": "Yes. Bear mattresses have a 365-night trial starting on delivery, and you can sleep on the mattress before deciding. You must keep and use it for at least 30 nights before requesting a return, and submit the request within the 365-night trial. Bear arranges free pickup; refunds go to the original payment method, less any discounts. There is a limit of one mattress return per household.",
+   "q2": "For Bear mattresses, return pickup is free, so you shouldn’t have to pay return shipping. You must sleep on it for at least 30 nights before requesting a return, and submit your request within the 365-night trial; the limit is one return per household.",
+   "q3": "Yes. The Original Hybrid mattress includes a 365-night trial, even if purchased at a sale price. You must sleep on it for at least 30 nights before requesting a return, and submit the request within the 365-night window; any refund is reduced by discounts."
+  },
+  "puffydreams.myshopify.com": {
+   "name": "Puffy Mattress",
+   "url": "https://checkout.puffy.com",
+   "domain": "puffydreams.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/4549545295906",
+   "title": "Puffy Cloud Mattress",
+   "price": 184900,
+   "opts": [
+    "Twin  -  (38\"W x 75\"L x 10\"H)"
+   ],
+   "q1": "Yes. After sleeping on it for at least 30 days, you can return the mattress for a full refund if you’re not satisfied, as long as you return it within 365 nights of delivery. The trial is for original purchasers of genuine Puffy products bought directly from puffy.com, and returns are limited to two per household over a lifetime.",
+   "q2": "The return policy says Puffy will help arrange donation of the mattress and provide a full refund if you return it within the 365-night trial, after trying it for at least 30 days. It doesn’t specify whether return shipping or pickup is free, or whether you would need to pay for either.",
+   "q3": "Yes. For a Puffy mattress purchased directly from puffy.com, you can return it within the 365-night sleep trial after trying it for at least 30 days, and receive a full refund. The policy doesn’t state an exclusion for sale-priced mattresses. Returns are limited to two per household over a lifetime, and must be started directly with Puffy by the 365th day after delivery."
+  },
+  "leesa-us-store.myshopify.com": {
+   "name": "Leesa Sleep",
+   "url": "https://www.leesa.com",
+   "domain": "leesa-us-store.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/15218567217250",
+   "title": "Original Mattress",
+   "price": 99900,
+   "opts": [
+    "Breathable Cover",
+    "Queen"
+   ],
+   "q1": "Yes. If this is the Leesa Original Mattress, you can try it at home and initiate a return after at least 30 nights if you’re still not satisfied, within the 365-night trial. The trial refund is limited to two mattress purchases per household or shipping/billing address.",
+   "q2": "The return-shipping or pickup cost isn’t specified in the store’s information, so I can’t confirm whether it’s free or paid. The referenced Original Mattress listing does describe returns as free and offers a 365-night trial; the policy recommends trying it for at least 30 nights before initiating a return.",
+   "q3": "Yes. For the Queen with Breathable Cover, the mattress trial lets you open and sleep on it; wait at least 30 nights from delivery before initiating a return, and you can do so within 365 nights. The trial and refund are limited to two mattress purchases per household or shipping/billing address. The store’s information doesn’t specify whether the sale price changes eligibility."
+  },
+  "brooklynbeddingstore.myshopify.com": {
+   "name": "Brooklyn Bedding",
+   "url": "https://brooklynbedding.com",
+   "domain": "brooklynbeddingstore.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/44513169604653",
+   "title": "CopperFlex®",
+   "price": 86500,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Yes. Brooklyn Bedding offers a 365-night mattress trial for U.S. customers, but you must keep it for at least 30 nights after delivery before starting a return. If you’re still unhappy, contact support@brooklynbedding.com with “Return Request” in the subject line; they’ll help arrange removal and a full refund. The trial can be used only once per customer per calendar year.",
+   "q2": "For a U.S. mattress bought directly from Brooklyn Bedding, the store says it will help arrange pickup and disposal at no charge; it doesn’t say you need to ship the opened, slept-on mattress yourself. You can start a return after 30 nights and before 365 nights from delivery, by contacting the store with “Return Request” in the subject line. The trial can be used once, and returns may be denied if the mattress was used on an improper support base.",
+   "q3": "Yes, you can return an opened, slept-on mattress under the 365-night trial, provided you wait at least 30 nights after delivery and request the return before the trial ends. However, the store says clearance or special-pricing items are final sale and cannot be returned or exchanged. The information doesn’t establish whether this particular discount qualifies as special pricing, so check the sale terms before purchasing."
+  },
+  "avocadomattress.myshopify.com": {
+   "name": "Avocado Green Mattress",
+   "url": "https://www.avocadogreenmattress.com",
+   "domain": "avocadomattress.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/42732672549014",
+   "title": "Avocado Green Mattress",
+   "price": 191900,
+   "opts": [
+    "Medium Tight-Top",
+    "Queen"
+   ],
+   "q1": "The store’s information says return eligibility and trial terms vary by product, but it doesn’t specify whether this mattress can be returned for a refund after it’s been opened and slept on. Check the mattress-specific Return & Trial Policy for the applicable trial period, conditions, and fees.",
+   "q2": "The available information doesn’t specify whether return shipping or pickup is free, or whether you’d have to pay. Return fees vary by product, and the store directs customers to its Return & Trial Policy for the full mattress terms.",
+   "q3": "The available information doesn’t specify whether the discounted Avocado Green Mattress can be returned after opening and sleeping on it. Return and trial terms vary by product, and the store directs customers to its Return & Trial Policy for the mattress-specific details."
+  },
+  "helixsleep.myshopify.com": {
+   "name": "Helix Sleep",
+   "url": "https://checkout.helixsleep.com",
+   "domain": "helixsleep.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/12621493141559",
+   "title": "Helix Midnight Luxe",
+   "price": 149200,
+   "opts": [
+    "TENCEL™ Cover",
+    "Luxe Layer",
+    "Medium",
+    "Twin"
+   ],
+   "q1": "Yes. Helix mattresses can be returned for a full refund during the 120-night trial, after you’ve slept on the mattress for at least 30 nights. Returns are free, and Helix arranges pickup; the household limit is two mattress returns.",
+   "q2": "The mattress return and pickup are free. Helix arranges pickup through a local partner, and you don’t need to re-box the mattress. You must sleep on it for at least 30 nights before requesting a return, and returns are allowed within the 120-night trial.",
+   "q3": "Yes. Helix’s mattress trial lets you return the mattress after sleeping on it, including one bought at a sale price; the return information doesn’t specify a sale-price exclusion. You must keep it for at least 30 nights before requesting a return, and the trial window is 120 nights from delivery. Returns are free, and mattress returns are limited to two per household."
+  },
+  "e75063-e5.myshopify.com": {
+   "name": "Casper Sleep",
+   "url": "https://casper.com",
+   "domain": "e75063-e5.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/41824213729361",
+   "title": "Element Mattress",
+   "price": 64500,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Yes. The Casper Element Mattress has a 100-night trial; you can return it after the 30-Night Adjustment Period if you don’t like it. Returns are free and a refund is issued; contact Casper at support@casper.com to arrange pickup.",
+   "q2": "Return shipping or pickup is free for a Casper mattress returned from within the U.S. after the 30-Night Adjustment Period and within its 100-night trial period. Casper will arrange pickup; contact support@casper.com. The mattress can be opened and slept on during the trial.",
+   "q3": "Yes. Casper’s mattress trial is 100 nights, and returns are free after the 30-Night Adjustment Period. The terms exclude mattresses marked “Final Sale” or “Clearance” from returns (except for a defect or where otherwise specified); a sale discount alone isn’t stated as an exclusion."
+  },
+  "birch-living.myshopify.com": {
+   "name": "Birch Living",
+   "url": "https://birchliving.com",
+   "domain": "birch-living.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/43067927724128",
+   "title": "Birch Essential Mattress",
+   "price": 162000,
+   "opts": [
+    "Birch EcoCool Layer",
+    "Queen"
+   ],
+   "q1": "Yes. The Birch Essential Mattress has a 120-night sleep trial from delivery; you must keep it for at least 30 nights before requesting a return for a refund. A $99 pickup fee will be deducted from your refund, and returns are limited to two mattresses per customer or household.",
+   "q2": "You’ll pay a $99 mattress removal fee, deducted from your refund. The mattress is picked up from inside your home; the store’s information doesn’t specify a separate free pickup or shipping option.",
+   "q3": "Yes. For a Birch mattress bought directly from Birch, the 120-night sleep trial applies even if you open it and sleep on it; keep it for at least 30 nights before requesting a return, and submit the request within 120 nights of delivery. A $99 pickup fee is deducted from your refund. The store’s information doesn’t specify whether the sale price changes these terms."
+  },
+  "titanmattress.myshopify.com": {
+   "name": "Titan Mattress",
+   "url": "https://titanmattress.com",
+   "domain": "titanmattress.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/41302557360218",
+   "title": "Titan® Plus Elite",
+   "price": 169900,
+   "opts": [
+    "Twin"
+   ],
+   "q1": "Yes. You can try the mattress at home and request a return for a refund if you’re not satisfied, starting after 30 nights and before 365 nights from delivery. The store will help arrange pickup and disposal; a return fee may apply.",
+   "q2": "The mattress return policy doesn’t say whether pickup or return shipping is free; it only says the store will help arrange pickup and disposal. Returns can be started after 30 nights and before the 365-night trial ends, and a separate returns FAQ says the refund is minus a return fee. The store’s information doesn’t specify the fee amount or whether it applies to pickup.",
+   "q3": "Yes—opening and sleeping on the mattress is compatible with the 365-night trial. You can request a return after at least 30 nights and before 365 nights from delivery. However, the store says clearance or special-pricing items are final sale and cannot be returned or exchanged, so if this sale price qualifies as special pricing, you would not be able to return it. The information doesn’t clarify whether this particular discount counts as special pricing."
+  },
+  "onmolecule.myshopify.com": {
+   "name": "MOLECULE",
+   "url": "https://moleculesleep.com",
+   "domain": "onmolecule.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/43909029756971",
+   "title": "REFLEX 11\" MATTRESS",
+   "price": 159900,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Yes. If it’s not a final-sale, markdown, clearance, or closeout item, you may request a return after sleeping on the mattress for at least 30 nights and within 365 nights of delivery. Contact the store to initiate the return; the mattress must be donated to a verified 501(c)(3) charity, and you’ll need to provide a photo of the donation receipt. The refund is for the mattress cost less discounts, after an authorized party removes it from your home.",
+   "q2": "For an eligible mattress, you may request a return after sleeping on it for 30 to 365 nights from delivery, and it must be kept for at least 30 nights before the return can be initiated. You don’t ship the mattress back; an authorized Comfort DTC party removes it, and you donate it to a verified 501(c)(3) charity and provide a photo of the donation receipt. The policy doesn’t specify whether pickup is free or whether you’ll owe any return-related fee, so that cost is unclear.",
+   "q3": "If the sale price is a standard discount, you may request a return after sleeping on the mattress for 30 to 365 nights from delivery; refunds are reduced by any discounts. However, mattresses bought as final sale, markdown, clearance, or closeout are excluded from returns, refunds, and exchanges. The information doesn’t say whether this specific sale qualifies as one of those exclusions."
+  },
+  "dreamfoambedding.myshopify.com": {
+   "name": "Dreamfoam Bedding",
+   "url": "https://dreamfoambedding.com",
+   "domain": "dreamfoambedding.myshopify.com",
+   "variant": "gid://shopify/ProductVariant/46983883194499",
+   "title": "CopperFlex® Essential",
+   "price": 52400,
+   "opts": [
+    "Queen"
+   ],
+   "q1": "Yes. The mattress has a 365-night trial starting on delivery, and you can sleep on it during the trial; you must wait at least 30 nights before starting a return, and request it before the trial ends. The trial is available once per customer per calendar year. Contact support@brooklynbedding.com with “Return Request” in the subject line; shipping fees are non-refundable.",
+   "q2": "You can start a mattress return after 30 nights and before the 365-night trial ends; the store says it will help arrange pickup and mattress disposal. Its information doesn’t specify whether mattress pickup or return shipping is free, or whether you’d have to pay a fee. Initial shipping fees are nonrefundable.",
+   "q3": "If the sale price is a clearance or special-pricing offer, the mattress is final sale and can’t be returned or exchanged. Otherwise, mattresses have a 365-night trial, but you must keep it for at least 30 days after delivery before starting a return. The store’s information doesn’t specify whether this particular sale qualifies as clearance or special pricing."
+  }
+ }
+}

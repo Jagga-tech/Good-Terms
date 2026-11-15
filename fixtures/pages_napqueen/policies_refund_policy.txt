@@ -1,0 +1,166 @@
+https://www.napqueensleep.com/policies/refund-policy
+shopify-policy__body').classList.add('Rte');
+});// This allows to expose several variables to the global scope, to be used in scripts
+window.theme = {
+pageType: "policy",
+moneyFormat: "${{amount}}",
+moneyWithCurrencyFormat: "${{amount}} USD",
+currencyCodeEnabled: false,
+productImageSize: "natural",
+searchMode: "product,article",
+showPageTransition: false,
+showElementStaggering: false,
+showImageZooming: true
+};
+window.routes = {
+rootUrl: "\/",
+rootUrlWithoutSlash: '',
+cartUrl: "\/cart",
+cartAddUrl: "\/cart\/add",
+cartChangeUrl: "\/cart\/change",
+searchUrl: "\/search",
+productRecommendationsUrl: "\/recommendations\/products"
+};
+window.languages = {
+cartAddNote: "Order Note",
+cartEditNote: "Edit Order Note",
+productImageLoadingError: "This image could not be loaded. Please try to reload the page.",
+productFormAddToCart: "Add to cart",
+productFormUnavailable: "Unavailable",
+productFormSoldOut: "Sold Out",
+shippingEstimatorOneResult: "1 option available:",
+shippingEstimatorMoreResults: "{{count}} options available:",
+shippingEstimatorNoResults: "No shipping could be found"
+};
+window.lazySizesConfig = {
+loadHidden: false,
+hFac: 0.5,
+expFactor: 2,
+ricTimeout: 150,
+lazyClass: 'Image--lazyLoad',
+loadingClass: 'Image--lazyLoading',
+loadedClass: 'Image--lazyLoaded'
+};
+document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+document.documentElement.style.setProperty('--window-height', window.innerHeight + 'px');
+// We do a quick detection of some features (we could use Modernizr but for so little...)
+(function() {
+document.documentElement.className += ((window.CSS && window.CSS.supports('(position: sticky) or (position: -webkit-sticky)')) ? ' supports-sticky' : ' no-supports-sticky');
+document.documentElement.className += (window.matchMedia('(-moz-touch-enabled: 1), (hover: none)')).matches ? ' no-supports-hover' : ' supports-hover';
+}());
+Skip to content
+Mattresses
+Elite
+Hybrid
+Memory Foam
+Bundles
+New
+Comfy Bundle
+Ultimate Sleep Duo
+Build Your Own Bundle
+Pillows
+Pillows
+Pillowcase
+Bed Frames
+Toppers
+Sheets
+Sale
+60% Off
+Account
+Cart
+Your cart is empty
+Use code: ELITE10 for Extra 10% Off on Elite Series Mattress !
+FREE DELIVERY: SHIPS IN 1 - 2 BUSINESS DAYS
+NapQueen Victoria Hybrid Mattress Recall Program
+NAPQUEEN MAXIMA 12" HYBRID MATTRESS RECALL PROGRAM
+Mattresses
+Mattresses
+Elite
+Hybrid
+Memory Foam
+view all
+Bundles
+New
+Bundles
+Comfy Bundle
+Ultimate Sleep Duo
+Build Your Own Bundle
+view all
+Pillows
+Pillows
+Pillows
+PillowCase
+view all
+Bed Frames
+Bed Frames
+Toppers
+Toppers
+Sheets
+Sheets
+Sale
+60% Off
+Sale
+Return and Refund Policy
+NapQueen Sleep Return and Refund Policy
+At NapQueen Sleep, we are not just in the business of creating top-quality affordable mattresses, we are dedicated to ensuring every night's sleep is your best yet. But, if for some reason, you find your dreams less than sweet, our no-hassle return process is here to set things right.
+Please fill out the form below with accurate information. This will help us process your return request promptly. Make sure to read our return and refund policy to understand the terms and conditions associated.
+Fill out the form https://forms.gle/DcdWa2zqZAXJnhGh6
+Important Note
+This policy is applicable solely to products purchased from napqueensleep.com and is subject to NapQueen Sleep's Return and Refund Policy. If you made your purchase of a NapQueen product through other marketplaces like Amazon, Walmart, Wayfair, HomeDepot, Overstock, and the like, please note that your return and refund process will need to be initiated directly with the respective platform where the purchase was made.
+Mattress
+Choosing the right mattress is a big decision, and we want to make it easier for you. When you purchase any of our select mattresses from NapQueen.com—be it the Elizabeth, Bamboo Charcoal, Alaska, Anula, Cashmere, or Victoria—you're automatically enrolled in our 100-Night Sleep Trial. You've got 100 nights, from the day it's delivered, to see if it's your dream sleep match. We recommend that you use the mattress for at least 30 days before deciding if it's not quite what you had in mind. Even after 30 days use, you are not satisfied, reach out to us. Just ensure the mattress stays pristine—no stains or off-putting odors and with all the necessary documents including proof of purchase.
+In the event of a refund request, please note that the mattress must be donated to a registered donation center. We kindly ask for a receipt of donation to be provided for a seamless refund process if the mattress falls short of your expectations. This way, not only can you part ways with the mattress hassle-free, but you'll also be contributing to a charitable cause. Please ensure to obtain proof of donation from a nearby facility, as refunds cannot be processed without it.
+Mattress Toppers and Bed Frames
+From the day your NapQueen Mattress toppers and Bed Frame items are delivered, you've got a full 60 days to decide if it's right for you. Just keep it in good condition,—no stains, slobber, or odd odors—and make sure to retain all relevant paperwork, especially your proof of purchase, to guarantee a smooth and complete refund.
+Damaged or Incorrect Items
+Received a damaged, defective, or incorrect product? Please contact us within 60 days of purchase with photos and details of the issue. We’ll arrange a refund or replacement promptly once we verify the problem.
+Exceptions and Non-Returnable Items
+For hygiene and quality assurance, items must be returned in clean and undamaged condition (exceptions based on case by case). Items returned with stains, odors, or other signs of wear may not be eligible for a refund. All returns must include necessary documents, parts, and accessories, along with proof of purchase.
+If your return request is approved, you will receive a refund for the full purchase price of the returned product(s). However, please note that this refund will not include any fees associated with state-mandated recycling programs. These fees are required by law and cover the cost of recycling services in your state. We appreciate your understanding and aim to make the return process as smooth as possible.
+Pre-Owned Mattress Recycling Program
+At NapQueen Sleep, we are committed to responsible recycling and offer a convenient used mattress take-back service for our customers in compliance with PRC section 42992. When purchasing a new mattress from our website, customers can opt for the used mattress take-back service by filling form given below.Confirm your interest in the take-back offer and we will coordinate with you to schedule a convenient pickup time for your old mattress. This ensures proper disposal and supports our sustainability efforts.
+Fill out the form - Recycling Request Form
+Free Return Shipping
+Contact us at support@napqueensleep.com to request a return authorization. Unlike others, we provide a prepaid return shipping label for a hassle-free experience, as long as the mattress remains unopened in its original box. In the event the mattress is opened/unboxed, please contact us and we will assist you with the next steps. Any items sent back to us without prior authorization will not be accepted.
+Order Changes and Cancellations
+Change Address: Please notify us within 24 hours of placing your order if you need to change the shipping address. We will not be able to modify the shipping address after shipment, and we are not liable for unsuccessful delivery due to incorrect information.
+Order Cancellation
+You may cancel your order within 1-2 days of placing it without incurring any fees. Cancellations after shipping are subject to a 20% restocking fee, and the customer is responsible for the return shipping cost.
+We are Here For You!
+Contact Us: Reach out to our friendly Customer Service team via email at support@napqueensleep.com or call us at +1 713-574-5494 to request a return or refund.
+Prepare Your Return: Include proof of purchase and a brief explanation for the return.
+Return and Relax: Ship the item back to us using the prepaid label, ensuring it remains unboxed and in its original packaging. We’ll process a full refund to your original payment method within 1-2 business days of receiving the item.
+Updated on 01.29.24
+Banish your old mattress to the dungeons, and forge a supportive alliance with NapQueen, the duchess of dreamland.
+EXPERIENCE NAPQUEEN APP ON MOBILE
+Shop
+Mattresses
+Toppers
+Kids
+Bed Frames
+Blogs
+Support
+Warranty Policy
+Contact Us
+Bulk Orders
+Financing
+Return and Refund Policy
+Terms of Service
+Shipping Policy
+Privacy Policy
+Maxima 12" Size Recall
+Victoria Hybrid Mattress Recall
+Careers
+Your Privacy Choices
+Get New Product Updates!
+Subscribe
+Follow Us
+© ADVEN GROUP LLC (NapQueen)
+Get the app now
+Enjoy Flat 15% OFF on app
+Download Now
+Looks like you don't have the app installed
+Download from Play Store
+DOWNLOAD APP
+Get our app now!
+Scan the QR code below!

@@ -1,0 +1,129 @@
+{
+ "rule": "A sentence or reply that only shows the buyer's case is not ruled out is labeled doesnt_say. A yes needs explicit words.",
+ "labels_by": "assistant, not independently checked",
+ "ask_replies": [
+  {
+   "store": "novillashop.com",
+   "condition": "sale_item_returns",
+   "product_attached": false,
+   "reply": "It depends on whether the mattress was a clearance item. Clearance mattresses are final sale and can’t be returned for a change of mind or personal preference. For other mattresses bought directly from novillashop.com, the 100-night trial applies: unopened or unused mattresses that can be restored to their original packaging may be returned within 30 days of delivery; opened mattresses can be returned after at least 30 nights and within 100 days, if they’re in sanitary, donatable condition. The policy doesn’t specify whether other sale or discounted mattresses are excluded.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "novillashop.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. If you buy the Bliss Memory Foam Mattress directly from Novilla, the sale price doesn’t change the return terms: after opening and sleeping on it, you can request a return after at least 30 nights and within 100 days of delivery, provided it’s in sanitary, donatable condition with no rips, stains, or excessive wear. Clearance items are final sale, but the information identifies this mattress as part of a weekly sale, not as a clearance item.",
+   "expected": "yes"
+  },
+  {
+   "store": "sweetnight.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. SweetNight’s mattress trial allows returns within 100 days of delivery after at least 30 nights of adjustment, provided the mattress is in sanitary, donatable condition—free from stains, tears, or excessive wear. The policy does not specify an exception for sale-price purchases.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "ablyea.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. The Queen, 12-inch mattress is eligible for a 100-day trial from delivery, and opening it and sleeping on it is consistent with that trial. To qualify for a return, request authorization within the trial period; the mattress must be clean, free of customer-caused damage, and suitable for return, recycling, or donation. For a preference-based return, you’re responsible for applicable return shipping or logistics costs, which may be deducted from the refund. The policy doesn’t specify a separate rule for sale-priced mattresses.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "engineeredsleep.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes, if it’s the Today Mattress: it has a 100-night sleep trial, and the return policy allows a refund for mattress returns within that period after shipping confirmation. The policy doesn’t say whether opening or sleeping on it affects eligibility, or whether the sale price changes the return terms; contact hello@engineeredsleep.com to confirm.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "casper.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. Casper’s mattress trial is 100 nights, and returns are free after the 30-Night Adjustment Period. The terms exclude mattresses marked “Final Sale” or “Clearance” from returns (except for a defect or where otherwise specified); a sale discount alone isn’t stated as an exclusion.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "puffy.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. For a Puffy mattress purchased directly from puffy.com, you can return it within the 365-night sleep trial after trying it for at least 30 days, and receive a full refund. The policy doesn’t state an exclusion for sale-priced mattresses. Returns are limited to two per household over a lifetime, and must be started directly with Puffy by the 365th day after delivery.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "leesa.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. For the Queen with Breathable Cover, the mattress trial lets you open and sleep on it; wait at least 30 nights from delivery before initiating a return, and you can do so within 365 nights. The trial and refund are limited to two mattress purchases per household or shipping/billing address. The store’s information doesn’t specify whether the sale price changes eligibility.",
+   "expected": "doesnt_say"
+  },
+  {
+   "store": "helixsleep.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. Helix’s mattress trial lets you return the mattress after sleeping on it, including one bought at a sale price; the return information doesn’t specify a sale-price exclusion. You must keep it for at least 30 nights before requesting a return, and the trial window is 120 nights from delivery. Returns are free, and mattress returns are limited to two per household.",
+   "expected": "doesnt_say",
+   "note": "Borderline: says 'including one bought at a sale price' but rests on the lack of an exclusion."
+  },
+  {
+   "store": "bearmattress.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. The Original Hybrid mattress includes a 365-night trial, even if purchased at a sale price. You must sleep on it for at least 30 nights before requesting a return, and submit the request within the 365-night window; any refund is reduced by discounts.",
+   "expected": "yes"
+  },
+  {
+   "store": "zinus.com",
+   "condition": "sale_item_returns",
+   "product_attached": true,
+   "reply": "Yes. For a mattress purchased on Zinus.com, the 100-night trial applies regardless of sale pricing, and you can decide after delivery whether it’s right for you. To qualify for a full refund, it must remain in good condition, with no stains or unusual smells, and you’ll need proof of purchase; contact Zinus to start a return.",
+   "expected": "yes"
+  },
+  {
+   "store": "bearmattress.com",
+   "condition": "free_return_shipping",
+   "product_attached": true,
+   "reply": "For Bear mattresses, return pickup is free, so you shouldn’t have to pay return shipping. You must sleep on it for at least 30 nights before requesting a return, and submit your request within the 365-night trial; the limit is one return per household.",
+   "expected": "yes"
+  },
+  {
+   "store": "ablyea.com",
+   "condition": "free_return_shipping",
+   "product_attached": true,
+   "reply": "For a comfort or other non-defect return, you’re responsible for the actual return shipping, freight, pickup, or other logistics costs; these may be deducted from your refund. Opening and sleeping on the mattress isn’t itself listed as a reason the return is ineligible, but it must be clean and suitable for return, recycling, or donation, meet the other return conditions, and be within the 100-day trial. Contact customer support for authorization and instructions before arranging pickup or sending it back.",
+   "expected": "no"
+  },
+  {
+   "store": "birchliving.com",
+   "condition": "free_return_shipping",
+   "product_attached": true,
+   "reply": "You’ll pay a $99 mattress removal fee, deducted from your refund. The mattress is picked up from inside your home; the store’s information doesn’t specify a separate free pickup or shipping option.",
+   "expected": "no"
+  }
+ ],
+ "page_sentences": [
+  {
+   "store": "bearmattress.com",
+   "url": "https://www.bearmattress.com/pages/refund-policy",
+   "condition": "sale_item_returns",
+   "sentence": "Products sold as “Closeout” or “Clearance” are final sale and cannot be exchanged, returned, or refunded.",
+   "expected": "doesnt_say",
+   "note": "Rules out clearance only. Says nothing about a sale price."
+  },
+  {
+   "store": "bearmattress.com",
+   "url": "https://www.bearmattress.com/products/bear-original-mattress",
+   "condition": "opened_returns",
+   "sentence": "If you aren’t completely satisfied with your mattress after a 30-night break-in period, you can request a free return before the 365-night trial period ends.",
+   "expected": "yes"
+  },
+  {
+   "store": "bearmattress.com",
+   "url": "https://www.bearmattress.com/products/bear-original-mattress",
+   "condition": "free_return_shipping",
+   "sentence": "If you aren’t completely satisfied with your mattress after a 30-night break-in period, you can request a free return before the 365-night trial period ends.",
+   "expected": "yes"
+  }
+ ]
+}

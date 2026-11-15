@@ -1,0 +1,155 @@
+https://www.napqueensleep.com/policies/shipping-policy
+shopify-policy__body').classList.add('Rte');
+});// This allows to expose several variables to the global scope, to be used in scripts
+window.theme = {
+pageType: "policy",
+moneyFormat: "${{amount}}",
+moneyWithCurrencyFormat: "${{amount}} USD",
+currencyCodeEnabled: false,
+productImageSize: "natural",
+searchMode: "product,article",
+showPageTransition: false,
+showElementStaggering: false,
+showImageZooming: true
+};
+window.routes = {
+rootUrl: "\/",
+rootUrlWithoutSlash: '',
+cartUrl: "\/cart",
+cartAddUrl: "\/cart\/add",
+cartChangeUrl: "\/cart\/change",
+searchUrl: "\/search",
+productRecommendationsUrl: "\/recommendations\/products"
+};
+window.languages = {
+cartAddNote: "Order Note",
+cartEditNote: "Edit Order Note",
+productImageLoadingError: "This image could not be loaded. Please try to reload the page.",
+productFormAddToCart: "Add to cart",
+productFormUnavailable: "Unavailable",
+productFormSoldOut: "Sold Out",
+shippingEstimatorOneResult: "1 option available:",
+shippingEstimatorMoreResults: "{{count}} options available:",
+shippingEstimatorNoResults: "No shipping could be found"
+};
+window.lazySizesConfig = {
+loadHidden: false,
+hFac: 0.5,
+expFactor: 2,
+ricTimeout: 150,
+lazyClass: 'Image--lazyLoad',
+loadingClass: 'Image--lazyLoading',
+loadedClass: 'Image--lazyLoaded'
+};
+document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+document.documentElement.style.setProperty('--window-height', window.innerHeight + 'px');
+// We do a quick detection of some features (we could use Modernizr but for so little...)
+(function() {
+document.documentElement.className += ((window.CSS && window.CSS.supports('(position: sticky) or (position: -webkit-sticky)')) ? ' supports-sticky' : ' no-supports-sticky');
+document.documentElement.className += (window.matchMedia('(-moz-touch-enabled: 1), (hover: none)')).matches ? ' no-supports-hover' : ' supports-hover';
+}());
+Skip to content
+Mattresses
+Elite
+Hybrid
+Memory Foam
+Bundles
+New
+Comfy Bundle
+Ultimate Sleep Duo
+Build Your Own Bundle
+Pillows
+Pillows
+Pillowcase
+Bed Frames
+Toppers
+Sheets
+Sale
+60% Off
+Account
+Cart
+Your cart is empty
+Use code: ELITE10 for Extra 10% Off on Elite Series Mattress !
+FREE DELIVERY: SHIPS IN 1 - 2 BUSINESS DAYS
+NapQueen Victoria Hybrid Mattress Recall Program
+NAPQUEEN MAXIMA 12" HYBRID MATTRESS RECALL PROGRAM
+Mattresses
+Mattresses
+Elite
+Hybrid
+Memory Foam
+view all
+Bundles
+New
+Bundles
+Comfy Bundle
+Ultimate Sleep Duo
+Build Your Own Bundle
+view all
+Pillows
+Pillows
+Pillows
+PillowCase
+view all
+Bed Frames
+Bed Frames
+Toppers
+Toppers
+Sheets
+Sheets
+Sale
+60% Off
+Sale
+Shipping policy
+NapQueen Shipping Policy
+At NapQueen, we are committed to delivering your orders promptly and efficiently. Please review the following shipping policy to understand our shipping process.
+Shipping Methods
+We offer standard, expedited and express shipping options across all the states within the USA.
+Estimated Delivery Time
+Standard Shipping: 3-7 business days
+Expedited Shipping: 3 business days
+Express Shipping: 2 business days
+Order Processing Time
+Orders are typically processed within 2 business days after an order is placed on napqueensleep.com.
+Tracking Information
+You will receive a shipping confirmation email with tracking information once your order has been dispatched. Please use this information to track the progress of your shipment.
+Return & Exchange
+For information on returns and exchanges, please refer to our Refund Policy.
+Mattress Recycling Program
+While we offer free shipping, please be aware that a state-related recycling fee may apply if you are located in California, Connecticut, Rhode Island and Oregon. This recycling fee is mandated by state regulations to ensure proper disposal and recycling of mattresses. Please note that this fee applies to all mattresses purchased from our site, helping us contribute to a more sustainable environment.
+Lost or Damaged Shipments
+If your order is lost or arrives damaged, please email us at support@napqueens.com along with the proof of purchase for prompt assistance.
+We hope this shipping policy clarifies our shipping process. If you have any questions or need further assistance, please don't hesitate to reach out to us.
+Banish your old mattress to the dungeons, and forge a supportive alliance with NapQueen, the duchess of dreamland.
+EXPERIENCE NAPQUEEN APP ON MOBILE
+Shop
+Mattresses
+Toppers
+Kids
+Bed Frames
+Blogs
+Support
+Warranty Policy
+Contact Us
+Bulk Orders
+Financing
+Return and Refund Policy
+Terms of Service
+Shipping Policy
+Privacy Policy
+Maxima 12" Size Recall
+Victoria Hybrid Mattress Recall
+Careers
+Your Privacy Choices
+Get New Product Updates!
+Subscribe
+Follow Us
+© ADVEN GROUP LLC (NapQueen)
+Get the app now
+Enjoy Flat 15% OFF on app
+Download Now
+Looks like you don't have the app installed
+Download from Play Store
+DOWNLOAD APP
+Get our app now!
+Scan the QR code below!

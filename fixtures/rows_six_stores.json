@@ -1,0 +1,64 @@
+{
+  "read_at": "2026-11-15",
+  "conditions": {
+    "opened_returns": "Opened returns",
+    "free_return_shipping": "Free return shipping",
+    "sale_item_returns": "Sale-item returns"
+  },
+  "stores": {
+    "novillashop.com": {
+      "name": "Novilla",
+      "total": "182.72",
+      "findings": {
+        "opened_returns": {"status": "confirms", "finding": "Opened mattresses can be returned after 30 nights and within 100 days of delivery, in clean condition.", "url": "https://www.novillashop.com/policies/refund-policy"},
+        "free_return_shipping": {"status": "confirms", "finding": "Returns of opened mattresses are free; the product page FAQ offers a free local pickup.", "url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress"},
+        "sale_item_returns": {"status": "confirms", "finding": "Sale mattresses keep the 100-night trial; only clearance is final sale, and this item is not in the clearance collection.", "url": "https://www.novillashop.com/pages/black-friday-sale"}
+      }
+    },
+    "bonanest.com": {
+      "name": "BonaNest",
+      "total": "154.51",
+      "findings": {
+        "opened_returns": {"status": "doesnt_say", "finding": "An expanded mattress may be accepted; nothing covers one that has been slept on.", "url": "https://bonanest.com/policies/refund-policy"},
+        "free_return_shipping": {"status": "rejects", "finding": "The buyer pays return shipping on an expanded mattress.", "url": "https://bonanest.com/policies/refund-policy"},
+        "sale_item_returns": {"status": "rejects", "finding": "Sale items cannot be returned, and this mattress is in the store's Sale collection. A second return page on the site does not mention this rule.", "url": "https://bonanest.com/policies/refund-policy"}
+      }
+    },
+    "homehavenstoreshop.com": {
+      "name": "HomeHaven Store",
+      "total": "197.35",
+      "findings": {
+        "opened_returns": {"status": "rejects", "finding": "Returns must be unused and in original packaging, within 14 days.", "url": "https://homehavenstoreshop.com/policies/refund-policy"},
+        "free_return_shipping": {"status": "doesnt_say", "finding": "A return label is provided; the policy does not say who pays.", "url": "https://homehavenstoreshop.com/policies/refund-policy"},
+        "sale_item_returns": {"status": "rejects", "finding": "Sale items are non-returnable.", "url": "https://homehavenstoreshop.com/policies/refund-policy"}
+      }
+    },
+    "novilla.cn": {
+      "name": "Novillacn",
+      "total": "245.95",
+      "findings": {
+        "opened_returns": {"status": "doesnt_say", "finding": "No return policy is published. Nine policy addresses were not found.", "url": "https://www.novilla.cn"},
+        "free_return_shipping": {"status": "doesnt_say", "finding": "No return policy is published.", "url": "https://www.novilla.cn"},
+        "sale_item_returns": {"status": "doesnt_say", "finding": "No return policy is published.", "url": "https://www.novilla.cn"}
+      }
+    },
+    "napqueensleep.com": {
+      "name": "NapQueen",
+      "total": "189.00",
+      "findings": {
+        "opened_returns": {"status": "confirms", "finding": "100-night trial, but the mattress must be donated to a registered center with proof before a refund.", "url": "https://www.napqueensleep.com/policies/refund-policy"},
+        "free_return_shipping": {"status": "doesnt_say", "finding": "A prepaid label is offered only while the mattress is unopened in its box.", "url": "https://www.napqueensleep.com/policies/refund-policy"},
+        "sale_item_returns": {"status": "doesnt_say", "finding": "The policy does not mention sale items.", "url": "https://www.napqueensleep.com/policies/refund-policy"}
+      }
+    },
+    "withushome.com": {
+      "name": "WithusHome",
+      "total": "304.66",
+      "findings": {
+        "opened_returns": {"status": "rejects", "finding": "Returns must be unused and in original packaging, within 14 calendar days.", "url": "https://withushome.com/policies/refund-policy"},
+        "free_return_shipping": {"status": "doesnt_say", "finding": "A return label is provided; the policy does not say who pays.", "url": "https://withushome.com/policies/refund-policy"},
+        "sale_item_returns": {"status": "rejects", "finding": "Sale items are not returnable.", "url": "https://withushome.com/pages/refund-policy"}
+      }
+    }
+  }
+}

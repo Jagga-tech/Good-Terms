@@ -1,0 +1,264 @@
+{
+ "store": "bedstory.com",
+ "pages": [
+  {
+   "url": "https://bedstory.com/products/platin-hybrid-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 13244
+  },
+  {
+   "url": "https://bedstory.com/",
+   "status": "200",
+   "via": "home page",
+   "chars": 13204
+  },
+  {
+   "url": "https://bedstory.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 5624
+  },
+  {
+   "url": "https://bedstory.com/pages/refund-policy",
+   "status": "404",
+   "via": "policy address"
+  },
+  {
+   "url": "https://bedstory.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 5596
+  },
+  {
+   "url": "https://bedstory.com/pages/shipping-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 6100
+  },
+  {
+   "url": "https://bedstory.com/pages/return-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 7840
+  },
+  {
+   "url": "https://bedstory.com/pages/privacy-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 6443
+  },
+  {
+   "url": "https://bedstory.com/pages/faqs",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 21999
+  },
+  {
+   "url": "https://bedstory.com/pages/365-night-home-trial",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 11116
+  },
+  {
+   "url": "https://bedstory.com/pages/warranty-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 10318
+  },
+  {
+   "url": "https://bedstory.com/pages/promotion",
+   "status": "200",
+   "via": "link 'Black Friday Sales Are Here' on /products/platin-hybrid-mattress",
+   "chars": 8871
+  },
+  {
+   "url": "https://bedstory.com/pages/sale",
+   "status": "404",
+   "via": "link 'Free Shipping on All Orders in' on /products/platin-hybrid-mattress"
+  }
+ ],
+ "blocked": [],
+ "product": {
+  "title": "Platin Hybrid Mattress",
+  "tags": [
+   "extra firm mattress",
+   "extra frim mattress for back pain"
+  ],
+  "variant": "12\" / Queen",
+  "price": 39999,
+  "compare_at": 79998,
+  "available": true
+ },
+ "collections": {
+  "sale": {
+   "products": 5,
+   "has_item": true
+  },
+  "valentine-s-day-sale": {
+   "products": 0,
+   "has_item": false
+  },
+  "spring-sale": {
+   "products": 2,
+   "has_item": false
+  }
+ },
+ "passages": {
+  "https://bedstory.com/products/platin-hybrid-mattress": {
+   "opened": [
+    "About BedStoryReviews365-Night Home TrialExhibitionsAffiliate Program",
+    "BlogsMattress Buying GuideFirmness GuideSize GuidanceUnbox Mattress",
+    "365-night home sleep trial",
+    "After unboxing, allow the mattress time to fully expand before use.",
+    "How long does the Platin mattress take to expand?",
+    "After unboxing, the mattress will begin expanding immediately.",
+    "Great nights sleep since this arrived.",
+    "It was firmer than I expected during the first few nights, but I adjusted after some time."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/": {
+   "opened": [
+    "About BedStoryReviews365-Night Home TrialExhibitionsAffiliate Program",
+    "BlogsMattress Buying GuideFirmness GuideSize GuidanceUnbox Mattress",
+    "Shipping10-Year Warranty365-Night Home Trial0% APR FinancingFree U.S.",
+    "Shipping10-Year Warranty365-Night Home Trial0% APR Financing",
+    "365-Night Home Sleep Trial"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/policies/refund-policy": {
+   "opened": [
+    "About BedStoryReviews365-Night Home TrialExhibitionsAffiliate Program",
+    "BlogsMattress Buying GuideFirmness GuideSize GuidanceUnbox Mattress",
+    "Mattress returns within the trial period are free of charge."
+   ],
+   "shipping": [
+    "Do I need to pay for return shipping?",
+    "For other items, shipping costs may apply depending on the product type and return reason."
+   ],
+   "sale": []
+  },
+  "https://bedstory.com/policies/shipping-policy": {
+   "opened": [
+    "About BedStoryReviews365-Night Home TrialExhibitionsAffiliate Program",
+    "BlogsMattress Buying GuideFirmness GuideSize GuidanceUnbox Mattress"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/pages/shipping-policy": {
+   "opened": [
+    "We're working to expand our coverage in the future."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/pages/return-policy": {
+   "opened": [
+    "Contact us within 365 nights",
+    "Mattress returns within the trial period are free of charge.",
+    "Is there a limit to how many times I can use the sleep trial?",
+    "To ensure a fair and consistent experience for all customers, our sleep trial is generally limited to one return or exchange per customer, household, or shipping address.",
+    "In certain cases, returns may be subject to partial refunds or may not be accepted if the product shows signs of excessive wear, damage, staining, or misuse beyond normal trial use.",
+    "Exchanges for Unboxed Products",
+    "If your product has already been unboxed and you would like to request an exchange, please contact our customer service team.",
+    "Please ensure a physical address is used."
+   ],
+   "shipping": [
+    "Do I need to pay for return shipping?",
+    "For other items, shipping costs may apply depending on the product type and return reason."
+   ],
+   "sale": [
+    "Are there any items that cannot be returned?",
+    "Certain items are not eligible for return, including but not limited to final sale or clearance items, gift cards, and customized or made-to-order products."
+   ]
+  },
+  "https://bedstory.com/pages/privacy-policy": {
+   "opened": [
+    "Your data is used strictly for processing orders, providing customer service, and improving our products and services."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/pages/faqs": {
+   "opened": [
+    "Materials like PCMs, gel-infused foam, breathable covers, and POE Air Fiber layers have been shown to help regulate your mattress's temperature.",
+    "But if you sleep on your back or stomach, a plush mattress might hurt your alignment and cause back pain.",
+    "The topper uses high-density memory foam infused with bamboo charcoal to absorb moisture, eliminate odors, and help keep the bed fresh throughout the night.",
+    "Sharing a Full mattress may lead to disturbed sleep, especially if one or both partners tend to move around frequently, sleep on their stomachs or backs, or are larger in build.",
+    "only\u2014but we\u2019re working on expanding to more regions soon!",
+    "We offer a 365-night risk-free trial for mattresses.",
+    "Returns are completely free within the trial period.",
+    "Is there a limit to how many times I can use the sleep trial?"
+   ],
+   "shipping": [],
+   "sale": [
+    "Are there any items that cannot be returned?",
+    "Certain items are not eligible for return, including but not limited to final sale or clearance items, gift cards, and customized or made-to-order products."
+   ]
+  },
+  "https://bedstory.com/pages/365-night-home-trial": {
+   "opened": [
+    "Mattress 365-Night Trial Period",
+    "I.B.When trial period start?",
+    "The 365-night trial period begins on the date of delivery.",
+    "I.C.Does the trial policy apply to third-party retailers?",
+    "Order from BedStory official \u2192 365-night trial applies.",
+    "I.D.Are sale or discounted items eligible for trial policy?",
+    "II.A.What if I'm not satisfied during the trial?",
+    "II.C.Do I need to keep the original packaging for a return?"
+   ],
+   "shipping": [
+    "BedStory is not responsible for the services of other third-party retailers.",
+    "They will guide you through the steps and arrange pickup.",
+    "II.D.Who pays for return shipping if I change my mind?",
+    "However, if the return is for personal reasons, you will need to cover the shipping costs."
+   ],
+   "sale": [
+    "I.D.Are sale or discounted items eligible for trial policy?",
+    "On BedStory's official website, regular-priced items are eligible for a refund, but sale items may not be.",
+    "Verify sale item return eligibility at the time of purchase."
+   ]
+  },
+  "https://bedstory.com/pages/warranty-policy": {
+   "opened": [
+    "Contact us within 365 nights",
+    "How is this different from the 365-night trial?",
+    "365-Night Trial \u2192 Try the comfort, risk-free.",
+    "Comfort is personal \u2014 and that's exactly why we offer a 365-night trial.",
+    "Give your body at least 30 nights to adjust.",
+    "Most comfort-related issues are resolved during the trial period \u2014 not through warranty claims."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://bedstory.com/pages/promotion": {
+   "opened": [
+    "Is the 365-night sleep trial still valid for sale items?",
+    "Yes \u2014 all BedStory mattresses, including these on sale, come with our 365-night home trial and worry-free return policy.",
+    "When does the 365-night sleep trial begin?",
+    "The 365-night sleep trial begins on the date your mattress is delivered, giving you time to experience its comfort and support at home.",
+    "How do I start a return or exchange during the trial?",
+    "Only one discount or promo code may be used per order."
+   ],
+   "shipping": [
+    "Will sold-out items be restocked before the Black Friday & Cyber Monday Sale ends?",
+    "While we restock regularly, availability isn't guaranteed."
+   ],
+   "sale": [
+    "Check each eligible product page for specific discounts and promotional offers",
+    "Please check the product page or promotional banner for details on eligible offers.",
+    "We recommend ordering early to secure your preferred size at the promotional price.",
+    "Is the 365-night sleep trial still valid for sale items?",
+    "Yes \u2014 all BedStory mattresses, including these on sale, come with our 365-night home trial and worry-free return policy.",
+    "However, sale items still qualify for eligible gift card offers and financing options.",
+    "Do sale items qualify for free shipping?",
+    "All of our mattresses \u2014 discounted or not \u2014 include free shipping within the continental U.S."
+   ]
+  }
+ }
+}

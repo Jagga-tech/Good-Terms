@@ -1,0 +1,296 @@
+{
+ "store": "www.novillashop.com",
+ "pages": [
+  {
+   "url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 23037
+  },
+  {
+   "url": "https://www.novillashop.com/",
+   "status": "200",
+   "via": "home page",
+   "chars": 12391
+  },
+  {
+   "url": "https://www.novillashop.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 8224
+  },
+  {
+   "url": "https://www.novillashop.com/pages/refund-policy",
+   "status": "404",
+   "via": "policy address"
+  },
+  {
+   "url": "https://www.novillashop.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 3023
+  },
+  {
+   "url": "https://www.novillashop.com/pages/faq",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 8674
+  },
+  {
+   "url": "https://www.novillashop.com/pages/warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 14571
+  },
+  {
+   "url": "https://www.novillashop.com/pages/shipping-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 3471
+  },
+  {
+   "url": "https://www.novillashop.com/pages/privacy-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 41496
+  },
+  {
+   "url": "https://www.novillashop.com/pages/sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 13113
+  },
+  {
+   "url": "https://www.novillashop.com/pages/returns",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 8237
+  },
+  {
+   "url": "https://www.novillashop.com/pages/black-friday-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 13869
+  },
+  {
+   "url": "https://www.novillashop.com/pages/halloween-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 18931
+  },
+  {
+   "url": "https://www.novillashop.com/pages/privacy-policy-11-10%E6%9B%B4%E6%96%B0%E5%A4%87%E4%BB%BD",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 37725
+  },
+  {
+   "url": "https://www.novillashop.com/pages/contact-us",
+   "status": "200",
+   "via": "link 'GET HELP' on /pages/faq",
+   "chars": 2451
+  }
+ ],
+ "blocked": [],
+ "product": {
+  "title": "Bliss Memory Foam Mattress",
+  "tags": [
+   "sale"
+  ],
+  "variant": "6 inch / Queen",
+  "price": 16499,
+  "compare_at": 20699,
+  "available": true
+ },
+ "collections": {
+  "all-mattresses-for-bundle-page": {
+   "products": 11,
+   "has_item": false
+  },
+  "hybrid-mattresses-sale-page": {
+   "products": 5,
+   "has_item": false
+  },
+  "best-memory-foam-mattress-sales-from-novilla": {
+   "products": 5,
+   "has_item": true
+  },
+  "bestmattress": {
+   "products": 6,
+   "has_item": true
+  },
+  "clearance": {
+   "products": 0,
+   "has_item": false
+  },
+  "clearance-mattresses": {
+   "products": 4,
+   "has_item": false
+  },
+  "deal": {
+   "products": 45,
+   "has_item": true
+  },
+  "flash-sale": {
+   "products": 3,
+   "has_item": false
+  },
+  "bed-frames-sale-page": {
+   "products": 8,
+   "has_item": false
+  },
+  "weekly-sale": {
+   "products": 5,
+   "has_item": true
+  }
+ },
+ "passages": {
+  "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress": {
+   "opened": [
+    "100-night sleep trial & 10-year warranty",
+    "What is the 100 night sleep trial?",
+    "Our 100-night trial ensures you love your rest."
+   ],
+   "shipping": [
+    "Simply contact us to arrange a free local pickup; once confirmed, your refund will be processed within 5 business days.",
+    "HSAs are typically paired with high-deductible health plans and allow unused funds to roll over from year to year, while FSAs are usually used within the same plan year."
+   ],
+   "sale": [
+    "If an item purchased on novillashop.com goes on sale within 30 days of the original purchase date, Novilla offers a price adjustment for the price difference."
+   ]
+  },
+  "https://www.novillashop.com/": {
+   "opened": [
+    "Memory foam & hybrid mattresses with a 100-night trial and 10-year warranty.",
+    "From movie nights and coffee breaks to family cuddles and everyday moments, our Novilla Minimalist Modular Sofa has become the heart of our home.",
+    "Starting to realize in my late 20s that what you sleep on actually matters."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.novillashop.com/policies/refund-policy": {
+   "opened": [
+    "100-Night Mattress Sleep Trial",
+    "Every Novilla mattress comes with our 100-Night Mattress Sleep Trial.",
+    "If your mattress is still in its original vacuum-sealed packaging, or has been opened but shows no signs of use and can be restored to its original packaging, returning it is simple:"
+   ],
+   "shipping": [
+    "What we do: Email you a free prepaid return label",
+    "30 days, free label, 100% refund"
+   ],
+   "sale": [
+    "Clearance Items: All clearance items are considered final sale and are not eligible for returns, refunds, or exchanges due to a change of mind or personal preference."
+   ]
+  },
+  "https://www.novillashop.com/pages/faq": {
+   "opened": [
+    "Finally, allow your mattress to expand fully, which might take 12-72 hours.",
+    "Mattresses purchased directly from novillashop.com come with a 100-night sleep trial.",
+    "We recommend sleeping on your new mattress for at least 30 nights to allow your body to adjust to its comfort and feel."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.novillashop.com/pages/warranty": {
+   "opened": [
+    "This indentation must not be caused by an inadequate or unsupportive foundation or bed frame.",
+    "Failure to expand after unpacking \u2014 if the mattress has not fully expanded to its intended dimensions after 72 hours of being left unpacked in a well-ventilated room at room temperature, and the devia",
+    "Damage caused by abuse, misuse, neglect, improper handling, or failure to follow care instructions."
+   ],
+   "shipping": [
+    "Products with removed or altered identification labels",
+    "Damage caused by improper washing, drying, or failure to follow instructions on the care label.",
+    "Damage caused by improper washing, drying, bleaching, or failure to follow instructions on the care label."
+   ],
+   "sale": []
+  },
+  "https://www.novillashop.com/pages/shipping-policy": {
+   "opened": [
+    "We apologize for any inconveniences caused and thank you for your patience during these times."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.novillashop.com/pages/privacy-policy": {
+   "opened": [
+    "For Novilla customers, this Privacy Policy (\u201cPolicy\u201d) explains how your personal information is collected, used, shared, processed, and protected when you access this website, located at [https://www.",
+    "The definition of personal information (used interchangeably in this Privacy Policy with the term \u201cpersonal data\u201d) depends on where you are located.",
+    "\u2022 Used for Targeted Advertising: No"
+   ],
+   "shipping": [
+    "For data For data processing conducted by Shopify, Shopify is responsible for collecting, processing, and protecting your personal data, whose privacy policy can be accessed at [https://www.shopify.co",
+    "SweetNight is not responsible for any charges or fees incurred from your mobile service provider resulting from SMS/MMS messages.",
+    "By subscribing, you acknowledge that you are responsible for any costs incurred by your carrier for receiving these messages."
+   ],
+   "sale": [
+    "We collect personal information from various places including online, in-person, and from third parties, such as when shopping on our Site, engaging with us at a pop-up or promotional event, or intera",
+    "To undertake marketing, advertising or other promotional activities",
+    "\u2022 Program Description & Opt-In.By opting in, you agree to receive recurring automated promotional, transactional, and personalized marketing SMS messages from SweetNight (\"we,\" \"us,\" or \"our\") regardi"
+   ]
+  },
+  "https://www.novillashop.com/pages/sale": {
+   "opened": [
+    "Starting to realize in my late 20s that what you sleep on actually matters."
+   ],
+   "shipping": [],
+   "sale": [
+    "Discounts and promotional offers cannot be combined."
+   ]
+  },
+  "https://www.novillashop.com/pages/returns": {
+   "opened": [
+    "100-Night Mattress Sleep Trial",
+    "Every Novilla mattress comes with our 100-Night Mattress Sleep Trial.",
+    "If your mattress is still in its original vacuum-sealed packaging, or has been opened but shows no signs of use and can be restored to its original packaging, returning it is simple:"
+   ],
+   "shipping": [
+    "What we do: Email you a free prepaid return label",
+    "30 days, free label, 100% refund"
+   ],
+   "sale": [
+    "Clearance Items: All clearance items are considered final sale and are not eligible for returns, refunds, or exchanges due to a change of mind or personal preference."
+   ]
+  },
+  "https://www.novillashop.com/pages/black-friday-sale": {
+   "opened": [
+    "Starting to realize in my late 20s that what you sleep on actually matters.",
+    "Mattresses bought on sale come with the same 100-night trial (after a 30-night break-in period) and 10-year warranty."
+   ],
+   "shipping": [],
+   "sale": [
+    "Discounts and promotional offers cannot be combined.",
+    "What is the return policy for sale items?",
+    "Mattresses bought on sale come with the same 100-night trial (after a 30-night break-in period) and 10-year warranty."
+   ]
+  },
+  "https://www.novillashop.com/pages/halloween-sale": {
+   "opened": [
+    "Starting to realize in my late 20s that what you sleep on actually matters.",
+    "What is the 100 night sleep trial?",
+    "Our 100-night trial ensures you love your rest."
+   ],
+   "shipping": [
+    "Simply contact us to arrange a free local pickup; once confirmed, your refund will be processed within 5 business days.",
+    "For eligible returns, we'll arrange a free local pickup or help coordinate a donation to a local nonprofit, so there's no need to worry about packing or shipping the item back yourself.",
+    "Once the pickup or donation is confirmed, your full refund will be processed within 5 business days, and most banks will post the credit to your account within an additional 1\u20133 business days."
+   ],
+   "sale": []
+  },
+  "https://www.novillashop.com/pages/privacy-policy-11-10%E6%9B%B4%E6%96%B0%E5%A4%87%E4%BB%BD": {
+   "opened": [
+    "For Novilla customers, this Privacy Policy (\u201cPolicy\u201d) explains how your personal information is collected, used, shared, processed, and protected when you access this website, located at [https://www.",
+    "The definition of personal information (used interchangeably in this Privacy Policy with the term \u201cpersonal data''depends on where you are located.",
+    "\u00b7 Used for Targeted Advertising: No"
+   ],
+   "shipping": [
+    "For data For data processing conducted by Shopify, Shopify is responsible for collecting, processing, and protecting your personal data,",
+    "We recommend that you read the privacy statements of any other sites that you visit as we are not responsible for the privacy practices of those sites."
+   ],
+   "sale": [
+    "We collect personal information from various places including online, in-person, and from third parties, such as when shopping on our Site, engaging with us at a pop-up or promotional event, or intera",
+    "To undertake marketing, advertising or other promotional activities",
+    "\u00b7 Identity information, such as ID- or passport-related information, for customs clearance purposes."
+   ]
+  }
+ }
+}

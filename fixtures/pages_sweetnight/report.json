@@ -1,0 +1,429 @@
+{
+ "store": "www.sweetnight.com",
+ "pages": [
+  {
+   "url": "https://www.sweetnight.com/products/sweetnight-coolnest-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 20702
+  },
+  {
+   "url": "https://www.sweetnight.com/",
+   "status": "200",
+   "via": "home page",
+   "chars": 17935
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/refund-policy",
+   "status": "404",
+   "via": "policy address"
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/warranty",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 13163
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/return-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 7990
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/free-shipping-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 3659
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/faq",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 1465
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/privacy-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9931
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/warranty-submission-successful",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 1515
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/best-mattress-on-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 3788
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/twin-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 11738
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/full-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9475
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/queen-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9702
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/king-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 9733
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/deal",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 5446
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/shipping-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 4995
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/warranty-detail",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 1388
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/sweetnight-privacy-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 36603
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/sweetnight-privacy-policy-1",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 47249
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/warranty-registration",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 1493
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/wholesale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 1382
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/fall-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 7488
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/black-friday-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 19746
+  },
+  {
+   "url": "https://www.sweetnight.com/pages/cyber-monday-sale",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 5484
+  }
+ ],
+ "blocked": [
+  "https://www.sweetnight.com/policies/refund-policy",
+  "https://www.sweetnight.com/policies/shipping-policy"
+ ],
+ "product": {
+  "title": "CoolNest\u00ae Memory Foam Mattress",
+  "tags": [
+   "Best Sellers",
+   "Our most popular products",
+   "sale"
+  ],
+  "variant": "Queen / 12\"",
+  "price": 39999,
+  "compare_at": 66665,
+  "available": true
+ },
+ "collections": {
+  "clearance-mattress": {
+   "products": 0,
+   "has_item": false
+  },
+  "hot-sale-beddings": {
+   "products": 19,
+   "has_item": true
+  },
+  "hot-sale-mattress": {
+   "products": 1,
+   "has_item": false
+  },
+  "mattress-deal": {
+   "products": 0,
+   "has_item": false
+  },
+  "sweetnight-on-sale-products": {
+   "products": 14,
+   "has_item": true
+  }
+ },
+ "passages": {
+  "https://www.sweetnight.com/products/sweetnight-coolnest-mattress": {
+   "opened": [
+    "What it is:High-resilience foam infused with phase-change material and gel particles",
+    "Cooling Gel-Infused Memory Foam",
+    "What it is:Memory foam infused with cooling gel particles for long-lasting cool",
+    "Infused with PCM phase-change gel particles to dynamically regulate temperature\u2014absorbing heat when the body warms and releasing it when it cools.",
+    "Memory foam infused with 30% gel particles disperses pressure while drawing out heat deep within, ensuring a cool, breathable feel all night long.",
+    "Stronger edge stability prevents sagging and expands the usable sleep surface for consistent comfort from edge to edge.",
+    "Sleepers focused on recovery and overall well-being",
+    "The 8\u00b0C temperature drop comes from three cooling technologies working together: (1) CoolNest\u00ae 3D Cover with 10,000+ micro-vents increases airflow by 35%, (2) PCMflux\u00ae Foam with NASA-inspired phase-change materials that absorb and release heat, (3) Gel-Infused Memory Foam that continuously disperses body heat."
+   ],
+   "shipping": [
+    "If not satisfied, contact us for free pickup and full refund."
+   ],
+   "sale": []
+  },
+  "https://www.sweetnight.com/": {
+   "opened": [
+    "Infused with PCM phase-change gel particles to dynamically regulate temperature\u2014absorbing heat when the body warms and releasing it when it cools.",
+    "Memory foam infused with 30% gel particles disperses pressure while drawing out heat deep within, ensuring a cool, breathable feel all night long.",
+    "\"This mattress is hands down the best I\u2019ve ever slept on.",
+    "\"I have used this cool foam mattress for a month and I love it.",
+    "I tested it out for a couple of nights.",
+    "The 8\u00b0C temperature drop comes from three cooling technologies working together: (1) CoolNest\u00ae 3D Cover with 10,000+ micro-vents increases airflow by 35%, (2) PCMflux\u00ae Foam with NASA-inspired phase-change materials that absorb and release heat, (3) Gel-Infused Memory Foam that continuously disperses body heat.",
+    "You get PCM technology, gel-infused foam, ACA endorsement, and a 4.8 out of 5-star rating.",
+    "Is the 100-night trial really risk-free?"
+   ],
+   "shipping": [
+    "If not satisfied, contact us for free pickup and full refund."
+   ],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/warranty": {
+   "opened": [
+    "This indentation must not be caused by an inadequate or unsupportive foundation or bed frame.",
+    "Failure to expand after unpacking \u2014 if the mattress has not fully expanded to its intended dimensions after 72 hours of being left unpacked in a well-ventilated room at room temperature, and the deviation clearly exceeds normal dimensional tolerance.",
+    "Damage caused by abuse, misuse, neglect, improper handling, or failure to follow care instructions.",
+    "(That's what our [100-Night Mattress Sleep Trial] is for!)",
+    "Visible indentation greater than 1 inch (\u22482.5 cm) that remains after the topper has fully recovered from load, when used on a proper foundation.",
+    "Failure to expand after unpacking \u2014 if the topper has not fully expanded to its intended dimensions after 72 hours of being left unpacked in a well-ventilated room at room temperature, and the deviation clearly exceeds normal dimensional tolerance.",
+    "Damage caused by abuse, misuse, neglect, improper assembly, or failure to follow assembly instructions",
+    "Damage caused by exceeding the weight capacity of the frame"
+   ],
+   "shipping": [
+    "Products with removed or altered identification labels",
+    "Damage caused by improper washing, drying, or failure to follow instructions on the care label.",
+    "Damage caused by improper washing, drying, bleaching, or failure to follow instructions on the care label."
+   ],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/return-policy": {
+   "opened": [
+    "100-Night Mattress Sleep Trial",
+    "Every SweetNight mattress comes with our 100-Night Mattress Sleep Trial.",
+    "If your mattress is still in its original vacuum-sealed packaging, or has been opened but shows no signs of use and can be restored to its original packaging, returning it is simple:",
+    "This also applies to unopened pillows, toppers, and bed frames purchased from sweetnight.com.",
+    "Once opened, the mattress expands and cannot be re-boxed \u2014 which means the return path changes (see below).",
+    "For this reason, we require a minimum 30-night trial before accepting a return request.",
+    "After 30 nights and within 100 days of delivery, if you're still not satisfied, contact our Customer Care Team.",
+    "Toppers are vacuum-sealed \u2014 once opened, they expand to full size and cannot be re-boxed."
+   ],
+   "shipping": [
+    "What we do: Email you a free prepaid return label",
+    "30 days, free label, 100% refund"
+   ],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/free-shipping-policy": {
+   "opened": [
+    "About SweetNight's Free Trial & Warranty, please see our Return Policy And if you have any questions, SweetNight Customer Service is ready to help!"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/privacy-policy": {
+   "opened": [
+    "This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the sweetnight.com website.",
+    "The Personal Information that we collect are used for providing and improving the Service.",
+    "The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Website URL, unless otherwise defined in this Privacy Policy.",
+    "The information that we collect will be used to contact or identify you.",
+    "Cookies are files with small amount of data that is commonly used an anonymous unique identifier.",
+    "To assist us in analyzing how our Service is used."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/best-mattress-on-sale": {
+   "opened": [],
+   "shipping": [],
+   "sale": [
+    "Hybrid & Memory Foam Mattresses On Sale"
+   ]
+  },
+  "https://www.sweetnight.com/pages/twin-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale": {
+   "opened": [
+    "Online mattress companies provide a long sleep trial, long-term warranty, free shipping & returns, great prices holiday discount options, plus a real-time customer care team to make them the best place to buy a twin mattress.",
+    "A few-minute trial in a store doesn\u2019t indicate whether the mattress suits you because your body needs time to adapt to the new mattress.",
+    "That\u2019s why we offer a 100-night risk-free sleep trial with every mattress, which we think is the best way to determine if your new mattress will help you sleep your best.",
+    "Risk-free 100 Nights Sleep Trial",
+    "For instance, the Ocean Blue is made for those sleep on back or stomach that need more support when they sleep, and the twilight, designed with pillow top comfort layer, is adored by numerous side sleepers.",
+    "For those combo sleepers who sometimes like to sleep on their back, but sometimes on shoulder, Sunkiss mattress, the flippable one with plush feel on top, and medium firmness at the bottom, can meet their needs.",
+    "Many factors contribute to the price: the mattress size, materials used, layering and some added features like water-proofing and more.",
+    "That\u2019s why we provide every customer the hassle-free 100 nights free trial."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/full-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale": {
+   "opened": [
+    "Risk-free 100 Nights Sleep Trial",
+    "That\u2019s why we provide every customer the hassle-free 100 nights free trial.",
+    "You can just flip the mattress and sleep on the feeling you wan"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/queen-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale": {
+   "opened": [
+    "Risk-free 100 Nights Sleep Trial",
+    "It is traditional used in master room.",
+    "Many factors contribute to the price: the mattress size, materials used, layering, different brands and some added features like waterproofing and more.",
+    "That\u2019s why we provide every customer the hassle-free 100 nights free trial.",
+    "How many layers of memory foam are used in the mattresses?"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/king-size-mattress-best-hybrid-memory-foam-mattress-in-a-box-for-sale": {
+   "opened": [
+    "SweetNight King is made for ultimate sleep comfort, at an unbeatable price plus 100 nights sleep trial.",
+    "That\u2019s why we provide every customer the hassle-free 100 nights free trial."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/deal": {
+   "opened": [
+    "Does Sweetnight offer free shipping and a risk-free trial?",
+    "All mattresses bought during the Labor Day Sale are backed by our 100-Night Risk-Free Trial.",
+    "If you are not satisfied after trying it for at least 30 nights, you can return it for a full refund."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/shipping-policy": {
+   "opened": [
+    "Sleep on your new mattress tonight.",
+    "About SweetNight's Free Trial & Warranty, please see our Return Policy And if you have any questions, SweetNight Customer Service is ready to help!"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.sweetnight.com/pages/sweetnight-privacy-policy": {
+   "opened": [
+    "For SweetNight customers, this Privacy Policy (\u201cPolicy\u201d) explains how your personal information is collected, used, shared, processed, and protected when you access this website, located at [https://www.SweetNighthome.com/] (the \u201cSite\u201d), or use other services provided by SweetNight, including any written, electronic, a",
+    "The definition of personal information (used interchangeably in this Privacy Policy with the term \u201cpersonal data\u201d) depends on where you are located.",
+    "Used for Targeted Advertising: No",
+    "Used for Targeted Advertising: Yes",
+    "Preferences, Behavior Data, and Inferences, including collection of your \"like\" records and votes when prompted as to your preference between two items, used by us to recommend clothing sizes or styles, personalization, or to provide fit prediction services for you.",
+    "Basic Personal Identifiers (ex: log-in data) are used for risk control and fraud reporting."
+   ],
+   "shipping": [
+    "For data processing conducted by Shopify, Shopify is responsible for collecting, processing, and protecting your personal data, whose privacy policy can be accessed at [https://www.shopify.com/legal/privacy].",
+    "For data processing conducted by SweetNight, we will be responsible for collecting, processing, and protecting your personal data as governed by this Policy.",
+    "We recommend that you read the privacy statements of any other sites that you visit as we are not responsible for the privacy practices of those sites."
+   ],
+   "sale": [
+    "We collect personal information from various places including online, in-person, and from third parties, such as when shopping on our Site, engaging with us at a pop-up or promotional event, or interacting with us on a third-party site such as a social media platform.",
+    "To undertake marketing, advertising or other promotional activities",
+    "Identity information, such as ID- or passport-related information, for customs clearance purposes.",
+    "information, such as ID- or passport-related information, for customs clearance purposes.",
+    "5.3 Unsubscribe from Our Marketing Communications - If you do not want us to use your email account to send you marketing emails or non-transactional promotional materials, please directly click on the unsubscribe link at the bottom of any of our marketing email messages to you or contact us by sending us an email at ["
+   ]
+  },
+  "https://www.sweetnight.com/pages/sweetnight-privacy-policy-1": {
+   "opened": [
+    "For SweetNight customers, this Privacy Policy (\u201cPolicy\u201d) explains how your personal information is collected, used, shared, processed, and protected when you access this website, located at [https://www.SweetNighthome.com/] (the \u201cSite\u201d), or use other services provided by SweetNight, including any written, electronic, a",
+    "The definition of personal information (used interchangeably in this Privacy Policy with the term \u201cpersonal data\u201d) depends on where you are located.",
+    "Used for Targeted Advertising: No",
+    "Used for Targeted Advertising: Yes",
+    "Preferences, Behavior Data, and Inferences, including collection of your \"like\" records and votes when prompted as to your preference between two items, used by us to recommend clothing sizes or styles, personalization, or to provide fit prediction services for you.",
+    "Basic Personal Identifiers (ex: log-in data) are used for risk control and fraud reporting.",
+    "For example, these cookies can be used to remember your name or preferences on our Services.",
+    "These cookies are used to make advertising messages more relevant to you."
+   ],
+   "shipping": [
+    "For data processing conducted by Shopify, Shopify is responsible for collecting, processing, and protecting your personal data, whose privacy policy can be accessed at [https://www.shopify.com/legal/privacy].",
+    "For data processing conducted by SweetNight, we will be responsible for collecting, processing, and protecting your personal data as governed by this Policy.",
+    "We recommend that you read the privacy statements of any other sites that you visit as we are not responsible for the privacy practices of those sites."
+   ],
+   "sale": [
+    "We collect personal information from various places including online, in-person, and from third parties, such as when shopping on our Site, engaging with us at a pop-up or promotional event, or interacting with us on a third-party site such as a social media platform.",
+    "To undertake marketing, advertising or other promotional activities",
+    "Identity information, such as ID- or passport-related information, for customs clearance purposes.",
+    "information, such as ID- or passport-related information, for customs clearance purposes.",
+    "6.3 Unsubscribe from Our Marketing Communications - If you do not want us to use your email account to send you marketing emails or non-transactional promotional materials, please directly click on the unsubscribe link at the bottom of any of our marketing email messages to you or contact us by sending us an email at ["
+   ]
+  },
+  "https://www.sweetnight.com/pages/fall-sale": {
+   "opened": [],
+   "shipping": [],
+   "sale": [
+    "Save up to 40% on Clearance",
+    "Selected clearance mattresses, including the"
+   ]
+  },
+  "https://www.sweetnight.com/pages/black-friday-sale": {
+   "opened": [
+    "Lightweight, skin-friendly cooling comfort for peaceful nights.",
+    "\"This mattress is hands down the best I\u2019ve ever slept on.",
+    "\"I have used this cool foam mattress for a month and I love it.",
+    "I tested it out for a couple of nights.",
+    "Do Black Friday mattress orders still get free shipping and the 100-night trial?",
+    "Mattresses ship free by standard shipping within the contiguous U.S., and every mattress comes with our 100-night sleep trial, so you can sleep on it at home before deciding to keep it."
+   ],
+   "shipping": [
+    "Many of our mattresses are HSA/FSA eligible; look for the HSA/FSA label on the product card."
+   ],
+   "sale": [
+    "Save up to 70% on Clearance",
+    "Explore limited-stock clearance across mattresses, bed frames, and bedding.",
+    "Clearance mattresses, bed frames and bedding go up to 70% off while stock lasts, and Flash Deals take an extra 15%\u201335% off four of our best sellers.",
+    "Sale prices, Buy More, Save More savings and Flash Deal prices all apply automatically.",
+    "Buying on sale doesn't change your coverage."
+   ]
+  },
+  "https://www.sweetnight.com/pages/cyber-monday-sale": {
+   "opened": [
+    "Do mattresses purchased during Cyber Monday include the 100-night trial?",
+    "All mattresses bought during our Cyber Monday and holiday promotional periods come with SweetNight\u2019s standard 100-night home trial."
+   ],
+   "shipping": [],
+   "sale": [
+    "You can sign up with your email on our website to receive early bird notifications and exclusive promotional codes before the sale goes live to the public.",
+    "What kinds of mattresses are on sale during Cyber Monday?",
+    "All mattresses bought during our Cyber Monday and holiday promotional periods come with SweetNight\u2019s standard 100-night home trial.",
+    "If a specific model is already on sale during Black Friday, we recommend securing it early to avoid potential inventory shortages and delivery delays.",
+    "You can also visit our Black Friday Sale page to compare active promotions.",
+    "To get the best price, subscribe to our newsletter, check for eligible bundle promotions (such as pairing a mattress with an adjustable base)."
+   ]
+  }
+ }
+}

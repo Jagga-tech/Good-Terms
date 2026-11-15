@@ -1,0 +1,151 @@
+{
+ "store": "www.napqueensleep.com",
+ "pages": [
+  {
+   "url": "https://www.napqueensleep.com/products/victoria-cooling-gel-and-pocket-coil-hybrid-mattress",
+   "status": "200",
+   "via": "product page",
+   "chars": 9281
+  },
+  {
+   "url": "https://www.napqueensleep.com/",
+   "status": "200",
+   "via": "home page",
+   "chars": 7495
+  },
+  {
+   "url": "https://www.napqueensleep.com/policies/refund-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 7007
+  },
+  {
+   "url": "https://www.napqueensleep.com/pages/refund-policy",
+   "status": "404",
+   "via": "policy address"
+  },
+  {
+   "url": "https://www.napqueensleep.com/policies/shipping-policy",
+   "status": "200",
+   "via": "policy address",
+   "chars": 2953
+  },
+  {
+   "url": "https://www.napqueensleep.com/pages/warranty-policy",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 6124
+  },
+  {
+   "url": "https://www.napqueensleep.com/pages/warranty-claim",
+   "status": "200",
+   "via": "sitemap",
+   "chars": 3465
+  },
+  {
+   "url": "https://www.napqueensleep.com/policies/napqueensleep.com",
+   "status": "200",
+   "via": "link 'napqueensleep.com' on /policies/shipping-policy",
+   "chars": 7495
+  }
+ ],
+ "blocked": [],
+ "product": {
+  "title": "Victoria Cooling Gel And Pocket Coil Hybrid Mattress",
+  "tags": [
+   "Hybrid",
+   "Mattress",
+   "mattress_suggest",
+   "usa-made"
+  ],
+  "variant": "Queen / 10\"",
+  "price": 22900,
+  "compare_at": 39900,
+  "available": true
+ },
+ "collections": {
+  "no-joke-april-fool-s-day-sale-is-real": {
+   "products": 16,
+   "has_item": true
+  },
+  "sale": {
+   "products": 32,
+   "has_item": true
+  }
+ },
+ "passages": {
+  "https://www.napqueensleep.com/products/victoria-cooling-gel-and-pocket-coil-hybrid-mattress": {
+   "opened": [
+    "Maybe it took a night to get used to, but no pains or aches anymore.",
+    "Our warranty covers defects in materials and workmanship for a specific period of time until you opened the packaging and checked the product."
+   ],
+   "shipping": [
+    "If the order has already shipped, customers may be responsible for return shipping costs."
+   ],
+   "sale": []
+  },
+  "https://www.napqueensleep.com/": {
+   "opened": [
+    "Bamboo Charcoal Infused Memory Foam Mattress",
+    "Gel Infused 5-Zone Mattress Topper",
+    "Green Tea Infused Memory Foam Mattress Topper",
+    "Activated charcoal is a highly porous substance that is often used for its ability to absorb and",
+    "any cracking of the mattress and after opening it, allowed it to expand for",
+    "It can be caused by a variety of factors, including stress, anxiety,..."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.napqueensleep.com/policies/refund-policy": {
+   "opened": [
+    "});// This allows to expose several variables to the global scope, to be used in scripts",
+    "When you purchase any of our select mattresses from NapQueen.com\u2014be it the Elizabeth, Bamboo Charcoal, Alaska, Anula, Cashmere, or Victoria\u2014you're automatically enrolled in our 100-Night Sleep Trial.",
+    "You've got 100 nights, from the day it's delivered, to see if it's your dream sleep match.",
+    "At NapQueen Sleep, we are committed to responsible recycling and offer a convenient used mattress take-back service for our customers in compliance with PRC section 42992.",
+    "When purchasing a new mattress from our website, customers can opt for the used mattress take-back service by filling form given below.Confirm your interest in the take-back offer and we will coordinate with you to schedule a convenient pickup time for your old mattress.",
+    "Unlike others, we provide a prepaid return shipping label for a hassle-free experience, as long as the mattress remains unopened in its original box.",
+    "In the event the mattress is opened/unboxed, please contact us and we will assist you with the next steps.",
+    "Return and Relax: Ship the item back to us using the prepaid label, ensuring it remains unboxed and in its original packaging."
+   ],
+   "shipping": [
+    "When purchasing a new mattress from our website, customers can opt for the used mattress take-back service by filling form given below.Confirm your interest in the take-back offer and we will coordinate with you to schedule a convenient pickup time for your old mattress.",
+    "Unlike others, we provide a prepaid return shipping label for a hassle-free experience, as long as the mattress remains unopened in its original box.",
+    "Cancellations after shipping are subject to a 20% restocking fee, and the customer is responsible for the return shipping cost.",
+    "Return and Relax: Ship the item back to us using the prepaid label, ensuring it remains unboxed and in its original packaging."
+   ],
+   "sale": [
+    "Exceptions and Non-Returnable Items"
+   ]
+  },
+  "https://www.napqueensleep.com/policies/shipping-policy": {
+   "opened": [
+    "});// This allows to expose several variables to the global scope, to be used in scripts"
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.napqueensleep.com/pages/warranty-policy": {
+   "opened": [
+    "This warranty is void if the product is altered, outer cover and/or mattress tags are removed, or if it is improperly used.",
+    "The warranty will be voided if an improper base is used that causes the mattress to fail.",
+    "This warranty is void if the product is found to have been tampered with or misused by the purchaser beyond reasonable wear and shall not apply if the product has been physically damaged intentionally or due to accident and/or neglect, including burns, cuts, water damage, mold, stains, or is otherwise abnormally soiled",
+    "If a heating pad or electric blanket is used with a memory foam mattress, it will void this warranty.",
+    "The warranty applies only when the product has been properly used by the original purchaser according to the care instructions."
+   ],
+   "shipping": [],
+   "sale": []
+  },
+  "https://www.napqueensleep.com/policies/napqueensleep.com": {
+   "opened": [
+    "Bamboo Charcoal Infused Memory Foam Mattress",
+    "Gel Infused 5-Zone Mattress Topper",
+    "Green Tea Infused Memory Foam Mattress Topper",
+    "Activated charcoal is a highly porous substance that is often used for its ability to absorb and",
+    "any cracking of the mattress and after opening it, allowed it to expand for",
+    "It can be caused by a variety of factors, including stress, anxiety,..."
+   ],
+   "shipping": [],
+   "sale": []
+  }
+ }
+}

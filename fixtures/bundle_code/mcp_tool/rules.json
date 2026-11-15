@@ -1,0 +1,4 @@
+{
+  "deal_breakers": ["opened_returns", "free_return_shipping", "sale_item_returns"],
+  "when_store_doesnt_say": "ask"
+}

@@ -1,0 +1,54 @@
+{
+ "read_at": "2026-11-15",
+ "labels_by": "assistant, after seeing agent answers",
+ "conditions": [
+  "opened_returns",
+  "free_return_shipping",
+  "sale_item_returns"
+ ],
+ "stores": {
+  "acruxl.com": {
+   "labels": [
+    "no",
+    "no",
+    "doesnt_say"
+   ],
+   "product": "https://acruxl.com/products/yilicy-12-inch-queen-adult-mattress-with-pocket-spring-hybrid-memory-foam-medium-firm-mattress?variant=45286384107651"
+  },
+  "babo-care.com": {
+   "labels": [
+    "no",
+    "no",
+    "doesnt_say"
+   ],
+   "product": "https://babo-care.com/products/liboria-queen-mattress-10-inch-cooling-gel-memory-foam-pocket-spring-hybrid-mattress-in-a-box-pressure-relief-certipur-us-certified"
+  },
+  "djshomegoods.com": {
+   "labels": [
+    "no",
+    "doesnt_say",
+    "no"
+   ],
+   "product": "https://djshomegoods.com/products/queen-size-mattress-gel-memory-foam-medium-firm-comfort-1?variant=40747214110792",
+   "note": "Product page claims a 100-night trial that conflicts with the policy."
+  },
+  "alonfurniture.com": {
+   "labels": [
+    "no",
+    "no",
+    "doesnt_say_or_no"
+   ],
+   "product": "https://alonfurniture.com/products/innerspring-memory-foam-mattress-medium-firm?variant=46893235798147",
+   "note": "FAQ: 15% restocking fee, round-trip shipping, mattresses non-returnable, 5-day window. Pages conflict; the sale label is not scoreable."
+  },
+  "kv-mart-us.myshopify.com": {
+   "labels": [
+    "no",
+    "yes",
+    "doesnt_say"
+   ],
+   "product": "https://kv-mart-us.myshopify.com/products/novilla-queen-size-mattress-10-inch-memory-foam-mattress-queen-in-a-bo?variant=48381758439595",
+   "note": "Terms reportedly bar automated or AI access (not verified). Do not re-read until checked."
+  }
+ }
+}

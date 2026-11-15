@@ -21,6 +21,12 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - `make dev` starts the API (port 8000) and the web app.
 - `make test` runs the tests.
 - `make smoke` runs the four live Shopify calls with our own agent profile.
+- `uv run python -m api.mcp_server` runs the MCP tool `check_stores` (add `--http` for HTTP).
+
+## Fixtures
+
+- `fixtures/` is the bundle as delivered. `fixtures/bundle_code/` holds its reader, MCP stub and live-call scripts for reference; the app's own code is in `api/`.
+- The database is rebuilt from the fixtures every time the API starts.
 
 ## Decisions made after the plan
 
@@ -28,6 +34,12 @@ These two override the plan where they differ.
 
 1. Demo rule (replaces decision 7 and the demo rule in M3): the demo needs only one store that says yes to all three conditions, counting only yeses found on pages. Everything else is reported, never forced.
 2. Prices (replaces decision 3, the last sentence of guardrail 2, and the cart steps in M4): use the catalog price. No carts are created.
+
+Rulings made during M1:
+
+3. Seed: the six original stores only (`rows_six_stores.json` plus the 18 replies in `ask_replies_2026-11-15.json`). Their page findings are summaries, not the stores' exact sentences, so they sit in `page_summary` and `sentence` stays empty until M3 re-reads the stores. A summary is never shown as the store's own words.
+4. BedStory's two rows the key marks not scoreable (opened returns, sale items): page status "doesn't say", flagged, both sentences shown. A hedged sentence ("unclear") counts as "doesn't say".
+5. NapQueen's replies that open with yes and attach conditions keep the answer key's label, yes.
 
 ## Guardrails
 

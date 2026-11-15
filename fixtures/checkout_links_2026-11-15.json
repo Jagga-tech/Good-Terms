@@ -1,0 +1,44 @@
+{
+ "looked_up_at": "2026-11-15",
+ "tool": "lookup_catalog",
+ "credentials": "none",
+ "note": "Returned by the catalog for the size-checked variant at each store. Not opened by us.",
+ "stores": {
+  "sleepqueens.myshopify.com": {
+   "url": "https://www.napqueensleep.com/products/victoria-cooling-gel-and-pocket-coil-hybrid-mattress?variant=32288560119946",
+   "checkout_url": "https://www.napqueensleep.com/buy/32288560119946:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 22900,
+   "name": "NapQueen"
+  },
+  "novilla-us.myshopify.com": {
+   "url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress?variant=34947315826822",
+   "checkout_url": "https://www.novillashop.com/buy/34947315826822:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 29999,
+   "name": "Novilla"
+  },
+  "sweetnightmattress.myshopify.com": {
+   "url": "https://www.sweetnight.com/products/sweetnight-coolnest-mattress?variant=46029155434754",
+   "checkout_url": "https://www.sweetnight.com/buy/46029155434754:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 39999,
+   "name": "SweetNight"
+  },
+  "0zz1ig-ce.myshopify.com": {
+   "url": "https://dwellinhaus.com/products/b0dwk7dtnw?variant=44720265560118",
+   "checkout_url": "https://dwellinhaus.com/buy/44720265560118:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 31319,
+   "name": "Dwellinhaus"
+  },
+  "bedsstories.myshopify.com": {
+   "url": "https://bedstory.com/products/platin-hybrid-mattress?variant=43392373424188",
+   "checkout_url": "https://bedstory.com/buy/43392373424188:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 39999,
+   "name": "BedStory "
+  },
+  "lee-furniture-nc.myshopify.com": {
+   "url": "https://www.leefurniture.com/products/comfort-plus-queen-mattress?variant=49801249063225",
+   "checkout_url": "https://www.leefurniture.com/buy/49801249063225:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=9bW5H1YZ864b&_gsid=9bW5H1YZ864b",
+   "price": 39738,
+   "name": "Lee Furniture, NC"
+  }
+ }
+}

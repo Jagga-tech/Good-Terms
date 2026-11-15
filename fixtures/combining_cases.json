@@ -1,0 +1,520 @@
+{
+ "made_on": "2026-11-15",
+ "labels_by": "assistant, not independently checked",
+ "rule": "A yes needs the store's exact sentence on one of its pages. A yes from the store's assistant alone is 'assistant_only_yes': no green, and it does not count toward 'Meets all 3'. Either source saying no gives no. When two pages of one store disagree, the page status is the stricter one. While a store's pages are still being read, every condition is 'pending'.",
+ "statuses_shown": [
+  "yes",
+  "assistant_only_yes",
+  "no",
+  "doesnt_say",
+  "pending"
+ ],
+ "table_cases": [
+  {
+   "pages": "yes",
+   "assistant": "yes",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "yes",
+   "assistant": "doesnt_say",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "doesnt_say",
+   "assistant": "yes",
+   "status_shown": "assistant_only_yes",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "unreadable",
+   "assistant": "yes",
+   "status_shown": "assistant_only_yes",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "yes",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": true
+  },
+  {
+   "pages": "no",
+   "assistant": "yes",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": true
+  },
+  {
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "no",
+   "assistant": "doesnt_say",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "doesnt_say",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "unreadable",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "pending",
+   "assistant": "yes",
+   "status_shown": "pending",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "pending",
+   "assistant": "no",
+   "status_shown": "pending",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "pages": "pending",
+   "assistant": "doesnt_say",
+   "status_shown": "pending",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  }
+ ],
+ "saved_cases_live_run_2026-11-15": [
+  {
+   "store": "Novilla",
+   "condition": "opened_returns",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.novillashop.com/policies/refund-policy",
+     "file": "pages_novilla/policies_refund_policy.txt",
+     "label": "yes",
+     "sentence": "After 30 nights and within 100 days of delivery, if you're still not satisfied, contact our Customer Care Team."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "Yes. You can return an opened mattress if you’re still dissatisfied after at least 30 nights and request the return within 100 days of delivery. It must be in sanitary, donatable condition, with no rips, stains, or excessive wear; the mattress sleep trial applies to mattresses bought directly from novillashop.com.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Novilla",
+   "condition": "free_return_shipping",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.novillashop.com/policies/refund-policy",
+     "file": "pages_novilla/policies_refund_policy.txt",
+     "label": "yes",
+     "sentence": "We'll help you with your return — it's simple and free."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "For an opened mattress that you’ve slept on, the return is free if you’ve completed at least 30 nights and request it within 100 days of delivery. It must be in sanitary, donatable condition, with no rips, stains, or excessive wear. The policy says the return is free, but doesn’t specify whether that means free pickup or another return arrangement.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "Novilla",
+   "condition": "sale_item_returns",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.novillashop.com/pages/black-friday-sale",
+     "file": "pages_novilla/pages_black_friday_sale.txt",
+     "label": "yes",
+     "sentence": "Mattresses bought on sale come with the same 100-night trial (after a 30-night break-in period) and 10-year warranty."
+    }
+   ],
+   "assistant": "doesnt_say",
+   "assistant_reply": "If it’s the Bliss Memory Foam Mattress, the sale price doesn’t appear to change the return terms. If it’s not a clearance item and was bought directly from Novillashop.com, you can request a return after at least 30 nights and within 100 days of delivery, provided it’s in sanitary, donatable condition without rips, stains, or excessive wear. Clearance items are final sale and aren’t eligible for returns, refunds, or exchanges for a change of mind or personal preference; the information doesn’t specify whether this particular mattress is clearance.",
+   "note": "The reply is hedged ('doesn't appear to change'), so it is not a yes. The page sentence carries the yes.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "SweetNight",
+   "condition": "opened_returns",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.sweetnight.com/pages/return-policy",
+     "file": "pages_sweetnight/pages_return_policy.txt",
+     "label": "yes",
+     "sentence": "After 30 nights and within 100 days of delivery, if you're still not satisfied, contact our Customer Care Team."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "Yes. If you buy the mattress directly from SweetNight, you can return it if you’re still unsatisfied after sleeping on it for at least 30 nights, as long as the return is requested within 100 days of delivery and the mattress is clean and donatable, without stains, tears, or excessive wear. The return policy applies to purchases from SweetNight’s official website; third-party purchases follow the retailer’s policy.",
+   "note": "robots.txt blocked /policies/refund-policy and /policies/shipping-policy at this store. The reader used /pages/return-policy.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "SweetNight",
+   "condition": "free_return_shipping",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.sweetnight.com/pages/return-policy",
+     "file": "pages_sweetnight/pages_return_policy.txt",
+     "label": "yes",
+     "sentence": "We'll help you with your return — it's simple and free."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "If you’re unsatisfied with the mattress’s quality, the store says you can request a free return shipping label under its 100-day full-refund policy. Because you’ve opened and slept on it, it must be in sanitary, donatable condition—without stains, tears, or excessive wear—and you must allow at least 30 nights for adjustment before returning. The information doesn’t specify whether free pickup is available; it says the store will provide a free shipping label.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "SweetNight",
+   "condition": "sale_item_returns",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.sweetnight.com/pages/black-friday-sale",
+     "file": "pages_sweetnight/pages_black_friday_sale.txt",
+     "label": "yes",
+     "sentence": "Buying on sale doesn't change your coverage."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "Yes. The opened-mattress trial applies regardless of the sale price: after at least 30 nights of use, you can return it within 100 days of delivery if you’re still unsatisfied, provided it’s in sanitary, donatable condition without stains, tears, or excessive wear. This policy applies to purchases made directly from SweetNight’s official website.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "NapQueen",
+   "condition": "opened_returns",
+   "pages": "yes",
+   "page_sentences": [
+    {
+     "url": "https://www.napqueensleep.com/policies/refund-policy",
+     "file": "pages_napqueen/policies_refund_policy.txt",
+     "label": "yes",
+     "sentence": "You've got 100 nights, from the day it's delivered, to see if it's your dream sleep match."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "Yes, the Victoria mattress is included in the 100-night sleep trial, so you can open it and try it. If you’re unhappy, contact NapQueen within 100 nights of delivery; the mattress must be clean and free of stains or odors, and you’ll need proof of purchase and a receipt showing donation to a registered donation center. The store’s information says opened mattresses may need different return steps, so contact customer service for return authorization and instructions; refunds can’t be processed without proof of donation.",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true,
+   "contradiction_flag": false
+  },
+  {
+   "store": "NapQueen",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "page_sentences": [
+    {
+     "url": "https://www.napqueensleep.com/policies/refund-policy",
+     "file": "pages_napqueen/policies_refund_policy.txt",
+     "label": "doesnt_say",
+     "sentence": "Unlike others, we provide a prepaid return shipping label for a hassle-free experience, as long as the mattress remains unopened in its original box."
+    }
+   ],
+   "assistant": "doesnt_say",
+   "assistant_reply": "Opening and sleeping on it does not qualify for the free prepaid return label, which is provided only if the mattress is unopened in its original box. For an opened mattress, the store says to contact it for next steps but doesn’t specify whether return shipping or pickup will be free or whether you’ll have to pay. A return also requires approval; the mattress must be clean and free of stains or odors, and you must donate it to a registered donation center and provide proof of donation for a refund.",
+   "note": "The page sentence covers an unopened mattress, a different case from the buyer's. That is 'doesn't say'.",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "NapQueen",
+   "condition": "sale_item_returns",
+   "pages": "doesnt_say",
+   "page_sentences": [],
+   "assistant": "yes",
+   "assistant_reply": "Yes, the store’s 100-night sleep trial applies to the Victoria mattress, even if bought on sale. You can try it for 100 nights from delivery, though the store recommends at least 30 days; it must remain clean and free of stains or odors, and a refund requires proof of purchase and a donation receipt from a registered donation center. The policy says to contact the store for next steps if the mattress has been opened or unboxed; prepaid return shipping is only guaranteed while it remains unopened in its original box.",
+   "note": "The assistant-only case. The pages read say nothing about sale purchases.",
+   "status_shown": "assistant_only_yes",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": false
+  },
+  {
+   "store": "BedStory",
+   "condition": "opened_returns",
+   "scoreable": false,
+   "page_sentences": [
+    {
+     "url": "https://bedstory.com/pages/365-night-home-trial",
+     "file": "pages_bedstory/pages_365_night_home_trial.txt",
+     "label": "yes",
+     "sentence": "If you decide the mattress isn't right for you at any time during the 365-night period, contact BedStory's customer service team to start the return process."
+    },
+    {
+     "url": "https://bedstory.com/pages/365-night-home-trial",
+     "file": "pages_bedstory/pages_365_night_home_trial.txt",
+     "label": "unclear",
+     "sentence": "If your return is missing original packaging, request may be rejected."
+    }
+   ],
+   "assistant": "doesnt_say",
+   "assistant_reply": "The policy says mattress returns within the trial period are free, but it doesn’t specify the trial period’s length or confirm whether you can return a mattress after opening and sleeping on it. It also says refunds are typically processed within 5–7 business days once the return is confirmed.",
+   "note": "Not scoreable. The trial sentence reads as a yes, and the packaging sentence puts it in doubt."
+  },
+  {
+   "store": "BedStory",
+   "condition": "free_return_shipping",
+   "pages": "no",
+   "pages_disagree": true,
+   "page_sentences": [
+    {
+     "url": "https://bedstory.com/pages/return-policy",
+     "file": "pages_bedstory/pages_return_policy.txt",
+     "label": "yes",
+     "sentence": "Mattress returns within the trial period are free of charge."
+    },
+    {
+     "url": "https://bedstory.com/pages/365-night-home-trial",
+     "file": "pages_bedstory/pages_365_night_home_trial.txt",
+     "label": "no",
+     "sentence": "However, if the return is for personal reasons, you will need to cover the shipping costs."
+    }
+   ],
+   "assistant": "yes",
+   "assistant_reply": "Mattress returns during the trial period are free of charge, so you wouldn’t have to pay return shipping. The store’s information doesn’t specify whether pickup is offered.",
+   "note": "Two pages of the same store disagree. The page status is the stricter one, and the assistant's yes makes it a flagged contradiction.",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false,
+   "contradiction_flag": true
+  },
+  {
+   "store": "BedStory",
+   "condition": "sale_item_returns",
+   "pages_disagree": true,
+   "status_shown_any_of": [
+    "no",
+    "doesnt_say"
+   ],
+   "page_sentences": [
+    {
+     "url": "https://bedstory.com/pages/promotion",
+     "file": "pages_bedstory/pages_promotion.txt",
+     "label": "yes",
+     "sentence": "all BedStory mattresses, including these on sale, come with our 365-night home trial and worry-free return policy."
+    },
+    {
+     "url": "https://bedstory.com/pages/365-night-home-trial",
+     "file": "pages_bedstory/pages_365_night_home_trial.txt",
+     "label": "unclear",
+     "sentence": "On BedStory's official website, regular-priced items are eligible for a refund, but sale items may not be."
+    }
+   ],
+   "assistant": "doesnt_say",
+   "assistant_reply": "The return information doesn’t specify whether this mattress can be returned after opening and sleeping on it, or whether sale purchases are treated differently. It does say mattress returns within the trial period are free of charge, but the trial period’s terms aren’t provided.",
+   "note": "Two pages disagree, and the stricter one is hedged ('may not be'). Either 'no' or 'doesn't say' passes. A yes fails."
+  }
+ ],
+ "store_results_live_run_2026-11-15": [
+  {
+   "store": "Novilla",
+   "page_yes": 3,
+   "result": "meets_all_3"
+  },
+  {
+   "store": "SweetNight",
+   "page_yes": 3,
+   "result": "meets_all_3"
+  },
+  {
+   "store": "NapQueen",
+   "page_yes": 1,
+   "assistant_only_yes": 1,
+   "result": "not_answered_on_pages"
+  },
+  {
+   "store": "BedStory",
+   "page_yes_at_most": 1,
+   "result_any_of": [
+    "says_no",
+    "not_answered_on_pages"
+   ]
+  }
+ ],
+ "six_original_stores": [
+  {
+   "store": "novillashop.com",
+   "condition": "opened_returns",
+   "pages": "yes",
+   "assistant": "yes",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true
+  },
+  {
+   "store": "novillashop.com",
+   "condition": "free_return_shipping",
+   "pages": "yes",
+   "assistant": "yes",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true
+  },
+  {
+   "store": "novillashop.com",
+   "condition": "sale_item_returns",
+   "pages": "yes",
+   "assistant": "doesnt_say",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true
+  },
+  {
+   "store": "bonanest.com",
+   "condition": "opened_returns",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "bonanest.com",
+   "condition": "free_return_shipping",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "bonanest.com",
+   "condition": "sale_item_returns",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "homehavenstoreshop.com",
+   "condition": "opened_returns",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "homehavenstoreshop.com",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "homehavenstoreshop.com",
+   "condition": "sale_item_returns",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "novilla.cn",
+   "condition": "opened_returns",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "novilla.cn",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "novilla.cn",
+   "condition": "sale_item_returns",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "napqueensleep.com",
+   "condition": "opened_returns",
+   "pages": "yes",
+   "assistant": "doesnt_say",
+   "status_shown": "yes",
+   "counts_toward_meets_all_3": true
+  },
+  {
+   "store": "napqueensleep.com",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "napqueensleep.com",
+   "condition": "sale_item_returns",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "withushome.com",
+   "condition": "opened_returns",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "withushome.com",
+   "condition": "free_return_shipping",
+   "pages": "doesnt_say",
+   "assistant": "doesnt_say",
+   "status_shown": "doesnt_say",
+   "counts_toward_meets_all_3": false
+  },
+  {
+   "store": "withushome.com",
+   "condition": "sale_item_returns",
+   "pages": "no",
+   "assistant": "no",
+   "status_shown": "no",
+   "counts_toward_meets_all_3": false
+  }
+ ],
+ "assistant_replies_from": "live_run_under_400_2026-11-15.json"
+}
