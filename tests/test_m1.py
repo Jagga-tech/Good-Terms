@@ -114,8 +114,6 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
     by_name = {o["name"].strip(): o for o in RUN["offers"].values()}
     for store in check["stores"]:
         offer = by_name[store["name"]]
-        view = client.get(f"/api/stores/{store['domain']}").json()
-        assert {**view, "offer": store["offer"]} == store
         assert store["offer"] == {
             "product_title": offer["title"],
             "variant_id": offer["variant"],
@@ -169,12 +167,13 @@ def test_every_yes_row_has_the_stores_exact_sentence(client):
 
 
 def test_seed_holds_an_assistant_only_yes_and_a_pages_disagree_case(client):
-    napqueen = client.get("/api/stores/napqueensleep.com").json()
+    seeded = {store["domain"]: store for store in client.get("/api/checks/1").json()["stores"]}
+    napqueen = seeded["napqueensleep.com"]
     assert [row["status_shown"] for row in napqueen["rows"]] == ["assistant_only_yes", "doesnt_say", "assistant_only_yes"]
     assert not any(row["counts_toward_meets_all_3"] for row in napqueen["rows"])
-    sweetnight = client.get("/api/stores/sweetnight.com").json()["rows"][0]
+    sweetnight = seeded["sweetnight.com"]["rows"][0]
     assert sweetnight["page_sentences"][0]["heading"] == "Already Sleeping on It? (Opened)"
-    shipping = client.get("/api/stores/bedstory.com").json()["rows"][1]
+    shipping = seeded["bedstory.com"]["rows"][1]
     assert shipping["status_shown"] == "no" and shipping["contradiction"] is True
     assert [s["label"] for s in shipping["page_sentences"]] == ["yes", "no"]
 

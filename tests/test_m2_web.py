@@ -1,7 +1,7 @@
 import itertools
 import re
 
-from api import db, texts
+from api import banned, db, texts
 
 WEB = db.ROOT / "web"
 SOURCES = [p for p in (WEB / "src").rglob("*") if p.is_file() and ".test." not in p.name]
@@ -31,8 +31,11 @@ def test_green_is_used_only_for_a_yes():
 
 
 def test_none_of_the_five_banned_words_in_the_apps_own_text():
+    assert banned.WORDS == ("safe", "verified", "trusted", "guaranteed", "protected")
     for path in APP_TEXT:
-        assert not re.search(r"\b(safe|verified|trusted|guaranteed|protected)\b", read(path), re.I), path
+        if path.name == "banned.py":
+            continue
+        assert not re.search(rf"\b({'|'.join(banned.WORDS)})\b", read(path), re.I), path
 
 
 def test_no_shopify_logo_colours_or_wordmark():

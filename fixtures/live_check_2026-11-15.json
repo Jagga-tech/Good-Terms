@@ -1,0 +1,568 @@
+{
+ "saved_on": "2026-11-15",
+ "note": "One real live check, saved after it finished: live search, 18 live Ask replies asked at 15:10, live page reads, model labels. Used to replay Coco's flow without contacting any store.",
+ "search_text": "queen mattress, under $400, shipping to 94541",
+ "requested_size": "Queen",
+ "budget_cents": 40000,
+ "stores": [
+  {
+   "domain": "novillashop.com",
+   "name": "Novilla",
+   "result": "meets_all_3",
+   "offer": {
+    "name": "Novilla",
+    "storefront_url": "https://www.novillashop.com",
+    "store_domain": "novillashop.com",
+    "myshopify_domain": "novilla-us.myshopify.com",
+    "product_title": "Bliss Memory Foam Mattress",
+    "product_url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress",
+    "variant_id": "gid://shopify/ProductVariant/41389706805382",
+    "variant_labels": [
+     "Queen",
+     "6 inch"
+    ],
+    "price_cents": 16499,
+    "price_basis": "catalog price",
+    "checkout_url": "https://www.novillashop.com/buy/41389706805382:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=EvGa8HKuaxSr&_gsid=EvGa8HKuaxSr",
+    "endpoint": "https://novilla-us.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "We recommend a 30-night adjustment period, but if it's not a perfect fit, we offer free returns and full refunds for both unopened and used mattresses.",
+       "url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress",
+       "label": "yes"
+      },
+      {
+       "sentence": "We'll help you with your return — it's simple and free.",
+       "url": "https://www.novillashop.com/policies/refund-policy",
+       "label": "yes",
+       "heading": "Already Sleeping on It? (Opened)"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "yes",
+     "assistant_reply": "Yes. If you’ve opened and slept on the mattress, you can request a free return after at least 30 nights and within 100 days of delivery, provided it’s in sanitary, donatable condition with no rips, stains, or excessive wear. The 100-night trial applies to mattresses bought directly from novillashop.com and is limited to one mattress per household per year.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "Simply contact us to arrange a free local pickup; once confirmed, your refund will be processed within 5 business days.",
+       "url": "https://www.novillashop.com/products/novilla-bliss-memory-foam-mattress",
+       "label": "yes"
+      },
+      {
+       "sentence": "Free Returns still apply — we just handle returns a little differently for opened mattresses.",
+       "url": "https://www.novillashop.com/policies/refund-policy",
+       "label": "yes",
+       "heading": "Already Sleeping on It? (Opened)"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "yes",
+     "assistant_reply": "Return shipping is free for opened mattresses under the sleep trial, provided you’ve slept on it for at least 30 nights, request the return within 100 days of delivery, and the mattress is in sanitary, donatable condition. Contact Customer Care to arrange the return.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "Mattresses bought on sale come with the same 100-night trial (after a 30-night break-in period) and 10-year warranty.",
+       "url": "https://www.novillashop.com/pages/black-friday-sale",
+       "label": "yes",
+       "heading": "What is the return policy for sale items?"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "Yes, sale pricing alone does not appear to prevent a mattress return. However, clearance mattresses are final sale and cannot be returned for a change of mind or personal preference. For other mattresses bought directly from Novilla, unopened returns are accepted within 30 days of delivery; opened mattresses can be returned after at least 30 nights and within 100 days, if they’re in sanitary, donatable condition.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    }
+   ]
+  },
+  {
+   "domain": "sweetnight.com",
+   "name": "SweetNight",
+   "result": "meets_all_3",
+   "offer": {
+    "name": "SweetNight",
+    "storefront_url": "https://www.sweetnight.com",
+    "store_domain": "sweetnight.com",
+    "myshopify_domain": "sweetnightmattress.myshopify.com",
+    "product_title": "CoolNest® Memory Foam Mattress",
+    "product_url": "https://www.sweetnight.com/products/sweetnight-coolnest-mattress",
+    "variant_id": "gid://shopify/ProductVariant/46029155434754",
+    "variant_labels": [
+     "Queen",
+     "12\""
+    ],
+    "price_cents": 39999,
+    "price_basis": "catalog price",
+    "checkout_url": "https://www.sweetnight.com/buy/46029155434754:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=Mp4633ufn9Ap&_gsid=Mp4633ufn9Ap",
+    "endpoint": "https://sweetnightmattress.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "Sleep on the CoolNest® for 100 nights (over 3 months). If not satisfied, contact us for free pickup and full refund.",
+       "url": "https://www.sweetnight.com/products/sweetnight-coolnest-mattress",
+       "label": "yes",
+       "heading": "Is the 100-night trial really risk-free?"
+      },
+      {
+       "sentence": "We'll help you with your return — it's simple and free.",
+       "url": "https://www.sweetnight.com/pages/return-policy",
+       "label": "yes",
+       "heading": "Already Sleeping on It? (Opened)"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "yes",
+     "assistant_reply": "Yes. If you bought the mattress directly from SweetNight’s official website, you can return it within 100 days of delivery after sleeping on it, provided you’ve completed the minimum 30-night adjustment period and it’s in sanitary, donatable condition, free from stains, tears, or excessive wear.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "Sleep on the CoolNest® for 100 nights (over 3 months). If not satisfied, contact us for free pickup and full refund.",
+       "url": "https://www.sweetnight.com/products/sweetnight-coolnest-mattress",
+       "label": "yes",
+       "heading": "Is the 100-night trial really risk-free?"
+      },
+      {
+       "sentence": "We'll help you with your return — it's simple and free.",
+       "url": "https://www.sweetnight.com/pages/return-policy",
+       "label": "yes",
+       "heading": "Already Sleeping on It? (Opened)"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "The store’s information doesn’t specify whether return shipping for an opened mattress is free or paid. Opened mattresses may be returned within 100 days of delivery after at least 30 nights, if they’re in sanitary, donatable condition; the shipping policy says a free return label is provided for returns due to dissatisfaction with product quality, but doesn’t clarify shipping costs for other reasons.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "yes",
+     "page_sentences": [
+      {
+       "sentence": "Yes. Buying on sale doesn't change your coverage.",
+       "url": "https://www.sweetnight.com/pages/black-friday-sale",
+       "label": "yes",
+       "heading": "Do Black Friday mattress orders still get free shipping and the 100-night trial?"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "yes",
+     "assistant_reply": "Yes, a discounted mattress can be returned under the mattress trial policy if it was bought directly from SweetNight. Unopened mattresses are returnable within 30 days of delivery for a full refund; opened mattresses require at least a 30-night adjustment period and must be returned within 100 days of delivery in sanitary, donatable condition. For purchases from third-party retailers, check that retailer’s return policy.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    }
+   ]
+  },
+  {
+   "domain": "napqueensleep.com",
+   "name": "NapQueen",
+   "result": "not_answered_on_pages",
+   "offer": {
+    "name": "NapQueen",
+    "storefront_url": "https://www.napqueensleep.com",
+    "store_domain": "napqueensleep.com",
+    "myshopify_domain": "sleepqueens.myshopify.com",
+    "product_title": "Victoria Cooling Gel And Pocket Coil Hybrid Mattress",
+    "product_url": "https://www.napqueensleep.com/products/victoria-cooling-gel-and-pocket-coil-hybrid-mattress",
+    "variant_id": "gid://shopify/ProductVariant/32288560119946",
+    "variant_labels": [
+     "Queen",
+     "10\""
+    ],
+    "price_cents": 22900,
+    "price_basis": "catalog price",
+    "checkout_url": "https://www.napqueensleep.com/buy/32288560119946:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=Yo8FG3zYZzkz&_gsid=Yo8FG3zYZzkz",
+    "endpoint": "https://sleepqueens.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "Items returned with stains, odors, or other signs of wear may not be eligible for a refund.",
+       "url": "https://www.napqueensleep.com/policies/refund-policy",
+       "label": "unclear",
+       "heading": "Exceptions and Non-Returnable Items"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "Possibly. The 100-night trial applies to select mattresses, but the store doesn’t specify whether the Victoria mattress is included. For eligible trial mattresses, you can try it for up to 100 nights; it must remain clean and free of stains and odors, and a refund requires proof of donation to a registered donation center. If opened or unboxed, contact NapQueen for next steps; the prepaid return label is specified for mattresses that remain unopened in their original box.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "In the event the mattress is opened/unboxed, please contact us and we will assist you with the next steps.",
+       "url": "https://www.napqueensleep.com/policies/refund-policy",
+       "label": "doesnt_say",
+       "heading": "Free Return Shipping"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "For an opened or unboxed mattress, free return shipping is not confirmed: the prepaid label is specifically offered when the mattress is unopened in its original box. The policy says to contact NapQueen for next steps; it doesn’t specify whether you’ll have to pay return shipping for an opened mattress.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "For information on returns and exchanges, please refer to our Refund Policy.",
+       "url": "https://www.napqueensleep.com/policies/shipping-policy",
+       "label": "doesnt_say"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "The policy doesn’t say whether sale or discounted mattresses are treated differently. It covers select mattresses purchased from NapQueen’s website in the 100-night trial, subject to conditions including keeping the mattress clean and providing proof of purchase and a donation receipt; marketplace purchases must be handled through the marketplace.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    }
+   ]
+  },
+  {
+   "domain": "comformattress.com",
+   "name": "Comformattress",
+   "result": "says_no",
+   "offer": {
+    "name": "Comformattress",
+    "storefront_url": "https://comformattress.com",
+    "store_domain": "comformattress.com",
+    "myshopify_domain": "23e4a8-c3.myshopify.com",
+    "product_title": "Babo Care TXO 12\" Cooling Queen Medium Euro Hybrid Mattress with Manual",
+    "product_url": "https://comformattress.com/products/full-mattress-babo-care-14-inch-cooling-gel-memory-foam-and-individually-pocket-innerspring-hybrid-mattress-king-bed-mattress-in-a-box-certipur-us-certified-medium-full-size-mattress",
+    "variant_id": "gid://shopify/ProductVariant/42568426782786",
+    "variant_labels": [
+     "Queen",
+     "Gray"
+    ],
+    "price_cents": 19999,
+    "price_basis": "catalog price",
+    "checkout_url": "https://comformattress.com/buy/42568426782786:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=BUxq1wuKBGoB&_gsid=BUxq1wuKBGoB",
+    "endpoint": "https://23e4a8-c3.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "To be eligible for a return, your mattress must be in the same condition that you received it, unused, and with a mattress protector.",
+       "url": "https://comformattress.com/policies/refund-policy",
+       "label": "no"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "no",
+     "assistant_reply": "The store offers a 100-night trial, but returns require the mattress to be unused, in the condition received, with a mattress protector and original packaging. Since you’ve opened and slept on it, it may not meet the stated eligibility requirements; the policy doesn’t specify an exception for mattresses that have been slept on. Contact info@comformattress.com before sending it back.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "If the return is due to the customer's personal reasons, the customer is responsible for return shipping and handling fees.",
+       "url": "https://comformattress.com/policies/refund-policy",
+       "label": "no",
+       "heading": "Shipping and Handling Fees"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "no",
+     "assistant_reply": "If the return is for personal reasons, you pay the return shipping and handling fees; if the mattress has a quality issue, the store covers them. The return policy requires the mattress to be unused and in the same condition received, so it doesn’t specify whether an opened mattress is eligible.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "Unfortunately, we cannot accept returns on sale items or gift cards.",
+       "url": "https://comformattress.com/policies/refund-policy",
+       "label": "no",
+       "heading": "Exceptions / Non-returnable Items"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "no",
+     "assistant_reply": "No. The return policy says sale items cannot be returned, even though mattresses generally have a 100-night trial.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    }
+   ]
+  },
+  {
+   "domain": "dwellinhaus.com",
+   "name": "Dwellinhaus",
+   "result": "says_no",
+   "offer": {
+    "name": "Dwellinhaus",
+    "storefront_url": "https://dwellinhaus.com",
+    "store_domain": "dwellinhaus.com",
+    "myshopify_domain": "0zz1ig-ce.myshopify.com",
+    "product_title": "Novilla 12 Inch Queen Mattress in a Box, Gel Memory Foam Queen Size Bed Mattress for Cooling Night Sleep, Comfort Sleep & Pressure Relief, CertiPUR-US Certified",
+    "product_url": "https://dwellinhaus.com/products/b0dwk7dtnw",
+    "variant_id": "gid://shopify/ProductVariant/44720265560118",
+    "variant_labels": [
+     "Queen"
+    ],
+    "price_cents": 31319,
+    "price_basis": "catalog price",
+    "checkout_url": "https://dwellinhaus.com/buy/44720265560118:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=odVUEXbyvHgB&_gsid=odVUEXbyvHgB",
+    "endpoint": "https://0zz1ig-ce.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "To be eligible for a return, your item must be in the same condition that you received it, unused or unworn, with tags (if applicable), and in its original packaging.",
+       "url": "https://dwellinhaus.com/policies/refund-policy",
+       "label": "no",
+       "heading": "Returns"
+      },
+      {
+       "sentence": "To be eligible for a return, your item must be in the same condition that you received it, unused or unworn, with tags, and in its original packaging.",
+       "url": "https://dwellinhaus.com/pages/refund-policy",
+       "label": "no",
+       "heading": "Returns"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "no",
+     "assistant_reply": "The store’s policy allows returns within 14 calendar days of delivery only if the mattress is unused and in its original packaging, so a mattress you’ve opened and slept on would not meet those stated conditions. Contact the store at cs26shop@gmail.com within 14 days to request a return; returns need prior authorization.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "If your return is accepted, we will provide a return shipping label, along with instructions on how and where to send your package.",
+       "url": "https://dwellinhaus.com/policies/refund-policy",
+       "label": "doesnt_say",
+       "heading": "Returns"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "The store’s information doesn’t specify whether return shipping is free or charged. It says returns must be unused and in their original condition and packaging, so an opened mattress may not qualify; contact the store within 14 days of delivery to ask about your situation.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "Sale items and gift cards are generally non-returnable, except where required by applicable law.",
+       "url": "https://dwellinhaus.com/policies/refund-policy",
+       "label": "no",
+       "heading": "Exceptions / Non-Returnable Items"
+      },
+      {
+       "sentence": "We do not accept returns on sale items or gift cards.",
+       "url": "https://dwellinhaus.com/pages/refund-policy",
+       "label": "no",
+       "heading": "Exceptions / Non-Returnable Items"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "no",
+     "assistant_reply": "Sale items are generally non-returnable, except where required by applicable law, so a discounted mattress may not be eligible. The store’s information does not specify whether this particular mattress is classified as a sale item. For eligible returns, contact the store within 14 calendar days of delivery; the item must be unused, in its original packaging and in the same condition received, with proof of purchase.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": false
+    }
+   ]
+  },
+  {
+   "domain": "bedstory.com",
+   "name": "BedStory",
+   "result": "says_no",
+   "offer": {
+    "name": "BedStory",
+    "storefront_url": "https://bedstory.com",
+    "store_domain": "bedstory.com",
+    "myshopify_domain": "bedsstories.myshopify.com",
+    "product_title": "Platin Hybrid Mattress",
+    "product_url": "https://bedstory.com/products/platin-hybrid-mattress",
+    "variant_id": "gid://shopify/ProductVariant/43392373424188",
+    "variant_labels": [
+     "Queen",
+     "12\""
+    ],
+    "price_cents": 39999,
+    "price_basis": "catalog price",
+    "checkout_url": "https://bedstory.com/buy/43392373424188:1?ucp/version=2026-08-25&attribution/utm_source=shopify&attribution/utm_medium=catalog&attribution/click_id_tag=_gsid&attribution/click_id_value=EmFnbstCmqaA&_gsid=EmFnbstCmqaA",
+    "endpoint": "https://bedsstories.myshopify.com/api/ucp/mcp",
+    "ask_offered": true
+   },
+   "rows": [
+    {
+     "condition": "opened_returns",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "In certain cases, returns may be subject to partial refunds or may not be accepted if the product shows signs of excessive wear, damage, staining, or misuse beyond normal trial use.",
+       "url": "https://bedstory.com/pages/return-policy",
+       "label": "unclear",
+       "heading": "VII. Can a return be rejected or partially refunded?"
+      },
+      {
+       "sentence": "If you decide the mattress isn't right for you at any time during the 365-night period, contact BedStory's customer service team to start the return process.",
+       "url": "https://bedstory.com/pages/365-night-home-trial",
+       "label": "yes",
+       "heading": "II.A.What if I'm not satisfied during the trial?"
+      },
+      {
+       "sentence": "If your return is missing original packaging, request may be rejected.",
+       "url": "https://bedstory.com/pages/365-night-home-trial",
+       "label": "unclear",
+       "heading": "II.C.Do I need to keep the original packaging for a return?"
+      },
+      {
+       "sentence": "If it’s still not the right fit, we’ll help with a return or exchange.",
+       "url": "https://bedstory.com/pages/warranty-policy",
+       "label": "yes",
+       "heading": "IX. What if I feel the mattress is too firm or too soft?"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "The store’s information doesn’t specify whether you can return a mattress after opening and sleeping on it. It does say mattress returns within the trial period are free, but it doesn’t provide the trial-period length or confirm the condition requirements.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": true
+    },
+    {
+     "condition": "free_return_shipping",
+     "page_status": "no",
+     "page_sentences": [
+      {
+       "sentence": "Mattress returns within the trial period are free of charge.",
+       "url": "https://bedstory.com/policies/refund-policy",
+       "label": "yes",
+       "heading": "Do I need to pay for return shipping?"
+      },
+      {
+       "sentence": "Mattress returns within the trial period are free of charge.",
+       "url": "https://bedstory.com/pages/return-policy",
+       "label": "yes",
+       "heading": "IV. Do I need to pay for return shipping?"
+      },
+      {
+       "sentence": "However, if the return is for personal reasons, you will need to cover the shipping costs.",
+       "url": "https://bedstory.com/pages/365-night-home-trial",
+       "label": "no",
+       "heading": "II.D.Who pays for return shipping if I change my mind?"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "Mattress returns within the trial period are free of charge. The store’s information doesn’t specify whether an opened mattress is eligible for a return during that period.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": true
+    },
+    {
+     "condition": "sale_item_returns",
+     "page_status": "doesnt_say",
+     "page_sentences": [
+      {
+       "sentence": "Yes — all BedStory mattresses, including these on sale, come with our 365-night home trial and worry-free return policy.",
+       "url": "https://bedstory.com/pages/promotion",
+       "label": "yes",
+       "heading": "Is the 365-night sleep trial still valid for sale items?"
+      },
+      {
+       "sentence": "On BedStory's official website, regular-priced items are eligible for a refund, but sale items may not be.",
+       "url": "https://bedstory.com/pages/365-night-home-trial",
+       "label": "unclear",
+       "heading": "I.D.Are sale or discounted items eligible for trial policy?"
+      }
+     ],
+     "date_read": "2026-11-15",
+     "read_note": null,
+     "assistant_status": "doesnt_say",
+     "assistant_reply": "The store’s information doesn’t specify whether sale or discounted mattresses are eligible for return. It says mattress returns within the trial period are free of charge, but it doesn’t state the trial-period length or whether discounts affect eligibility.",
+     "reply_time": "2026-11-15 15:10",
+     "assistant_text": null,
+     "contradiction": true
+    }
+   ]
+  }
+ ]
+}

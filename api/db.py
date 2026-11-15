@@ -18,6 +18,11 @@ CREATE TABLE conditions (
     question TEXT NOT NULL,
     definition TEXT NOT NULL
 );
+CREATE TABLE buyers (
+    id INTEGER PRIMARY KEY,
+    conditions TEXT,
+    zip TEXT
+);
 CREATE TABLE checks (
     id INTEGER PRIMARY KEY,
     search_text TEXT,
@@ -172,4 +177,59 @@ def reset():
                         case.get("read_note"),
                     ),
                 )
+        conn.execute("INSERT INTO buyers (id) VALUES (1)")
+        seed_saved_check(conn)
     conn.close()
+
+
+def seed_saved_check(conn):
+    """Check 2: one whole live check of 2026-11-15, saved after it finished."""
+    saved = load("live_check_2026-11-15.json")
+    conn.execute(
+        "INSERT INTO checks (id, search_text, requested_size, budget_cents, saved_on, created)"
+        " VALUES (2, ?, ?, ?, ?, ?)",
+        (saved["search_text"], saved["requested_size"], saved["budget_cents"], saved["saved_on"], saved["saved_on"]),
+    )
+    for store in saved["stores"]:
+        offer = store["offer"]
+        conn.execute(
+            "INSERT INTO offers (check_id, store_domain, seller_name, storefront_url, myshopify_domain,"
+            " product_title, variant_id, variant_labels, price_cents, price_basis, replies_in, pages_read,"
+            " rows_check, product_url, checkout_url, endpoint, ask_offered)"
+            " VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 2, ?, ?, ?, ?)",
+            (
+                store["domain"],
+                store["name"],
+                offer["storefront_url"],
+                offer["myshopify_domain"],
+                offer["product_title"],
+                offer["variant_id"],
+                json.dumps(offer["variant_labels"]),
+                offer["price_cents"],
+                offer["price_basis"],
+                offer["product_url"],
+                offer["checkout_url"],
+                offer["endpoint"],
+                offer["ask_offered"],
+            ),
+        )
+        for row in store["rows"]:
+            disagree = len({s["label"] for s in row["page_sentences"]}) > 1
+            conn.execute(
+                "INSERT INTO findings (check_id, store_domain, condition, page_status, page_sentences,"
+                " date_read, assistant_status, assistant_reply, reply_time, reply_note, pages_disagree,"
+                " read_note) VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    store["domain"],
+                    row["condition"],
+                    row["page_status"],
+                    json.dumps(row["page_sentences"], ensure_ascii=False),
+                    row["date_read"],
+                    row["assistant_status"],
+                    row["assistant_reply"],
+                    row["reply_time"],
+                    row["assistant_text"],
+                    int(disagree),
+                    row["read_note"],
+                ),
+            )

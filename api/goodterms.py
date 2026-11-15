@@ -111,7 +111,7 @@ def offer_view(offer, budget_cents):
 def latest_offer(conn, store):
     return conn.execute(
         "SELECT * FROM offers WHERE store_domain = ? AND pages_read = 1"
-        " AND rows_check IS NOT NULL ORDER BY check_id DESC LIMIT 1",
+        " AND rows_check IS NOT NULL ORDER BY rows_check DESC, check_id DESC LIMIT 1",
         (store,),
     ).fetchone()
 
@@ -236,6 +236,34 @@ def get_check(check_id: int):
         }
     finally:
         conn.close()
+
+
+def checkout_link(check_id, store):
+    """The catalog's checkout link for one store's offer. Refused until that store's check is done."""
+    conn = db.connect()
+    try:
+        offer = conn.execute(
+            "SELECT * FROM offers WHERE check_id = ? AND store_domain = ?", (check_id, domain(store))
+        ).fetchone()
+        check = conn.execute("SELECT * FROM checks WHERE id = ?", (check_id,)).fetchone()
+        if not offer:
+            raise HTTPException(404, "No such store in this check")
+        offers = conn.execute("SELECT * FROM offers WHERE check_id = ? ORDER BY rowid", (check_id,)).fetchall()
+        index = [o["store_domain"] for o in offers].index(offer["store_domain"])
+        done = replay_progress(check, index, offer)[1] if check["replay_started"] else bool(offer["pages_read"])
+    finally:
+        conn.close()
+    link = offer["checkout_url"] or ""
+    if not done:
+        raise HTTPException(409, "This store's check has not finished, so its checkout link is not given yet.")
+    if not link.startswith("https://"):
+        raise HTTPException(404, "The catalog gave no checkout link for this offer")
+    return {"url": link}
+
+
+@router.get("/checks/{check_id}/checkout/{store}")
+def get_checkout_link(check_id: int, store: str):
+    return checkout_link(check_id, store)
 
 
 @router.get("/stores")

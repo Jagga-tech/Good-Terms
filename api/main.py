@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from api import db
+from api import coco, db
 from api.goodterms import router
 
 
@@ -14,6 +14,7 @@ async def lifespan(app):
 
 app = FastAPI(title="GoodTerms", lifespan=lifespan)
 app.include_router(router)
+app.include_router(coco.router)
 
 
 @app.get("/api/health")

@@ -1,4 +1,4 @@
-.PHONY: dev test smoke frozen live
+.PHONY: dev test smoke frozen live coco
 
 dev:
 	@sh -c 'trap "kill 0" EXIT; uv run --env-file .env uvicorn api.main:app --reload --port 8000 & npm --prefix web run dev'
@@ -16,3 +16,6 @@ frozen:
 
 live:
 	uv run --env-file .env python -m scripts.m3_live
+
+coco:
+	uv run --env-file .env python -m scripts.m5_coco

@@ -32,6 +32,7 @@ def main():
     data = {}
     with TestClient(app) as client:
         data["final"] = client.get("/api/checks/1").json()
+        data["latest"] = client.get("/api/checks/2").json()
         replay = client.post("/api/checks/1/replay").json()["id"]
         for name, seconds in (("replay_start", 0.5), ("replay_replies", 4), ("replay_partial", 8)):
             clock["t"] += seconds

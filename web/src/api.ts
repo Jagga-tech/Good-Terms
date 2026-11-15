@@ -65,3 +65,44 @@ export const getCheck = (id: string) => call<Check>(`/checks/${id}`)
 export const replayCheck = (id: number) => call<{ id: number }>(`/checks/${id}/replay`, 'POST')
 export const getStores = () => call<StoreName[]>('/stores')
 export const getStore = (domain: string) => call<Store>(`/stores/${encodeURIComponent(domain)}`)
+
+export type CocoLine = { who: 'you' | 'coco'; text: string }
+export type Condition = { id: string; label: string; definition: string }
+export type CocoState = {
+  conditions_confirmed: boolean
+  conditions: Condition[]
+  lines: CocoLine[]
+  check_id: number | null
+  check_done: boolean
+  busy: boolean
+}
+export type CocoEvent =
+  | { type: 'you'; text: string }
+  | { type: 'delta'; text: string }
+  | { type: 'line' }
+  | { type: 'open'; check_id: number }
+  | { type: 'end' }
+
+export const getCoco = () => call<CocoState>('/coco')
+export const confirmConditions = () => call<CocoState>('/buyer/conditions', 'POST')
+export const resetCoco = () => call<{ ok: boolean }>('/coco/reset', 'POST')
+
+export async function sayToCoco(text: string, onEvent: (event: CocoEvent) => void) {
+  const response = await fetch('/api/coco', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text }),
+  })
+  if (!response.ok || !response.body) throw new Error(`${response.status} on /coco`)
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() ?? ''
+    for (const line of lines) if (line.trim()) onEvent(JSON.parse(line))
+  }
+}

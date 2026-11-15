@@ -364,6 +364,106 @@ blockquote,
   margin-top: 0;
 }
 
+.terms {
+  margin: 24px 0;
+  display: grid;
+  gap: 16px;
+}
+
+.terms dt {
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.terms dd {
+  margin: 0;
+  color: var(--quiet);
+}
+
+.primary {
+  margin-top: 16px;
+  padding: 8px 20px;
+  border: 1px solid var(--navy);
+  background: var(--navy);
+  color: var(--white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary:disabled {
+  border-color: var(--faint);
+  background: var(--faint);
+  cursor: default;
+}
+
+.talk {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 19px;
+}
+
+.line.coco {
+  font-weight: 400;
+}
+
+.terms dd::first-letter {
+  text-transform: uppercase;
+}
+
+.who {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--quiet);
+  padding-top: 5px;
+}
+
+.working {
+  padding: 16px 0 16px calc(4rem + 16px);
+  font-size: 17px;
+}
+
+.opened {
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+.say {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.say label {
+  flex-basis: 100%;
+  font-size: 14px;
+  color: var(--quiet);
+}
+
+.say input {
+  flex: 1 1 16rem;
+  padding: 8px 12px;
+  border: 1px solid var(--navy);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+}
+
+.say .primary {
+  margin-top: 0;
+}
+
 footer {
   padding: 16px 0 32px;
   border-top: 1px solid var(--line);

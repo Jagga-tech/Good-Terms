@@ -136,7 +136,12 @@ def test_replay_replies_arrive_before_any_pages(client, clock):
 
 def test_store_list_and_store_view_hold_nothing_about_the_buyer(client):
     listed = client.get("/api/stores").json()
-    assert [s["name"] for s in listed] == ["BedStory", "Dwellinhaus", "Lee Furniture, NC", "NapQueen", "Novilla", "SweetNight"]
+    assert [s["name"] for s in listed] == ["BedStory", "Comformattress", "Dwellinhaus", "Lee Furniture, NC", "NapQueen", "Novilla", "SweetNight"]
+    latest = {s["domain"]: s for s in client.get("/api/checks/2").json()["stores"]}
+    older = {s["domain"]: s for s in client.get("/api/checks/1").json()["stores"]}
+    for store in listed:
+        source = latest.get(store["domain"]) or older[store["domain"]]
+        assert client.get(f"/api/stores/{store['domain']}").json()["rows"] == source["rows"]
     view = client.get("/api/stores/bedstory.com").json()
     keys = set(view) | {key for row in view["rows"] for key in row}
     assert not any(word in key for key in keys for word in ("offer", "price", "budget", "decision", "total"))

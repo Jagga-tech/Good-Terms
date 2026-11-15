@@ -4,6 +4,8 @@ import raw from '../test-data.json'
 import { Footer, parseRoute } from './App'
 import type { Check, CheckStore, Row, Store, StoreName } from './api'
 import { CheckView, ConditionRow, StoreEntry } from './BuyersCheck'
+import { FirstRun, Talk } from './Coco'
+import type { CocoState } from './api'
 import { MerchantPage, MerchantStore } from './MerchantView'
 
 const data = raw as unknown as Record<string, Check> & { stores: StoreName[]; merchant: Record<string, Store> }
@@ -132,7 +134,10 @@ test('the price gap line is the API’s, and its two prices are the prices shown
 })
 
 test('both screens show the same sentence, reply, link and date for the same row', () => {
-  for (const store of data.final.stores) {
+  const latest = new Set(data.latest.stores.map((store) => store.domain))
+  const shown = [...data.latest.stores, ...data.final.stores.filter((store) => !latest.has(store.domain))]
+  expect(shown.length).toBe(Object.keys(data.merchant).length)
+  for (const store of shown) {
     const buyer = entryMarkup(store)
     const merchant = renderToStaticMarkup(<MerchantStore store={data.merchant[store.domain]} />)
     expect(data.merchant[store.domain].rows).toEqual(store.rows)
@@ -153,11 +158,12 @@ const quoted = (store: Store) =>
   store.rows.flatMap((row: Row) => [row.assistant_reply!, row.question, ...row.page_sentences.flatMap((s) => [s.sentence, s.heading ?? '', s.url])])
 
 test('Merchant View speaks to the merchant, in order, with no counts, prices or buyer details', () => {
-  for (const store of Object.values(data.merchant)) {
+  const names = [...data.final.stores, ...data.latest.stores]
+  for (const store of [...Object.values(data.merchant), ...data.final.stores]) {
     const markup = renderToStaticMarkup(<MerchantStore store={store} />)
     let own = text(markup)
     for (const piece of quoted(store).filter(Boolean)) own = own.split(piece).join('')
-    own = own.replace(/[\w.-]+\.com\S*/g, '').replace(/\d{4}-\d{2}-\d{2}/g, '')
+    own = own.replace(/[\w.-]+\.com\S*/g, '').replace(/\d{4}-\d{2}-\d{2}( \d{2}:\d{2})?/g, '')
     expect(own).not.toMatch(/this store|the merchant|buyer's|budget|\$|\d/i)
     expect(own).toMatch(/your store/i)
     const order = ['What your pages answer clearly', 'What is missing', 'Where to add it'].map((h) => own.indexOf(h))
@@ -165,14 +171,14 @@ test('Merchant View speaks to the merchant, in order, with no counts, prices or 
     expect(order).toEqual([...order].sort((a, b) => a - b))
     expect(own.split('Settings, then Policies').length).toBe(2)
     expect(own.split('Sales channels, Agentic, then Knowledge base').length).toBe(2)
-    for (const other of data.final.stores)
-      if (other.domain !== store.domain) expect(own).not.toContain(other.name!)
+    for (const other of names) if (other.domain !== store.domain) expect(own).not.toContain(other.name!)
     expect(greenIn(markup)).toBe(0)
   }
 })
 
 test('Merchant View puts each row under the right heading', () => {
-  const lines = (domain: string) => text(renderToStaticMarkup(<MerchantStore store={data.merchant[domain]} />))
+  const lines = (domain: string) =>
+    text(renderToStaticMarkup(<MerchantStore store={data.final.stores.find((store) => store.domain === domain)!} />))
   expect(lines('novillashop.com')).toContain('Your pages answer sale-item returns clearly. The answer is: yes.')
   expect(lines('novillashop.com')).toContain('Nothing is missing.')
   expect(lines('napqueensleep.com')).toContain("Your store's assistant says yes to sale-item returns, but your pages don't say it. You can add it in your return policy.")
@@ -206,4 +212,43 @@ test('a blocked Ask is said on screen in plain words, on both screens', () => {
   const merchant = text(renderToStaticMarkup(<MerchantStore store={store} />))
   expect(merchant).toContain(said)
   expect(merchant).not.toMatch(/this store|the merchant/i)
+})
+
+const coco: CocoState = {
+  conditions_confirmed: true,
+  conditions: [
+    { id: 'opened_returns', label: 'Opened returns', definition: 'the item can be returned after it has been opened and used.' },
+    { id: 'free_return_shipping', label: 'Free return shipping', definition: 'the buyer pays nothing to send it back.' },
+    { id: 'sale_item_returns', label: 'Sale-item returns', definition: 'an item bought at a sale price can still be returned.' },
+  ],
+  lines: [],
+  check_id: null,
+  check_done: false,
+  busy: false,
+}
+
+test('Coco’s first run asks the buyer to confirm the three conditions', () => {
+  const markup = renderToStaticMarkup(<FirstRun state={{ ...coco, conditions_confirmed: false }} />)
+  for (const condition of coco.conditions) {
+    expect(text(markup)).toContain(condition.label)
+    expect(text(markup)).toContain(condition.definition)
+  }
+  expect(markup.match(/<button/g)).toHaveLength(1)
+  expect(text(markup)).toContain('Confirm my conditions')
+})
+
+test('Coco’s messages are plain lines under the buyer’s request, not a chat thread', () => {
+  const lines = [
+    { who: 'you' as const, text: 'a queen mattress under $400, shipping to 94541' },
+    { who: 'coco' as const, text: "I searched for a Queen and found 6 stores. Buyer's Check is open." },
+  ]
+  const markup = renderToStaticMarkup(<Talk state={{ ...coco, check_id: 3 }} lines={lines} working={false} />)
+  const page = text(markup)
+  expect(page.indexOf(lines[0].text)).toBeGreaterThan(-1)
+  expect(page.indexOf(lines[0].text)).toBeLessThan(page.indexOf(lines[1].text))
+  expect(markup).not.toMatch(/bubble|avatar|typing|<img|<svg|…|\.\.\./i)
+  expect(markup).toContain('href="/check/3"')
+  for (const condition of coco.conditions) expect(page).toContain(condition.label)
+  expect(greenIn(markup)).toBe(0)
+  expect(parseRoute(new URL('http://app/'))).toEqual({ screen: 'coco' })
 })
