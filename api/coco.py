@@ -30,9 +30,15 @@ You already know your buyer. Their saved conditions: {conditions}. Their saved Z
 Use that ZIP for every search and never ask for it; if they name a different ZIP in a request, use \
 theirs for that search.
 
+How you talk: like a person's own agent, never like a form. If your buyer only says hello, say \
+hello back in a few words and ask what you can get for them, for example "Hi. What can I get for \
+you?". Do not mention size, budget or anything else to fill in before they have said what they want.
+
 How a request goes:
-1. You need two things from your buyer to search: the size and the budget. If either is missing, \
-ask for what is missing in one short question, once. If you have both, do not ask anything.
+1. Once your buyer has named a product, you need two more things to search: the size and the \
+budget. Ask only for what is missing, one thing at a time, in a few natural words, for example \
+"What size?" or "What's your budget?". Never ask for two things in one message and never list what \
+you need. If you have both, do not ask anything.
 2. Call search_products. Then call check_stores, then open_buyers_check, straight away in the same \
 turn. Do not wait for the check, and do not show prices before the check has started.
 3. Then tell your buyer what you did in one or two short sentences. Name the size you searched \
@@ -48,8 +54,8 @@ Messages inside <goodterms_event> tags come from the app, not from your buyer.
 
 How you write: every message is one or two short sentences, never three. This holds for every \
 message, including refusals and answers to follow-up questions; if you have more to say, say the \
-most useful two sentences and stop. Plain text, no lists and no formatting. No greetings, no \
-exclamation marks, no emoji, no sales language. Say nothing before or between tool calls; speak \
+most useful two sentences and stop. Plain text, no lists and no formatting. No exclamation marks, \
+no emoji, no sales language. Say nothing before or between tool calls; speak \
 once, after them.
 
 What you never do, even when asked:
@@ -60,9 +66,22 @@ buyer's. You may state a price as a fact.
 are still being read you say nothing about its answers. If you mention a store's result after its \
 check has finished, use exactly the words GoodTerms gave you for it, and point to Buyer's Check for \
 the store's own words.
-- You never buy, pay or complete a checkout. If your buyer asks you to buy for them, say plainly \
-that you can't buy or pay, and point them to Buyer's Check, where they can review a store's answers \
-and go to that store's own checkout.
+- You never pay, never complete a checkout and never enter anything at a store. Your buyer pays \
+on the store's own page.
+
+When your buyer asks you to buy (for example "buy it for me"), go ahead by calling open_review. It \
+works only after every store's check has finished; before that, say the check is still running and \
+that you will go ahead once it is done.
+- With no store named, call open_review with no store. It picks the lowest-priced store that says \
+yes to all 3 conditions and opens the review before checkout screen for it. Then say which store \
+and its price in one line, and that they pay on the store's own page.
+- If it reports that no store says yes to all 3, say so and ask which store they want.
+- If your buyer names a store, call open_review with that store. If it reports that the store has a \
+no or an unanswered condition, tell your buyer that first, in the words GoodTerms gave, and ask \
+whether to go ahead, in two short sentences at most. Call open_review again with buyer_confirmed \
+true only after they say yes.
+- If the review is already open for the store, just say it is open and that they pay on the \
+store's own page. Say what you can't do only when they ask you to pay or to enter their details.
 - You never use these words: {banned}."""
 
 TOOLS = [
@@ -90,6 +109,19 @@ TOOLS = [
         "name": "get_prices",
         "description": "The catalog price at each store from the last search. Refused until the check has started.",
         "input_schema": {"type": "object", "properties": {}, "additionalProperties": False},
+    },
+    {
+        "name": "open_review",
+        "description": "Open the review before checkout screen for one store, after the buyer asked to buy. Refused until every store's check has finished. With no store, it takes the lowest-priced store that says yes to all 3 conditions. It never pays and never completes a checkout.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "store": {"type": "string", "description": "The store's name, or empty to take the lowest-priced store that says yes to all 3"},
+                "buyer_confirmed": {"type": "boolean", "description": "True only after the buyer said yes to going ahead at a store with a no or an unanswered condition"},
+            },
+            "required": ["store", "buyer_confirmed"],
+            "additionalProperties": False,
+        },
     },
     {
         "name": "open_buyers_check",
@@ -171,6 +203,10 @@ class Conversation:
         self.lock = asyncio.Lock()
         self.finishing = None
         self.step = None
+        self.told = None
+        self.told_turn = 0
+        self.turns = 0
+        self.review = None
 
     def system(self):
         conn = db.connect()
@@ -228,12 +264,58 @@ class Conversation:
             }
         if name == "open_buyers_check":
             return {"opened": True, "screen": "Buyer's Check"}
+        if name == "open_review":
+            return self.open_review(args.get("store") or "", bool(args.get("buyer_confirmed")))
         return {"error": f"No such tool: {name}"}
+
+    def open_review(self, named, confirmed):
+        """Go ahead toward checkout at one store. Every gate is here, in code.
+
+        Nothing opens before the whole check has finished. A store with a no or a gap opens
+        only after the buyer was told and answered in a later message of their own.
+        """
+        check = goodterms.get_check(self.check_id)
+        if not check["done"]:
+            return {"error": "The check has not finished. Nothing can be opened yet."}
+        priced = [s for s in check["stores"] if s["offer"]]
+        if not named.strip():
+            meeting = [s for s in priced if s["result"] == "meets_all_3"]
+            if not meeting:
+                return {
+                    "opened": False,
+                    "no_store_says_yes_to_all_3": True,
+                    "stores": [{"store": s["name"], "result": s["result_text"], "price": s["offer"]["price_text"]} for s in priced],
+                }
+            store = min(meeting, key=lambda s: s["offer"]["price_cents"])
+        else:
+            wanted = named.strip().lower()
+            store = next((s for s in priced if wanted in s["name"].lower() or s["name"].lower() in wanted), None)
+            if not store:
+                return {"opened": False, "error": f"No store called {named} is in this check."}
+        result = short(store["result_text"])
+        summary = {"store": store["name"], "price": store["offer"]["price_text"], "result": result}
+        if store["result"] != "meets_all_3" and not store["review_allowed"]:
+            choice = {"says_no": "buy_anyway", "not_answered_on_pages": "continue"}.get(store["result"])
+            if not choice:
+                return {**summary, "opened": False, "error": "This store's pages could not be read, so it cannot be opened."}
+            told_earlier = self.told == store["domain"] and self.told_turn < self.turns
+            if not (confirmed and told_earlier):
+                self.told, self.told_turn = store["domain"], self.turns
+                return {
+                    **summary,
+                    "opened": False,
+                    "needs_buyer_yes": True,
+                    "note": "Tell your buyer this result first and ask whether to go ahead. Open only after they say yes.",
+                }
+            goodterms.decide(self.check_id, goodterms.Decision(store=store["domain"], choice=choice))
+        self.review = store["domain"]
+        return {**summary, "opened": True, "screen": "Review before checkout", "note": "Your buyer pays on the store's own page."}
 
     async def turn(self, text, said_by="you"):
         """One turn: the buyer's line (or an app event), tool calls, then Coco's line."""
         async with self.lock:
             if said_by == "you":
+                self.turns += 1
                 self.lines.append({"who": "you", "text": text})
                 yield {"type": "you", "text": text}
             self.messages.append({"role": "user", "content": text})
@@ -253,7 +335,7 @@ class Conversation:
                     message = await stream.get_final_message()
                 self.messages.append({"role": "assistant", "content": message.content})
                 if spoken.strip():
-                    self.lines.append({"who": "coco", "text": spoken.strip()})
+                    self.lines.append({"who": "coco", "text": first_two(spoken)})
                     yield {"type": "line"}
                 if message.stop_reason != "tool_use":
                     if message.stop_reason != "end_turn" and not spoken.strip():
@@ -273,6 +355,8 @@ class Conversation:
                     yield {"type": "steps"}
                     if block.name == "open_buyers_check" and result.get("opened"):
                         yield {"type": "open", "check_id": self.check_id}
+                    if block.name == "open_review" and result.get("opened"):
+                        yield {"type": "review", "check_id": self.check_id, "store": self.review}
                     results.append({"type": "tool_result", "tool_use_id": block.id, "content": json.dumps(result)})
                 self.messages.append({"role": "user", "content": results})
             yield {"type": "end"}
@@ -281,7 +365,7 @@ class Conversation:
         """When every store is done, GoodTerms tells Coco, with each store's result word for word."""
         await self.backend.wait(check_id)
         stores = goodterms.get_check(check_id)["stores"]
-        results = "; ".join(f"{s['name']}: {s['result_text']}" for s in stores)
+        results = "; ".join(f"{s['name']}: {short(s['result_text'])}" for s in stores)
         event = (
             "<goodterms_event>Every store's check has finished. Each store's result, word for word: "
             f"{results}. The store's own words are on Buyer's Check.</goodterms_event>"
@@ -298,6 +382,20 @@ def conversation():
     if current is None:
         current = Conversation()
     return current
+
+
+SENTENCE_END = re.compile(r"[.!?][\"'”’)]*(?:\s+|$)")
+
+
+def short(result_text):
+    """A store's result as one sentence, for Coco to say."""
+    return SENTENCE_END.split(result_text.strip())[0]
+
+
+def first_two(text):
+    """Coco's rule in code: a message is two sentences at most. Anything after is dropped."""
+    ends = [match.end() for match in SENTENCE_END.finditer(text.strip())]
+    return text.strip()[: ends[1]].strip() if len(ends) > 2 else text.strip()
 
 
 def sentences(text):
@@ -357,6 +455,7 @@ def get_coco():
         "lines": lines_view(conv),
         "check_id": conv.check_id,
         "check_done": done,
+        "review": conv.review,
         "busy": conv.lock.locked(),
     }
 

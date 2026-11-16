@@ -122,12 +122,87 @@ def test_sentence_count():
     assert coco.sentences("One. Two. Three.") == 3
     quoted = 'The checks are finished. For Novilla, GoodTerms says: "Meets all 3 of your conditions." Its own words are on Buyer\'s Check.'
     assert coco.sentences(quoted) == 3
+    assert coco.first_two(quoted) == 'The checks are finished. For Novilla, GoodTerms says: "Meets all 3 of your conditions."'
+    assert coco.first_two("One. Two.") == "One. Two." and coco.first_two("Only one") == "Only one"
+    assert coco.first_two("Novilla is $164.99. It is open. You pay there.") == "Novilla is $164.99. It is open."
+    assert coco.short("3 of your conditions are not answered on its pages. That is not a yes.") == "3 of your conditions are not answered on its pages"
 
 
 def test_coco_instructions_hold_the_rules():
     conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
     db.reset()
     system = conv.system()
-    for phrase in ("one or two short sentences, never three", "never recommend", "never buy", "Buyer's Check", "Opened returns, Free return shipping, Sale-item returns", "the size and the budget"):
+    for phrase in ("one or two short sentences, never three", "never recommend", "never pay, never complete a checkout", "one thing at a time", "Buyer's Check", "Opened returns, Free return shipping, Sale-item returns", "the size and the budget"):
         assert phrase in system
-    assert [tool["name"] for tool in coco.TOOLS] == ["search_products", "check_stores", "get_prices", "open_buyers_check"]
+    assert [tool["name"] for tool in coco.TOOLS] == ["search_products", "check_stores", "get_prices", "open_review", "open_buyers_check"]
+
+
+def buying(monkeypatch, check=2):
+    db.reset()
+    now = {"t": 1000.0}
+    monkeypatch.setattr(goodterms, "now", lambda: now["t"])
+    conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
+    conv.check_id = goodterms.replay_check(check)["id"]
+    conv.turns = 1
+    return conv, now
+
+
+def test_buying_opens_nothing_before_the_check_has_finished(monkeypatch):
+    conv, now = buying(monkeypatch)
+    for store in ("", "Novilla", "NapQueen"):
+        refused = conv.open_review(store, True)
+        assert "error" in refused and "opened" not in refused and conv.review is None
+    now["t"] += 9
+    assert "error" in conv.open_review("", False)
+    now["t"] += 60
+    assert conv.open_review("", False)["opened"] is True
+
+
+def test_buy_it_for_me_takes_the_lowest_priced_store_that_says_yes_to_all_3(monkeypatch):
+    conv, now = buying(monkeypatch)
+    now["t"] += 60
+    went = conv.open_review("", False)
+    assert went == {
+        "store": "Novilla",
+        "price": "$164.99",
+        "result": "Meets all 3 of your conditions",
+        "opened": True,
+        "screen": "Review before checkout",
+        "note": "Your buyer pays on the store's own page.",
+    }
+    assert conv.review == "novillashop.com"
+    assert goodterms.checkout_link(conv.check_id, "novillashop.com")["url"].startswith("https://")
+    conn = db.connect()
+    assert conn.execute("SELECT COUNT(*) FROM decisions").fetchone()[0] == 0
+    conn.close()
+
+
+def test_a_named_store_with_a_no_or_a_gap_opens_only_after_the_buyers_own_yes(monkeypatch):
+    conv, now = buying(monkeypatch)
+    now["t"] += 60
+    for name, domain, choice in (("NapQueen", "napqueensleep.com", "continue"), ("Comformattress", "comformattress.com", "buy_anyway")):
+        assert conv.open_review(name, True)["needs_buyer_yes"] is True
+        assert conv.open_review(name, True)["opened"] is False
+        assert conv.review != domain
+        conv.turns += 1
+        assert conv.open_review(name, False)["opened"] is False
+        conv.turns += 1
+        went = conv.open_review(name, True)
+        assert went["opened"] is True and conv.review == domain
+        conn = db.connect()
+        saved = conn.execute("SELECT choice FROM decisions WHERE store_domain = ?", (domain,)).fetchall()
+        conn.close()
+        assert [row[0] for row in saved] == [choice]
+    assert "error" in conv.open_review("Nowhere Store", True)
+
+
+def test_when_no_store_says_yes_to_all_3_coco_is_told_so_and_nothing_opens(monkeypatch):
+    conv, now = buying(monkeypatch, check=1)
+    conn = db.connect()
+    with conn:
+        conn.execute("UPDATE findings SET page_status = 'doesnt_say', page_sentences = '[]' WHERE check_id = 1 AND condition = 'sale_item_returns'")
+    conn.close()
+    now["t"] += 60
+    told = conv.open_review("", False)
+    assert told["opened"] is False and told["no_store_says_yes_to_all_3"] is True and conv.review is None
+    assert len(told["stores"]) == 6 and all("Meets all 3" not in s["result"] for s in told["stores"])

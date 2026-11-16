@@ -112,6 +112,15 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     if (state?.check_id && !checkShown) navigate(`/check/${state.check_id}`, true)
   }, [state?.check_id, checkShown])
 
+  const reviewed = useRef<string | null | undefined>(undefined)
+  useEffect(() => {
+    if (!state) return
+    const first = reviewed.current === undefined
+    const changed = state.review !== reviewed.current
+    reviewed.current = state.review ?? null
+    if (!first && changed && state.review && state.check_id) navigate(`/check/${state.check_id}?review=${state.review}`)
+  }, [state])
+
   const stepsOpen = lines.some((line) => line.who === 'steps' && line.steps.some((step) => !step.done))
   const waiting = (Boolean(state?.check_id) && !state?.check_done) || stepsOpen
   useEffect(() => {
@@ -138,6 +147,7 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
         if (event.type === 'delta') open = false
         if (event.type === 'line') open = true
         if (event.type === 'open') navigate(`/check/${event.check_id}`)
+        if (event.type === 'review') navigate(`/check/${event.check_id}?review=${event.store}`)
       })
     } finally {
       await refresh()

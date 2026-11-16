@@ -98,6 +98,7 @@ export type CocoState = {
   lines: CocoLine[]
   check_id: number | null
   check_done: boolean
+  review?: string | null
   busy: boolean
 }
 export type CocoEvent =
@@ -106,6 +107,7 @@ export type CocoEvent =
   | { type: 'line' }
   | { type: 'open'; check_id: number }
   | { type: 'steps' }
+  | { type: 'review'; check_id: number; store: string }
   | { type: 'end' }
 
 export const getCoco = () => call<CocoState>('/coco')
