@@ -36,3 +36,12 @@ export function Reply({ row, label }: { row: Row; label: string }) {
     </div>
   )
 }
+
+export function Photo({ url, title }: { url: string | null | undefined; title: string }) {
+  if (url) return <img className="photo" src={url} alt={title} width={72} height={72} loading="lazy" referrerPolicy="no-referrer" />
+  return (
+    <span className="photo letter" aria-hidden="true">
+      {title.trim().charAt(0).toUpperCase()}
+    </span>
+  )
+}

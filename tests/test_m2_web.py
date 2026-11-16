@@ -44,7 +44,9 @@ def test_no_shopify_logo_colours_or_wordmark():
     mentions = []
     for path in SOURCES + [WEB / "index.html"]:
         source = read(path)
-        assert not re.search(r"<img|<svg|background-image|95bf47|5e8e3e|008060|004c3f|96bf48", source, re.I), path
+        assert not re.search(r"<svg|background-image|95bf47|5e8e3e|008060|004c3f|96bf48", source, re.I), path
+        for image in re.findall(r"<img[^>]*>", source):
+            assert "src={url}" in image and path.name == "Evidence.tsx", (path.name, image)
         mentions += [line.strip() for line in source.splitlines() if "shopify" in line.lower()]
     assert len(mentions) == 4
     assert sum("not from Shopify's data" in line for line in mentions) == 1

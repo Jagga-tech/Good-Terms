@@ -106,6 +106,7 @@ def offer_view(offer, budget_cents):
         "price_cents": offer["price_cents"],
         "price_text": texts.dollars(offer["price_cents"]),
         "price_basis": offer["price_basis"],
+        "image_url": offer["image_url"],
         "within_budget": budget_cents is None or offer["price_cents"] <= budget_cents,
     }
 
@@ -141,7 +142,7 @@ def copy_offer(conn, check_id, source_check, store):
         "INSERT INTO offers SELECT ?, store_domain, seller_name, storefront_url,"
         " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
         " price_basis, replies_in, pages_read, rows_check, product_url, checkout_url,"
-        " replies_at, endpoint, ask_offered, done_at FROM offers"
+        " replies_at, endpoint, ask_offered, image_url, done_at FROM offers"
         " WHERE check_id = ? AND store_domain = ?",
         (check_id, source_check, store),
     )

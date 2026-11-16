@@ -49,6 +49,7 @@ CREATE TABLE offers (
     replies_at REAL,
     endpoint TEXT,
     ask_offered INTEGER,
+    image_url TEXT,
     done_at REAL,
     PRIMARY KEY (check_id, store_domain)
 );
@@ -183,9 +184,22 @@ def reset():
     conn.close()
 
 
+def saved_photos():
+    """Photo addresses the catalog returned in the saved search, by variant."""
+    from api.search import photo
+
+    found = {}
+    for call in load("search_run_2026-11-15.json")["calls"]:
+        product = ((call.get("response") or {}).get("result") or {}).get("structuredContent", {}).get("product")
+        for variant in (product or {}).get("variants", []):
+            found[variant["id"]] = photo(variant, product)
+    return found
+
+
 def seed_saved_check(conn):
     """Check 2: one whole live check of 2026-11-15, saved after it finished."""
     saved = load("live_check_2026-11-15.json")
+    photos = saved_photos()
     conn.execute(
         "INSERT INTO checks (id, search_text, requested_size, budget_cents, saved_on, created)"
         " VALUES (2, ?, ?, ?, ?, ?)",
@@ -196,8 +210,8 @@ def seed_saved_check(conn):
         conn.execute(
             "INSERT INTO offers (check_id, store_domain, seller_name, storefront_url, myshopify_domain,"
             " product_title, variant_id, variant_labels, price_cents, price_basis, replies_in, pages_read,"
-            " rows_check, product_url, checkout_url, endpoint, ask_offered)"
-            " VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 2, ?, ?, ?, ?)",
+            " rows_check, product_url, checkout_url, endpoint, ask_offered, image_url)"
+            " VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 2, ?, ?, ?, ?, ?)",
             (
                 store["domain"],
                 store["name"],
@@ -212,6 +226,7 @@ def seed_saved_check(conn):
                 offer["checkout_url"],
                 offer["endpoint"],
                 offer["ask_offered"],
+                photos.get(offer["variant_id"]),
             ),
         )
         for row in store["rows"]:

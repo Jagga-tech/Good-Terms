@@ -1,5 +1,5 @@
 import type { Check, CheckStore, Row, Sentence, Store } from './api'
-import { Reply, StoreWords } from './Evidence'
+import { Photo, Reply, StoreWords } from './Evidence'
 import { navigate, withParam } from './router'
 
 const SALE_PAGE = /sale|deal|promo|black-friday|cyber|clearance|outlet/i
@@ -69,12 +69,26 @@ export function MerchantStore({ store }: { store: Store }) {
   const note = store.rows.find((row) => row.read_note)?.read_note
   const tips = clear.filter(saleTip)
   const top = headline(store)
+  const offer = 'offer' in store ? (store as CheckStore).offer : null
   return (
     <article className="merchant" data-store={store.domain}>
       <h3 className={top ? 'small' : 'headline'}>Your store: {store.name}</h3>
       {top && <p className="headline">{top}</p>}
       {note && <p className="plain">{note}</p>}
       <div className="card parts">
+        {offer && (
+          <section>
+            <h4>The product that was checked</h4>
+            <p className="product">
+              <Photo url={offer.image_url} title={offer.product_title} />
+              <span className="what">
+                <span className="name">{offer.product_title}</span>
+                <span className="small">{offer.variant_labels.join(' / ')}</span>
+              </span>
+              <span className="price">{offer.price_text}</span>
+            </p>
+          </section>
+        )}
         <section>
           <h4>What your pages answer clearly</h4>
           {clear.length === 0 && <p>Nothing yet.</p>}

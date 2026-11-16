@@ -121,6 +121,7 @@ def test_six_stores_return_rows_identical_to_the_fixtures(client):
             "price_cents": offer["price"],
             "price_text": f"${offer['price'] / 100:.2f}",
             "price_basis": "catalog price",
+            "image_url": None,
             "within_budget": True,
         }
         assert offer["url"].endswith(store["domain"])

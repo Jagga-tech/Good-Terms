@@ -53,7 +53,9 @@ def test_the_size_rule():
 
 def test_the_saved_live_search_gives_one_size_checked_offer_per_seller():
     offers, asked = run_search(RUN["calls"])
-    assert offers == RUN["offers"]
+    assert [{k: v for k, v in offer.items() if k != "image_url"} for offer in offers] == RUN["offers"]
+    for offer in offers:
+        assert offer["image_url"].startswith("https://cdn.shopify.com/")
     assert len(offers) == 6 and len({offer["myshopify_domain"] for offer in offers}) == 6
     assert len({offer["name"] for offer in offers}) >= 4
     for offer in offers:

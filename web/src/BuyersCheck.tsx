@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { decide, getCheck, getCheckoutLink, replayCheck, type Action, type Check, type CheckStore, type Row } from './api'
-import { Reply, Status, StoreWords } from './Evidence'
+import { Photo, Reply, Status, StoreWords } from './Evidence'
 import { MerchantPanel } from './MerchantView'
 import { Link, navigate, withParam } from './router'
 
@@ -30,7 +30,11 @@ export function StoreEntry({ store, open, to }: { store: CheckStore; open: boole
   return (
     <li className="store" data-store={store.domain} data-result={store.result}>
       <Link to={to} current={open}>
-        <span className="name">{store.name ?? store.domain}</span>
+        <Photo url={store.offer?.image_url} title={store.offer?.product_title ?? store.name ?? store.domain} />
+        <span className="what">
+          <span className="name">{store.offer?.product_title ?? store.name ?? store.domain}</span>
+          {store.offer && <span className="small">{store.name ?? store.domain}</span>}
+        </span>
         {store.offer && <span className="price">{store.offer.price_text}</span>}
       </Link>
       <p className="result">{store.result_text}</p>

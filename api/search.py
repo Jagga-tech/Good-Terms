@@ -30,6 +30,14 @@ def variant_is_size(variant, size):
     return any(is_size(option.get("label", ""), size) for option in variant.get("options", []))
 
 
+def photo(variant, product):
+    """The catalog's own photo for this variant, or for its product. None when it gives none."""
+    for media in (variant.get("media") or []) + (product.get("media") or []):
+        if media.get("type") == "image" and str(media.get("url", "")).startswith("https://"):
+            return media["url"]
+    return None
+
+
 async def sized_offer(client, product, size, zip_code, budget_cents):
     """The lowest-priced in-stock variant in the requested size, or None if it cannot be confirmed."""
     choice = size_choice(product, size)
@@ -74,6 +82,7 @@ async def sized_offer(client, product, size, zip_code, budget_cents):
         "price_cents": variant["price"]["amount"],
         "price_basis": "catalog price",
         "checkout_url": variant["checkout_url"],
+        "image_url": photo(variant, detail["product"]),
     }
 
 

@@ -134,8 +134,8 @@ def start_check(offers, search_text=None, requested_size=None, budget_cents=None
             conn.execute(
                 "INSERT INTO offers (check_id, store_domain, seller_name, storefront_url,"
                 " myshopify_domain, product_title, variant_id, variant_labels, price_cents,"
-                " price_basis, rows_check, product_url, checkout_url, endpoint, ask_offered)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', ?, ?, ?, ?, ?)",
+                " price_basis, rows_check, product_url, checkout_url, endpoint, ask_offered, image_url)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalog price', ?, ?, ?, ?, ?, ?)",
                 (
                     check_id,
                     offer["store_domain"],
@@ -151,6 +151,7 @@ def start_check(offers, search_text=None, requested_size=None, budget_cents=None
                     offer.get("checkout_url"),
                     offer.get("endpoint"),
                     offer.get("ask_offered"),
+                    offer.get("image_url"),
                 ),
             )
             for condition in conditions(conn):

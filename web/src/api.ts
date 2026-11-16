@@ -37,6 +37,7 @@ export type Offer = {
   price_cents: number
   price_text: string
   price_basis: string
+  image_url: string | null
   within_budget: boolean
 }
 

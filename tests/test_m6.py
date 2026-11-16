@@ -106,3 +106,13 @@ def test_no_payment_field_anywhere_in_the_code():
     assert len(sources) > 20
     for path in sources:
         assert not payment.search(path.read_text()), path.name
+
+
+def test_each_offer_carries_the_catalogs_own_photo_or_none(client):
+    for store in stores(client).values():
+        assert store["offer"]["image_url"].startswith("https://cdn.shopify.com/")
+    seen = db.saved_photos()
+    for store in SAVED["stores"]:
+        assert stores(client)[store["name"]]["offer"]["image_url"] == seen[store["offer"]["variant_id"]]
+    for store in stores(client, 1).values():
+        assert store["offer"]["image_url"] is None
