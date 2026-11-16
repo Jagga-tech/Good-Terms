@@ -1,6 +1,6 @@
 import type { Check, CheckStore, Row, Sentence, Store } from './api'
 import { Reply, StoreWords } from './Evidence'
-import { Link, withParam } from './router'
+import { navigate, withParam } from './router'
 
 const SALE_PAGE = /sale|deal|promo|black-friday|cyber|clearance|outlet/i
 const topic = (row: Row) => row.condition_label.toLowerCase()
@@ -54,7 +54,7 @@ export function headline(store: Store) {
 function Evidence({ row }: { row: Row }) {
   return (
     <>
-      <p className="asked">Your buyers ask: “{row.question}”</p>
+      <p className="small">Your buyers ask: “{row.question}”</p>
       {row.page_sentences.map((sentence) => (
         <StoreWords key={sentence.sentence + sentence.url} sentence={sentence} date={row.date_read} />
       ))}
@@ -68,66 +68,75 @@ export function MerchantStore({ store }: { store: Store }) {
   const open = store.rows.filter((row) => kindOf(row) !== 'clear')
   const note = store.rows.find((row) => row.read_note)?.read_note
   const tips = clear.filter(saleTip)
+  const top = headline(store)
   return (
     <article className="merchant" data-store={store.domain}>
-      <h2>Your store: {store.name}</h2>
+      <h3 className={top ? 'small' : 'headline'}>Your store: {store.name}</h3>
+      {top && <p className="headline">{top}</p>}
       {note && <p className="plain">{note}</p>}
-      {headline(store) && <p className="headline">{headline(store)}</p>}
-      <section>
-        <h3>What your pages answer clearly</h3>
-        {clear.length === 0 && <p>Nothing yet.</p>}
-        {clear.map((row) => (
-          <div key={row.condition} className="condition" data-condition={row.condition}>
-            <p className="line">
-              {lineFor(row)} The answer is: {row.status_text.toLowerCase()}.
-            </p>
-            {saleTip(row) && <p className="tip">{saleTip(row)}</p>}
-            <Evidence row={row} />
-          </div>
-        ))}
-      </section>
-      <section>
-        <h3>What is missing</h3>
-        {open.length === 0 && <p>Nothing is missing.</p>}
-        {open.map((row) => (
-          <div key={row.condition} className="condition" data-condition={row.condition}>
-            <p className="line">{lineFor(row)}</p>
-            <Evidence row={row} />
-          </div>
-        ))}
-      </section>
-      {(open.length > 0 || tips.length > 0) && (
+      <div className="card parts">
         <section>
-          <h3>Where to add it</h3>
-          <p>Your return policy: in your Shopify admin, go to Settings, then Policies.</p>
-          <p>
-            The knowledge base your store's assistant reads: in your Shopify admin, go to Sales channels, Agentic, then
-            Knowledge base.
-          </p>
+          <h4>What your pages answer clearly</h4>
+          {clear.length === 0 && <p>Nothing yet.</p>}
+          {clear.map((row) => (
+            <div key={row.condition} className="condition" data-condition={row.condition}>
+              <p className="line">
+                {lineFor(row)} The answer is: {row.status_text.toLowerCase()}.
+              </p>
+              {saleTip(row) && <p className="tip">{saleTip(row)}</p>}
+              <Evidence row={row} />
+            </div>
+          ))}
         </section>
-      )}
+        <section>
+          <h4>What is missing</h4>
+          {open.length === 0 && <p>Nothing is missing.</p>}
+          {open.map((row) => (
+            <div key={row.condition} className="condition" data-condition={row.condition}>
+              <p className="line">{lineFor(row)}</p>
+              <Evidence row={row} />
+            </div>
+          ))}
+        </section>
+        {(open.length > 0 || tips.length > 0) && (
+          <section>
+            <h4>Where to add it</h4>
+            <p>Your return policy: in your Shopify admin, go to Settings, then Policies.</p>
+            <p>
+              The knowledge base your store's assistant reads: in your Shopify admin, go to Sales channels, Agentic, then
+              Knowledge base.
+            </p>
+          </section>
+        )}
+      </div>
     </article>
   )
 }
 
-export function MerchantBox({ check, domain }: { check: Check | null; domain: string | null }) {
+export function MerchantPanel({ check, domain }: { check: Check | null; domain: string | null }) {
   const store: CheckStore | undefined = check?.stores.find((entry) => entry.domain === domain)
   return (
-    <section className="box">
-      <h1>Merchant view: what a store would see</h1>
-      {!check && <p className="plain">Nothing is being checked yet.</p>}
-      {check && (
-        <p className="pick">
-          Demo: view as{' '}
-          {check.stores.map((entry) => (
-            <Link key={entry.domain} to={withParam('m', entry.domain)} current={entry.domain === domain}>
-              {entry.name}
-            </Link>
-          ))}
-        </p>
-      )}
+    <div className="view">
+      <section>
+        <h2>Merchant view</h2>
+        <p className="small">What a merchant would see. Built from this check, not from Shopify's data.</p>
+        {!check && <p className="plain">Nothing is being checked yet.</p>}
+        {check && (
+          <p className="viewing">
+            <label htmlFor="viewing">Viewing as</label>
+            <select id="viewing" value={domain ?? ''} onChange={(event) => navigate(withParam('m', event.target.value || null))}>
+              <option value="">Choose a store</option>
+              {check.stores.map((entry) => (
+                <option key={entry.domain} value={entry.domain}>
+                  {entry.name}
+                </option>
+              ))}
+            </select>
+          </p>
+        )}
+      </section>
       {store && store.progress?.pages_read && <MerchantStore store={store} />}
       {store && !store.progress?.pages_read && <p className="plain">{store.result_text}</p>}
-    </section>
+    </div>
   )
 }

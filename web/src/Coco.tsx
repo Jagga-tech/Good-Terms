@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState, type Step } from './api'
 import { navigate } from './router'
 
@@ -18,6 +18,16 @@ export function Steps({ steps }: { steps: Step[] }) {
   )
 }
 
+export function doing(lines: CocoLine[], working: boolean) {
+  for (const line of [...lines].reverse())
+    if (line.who === 'steps') {
+      const open = line.steps.find((step) => !step.done)
+      if (open) return open.text
+      break
+    }
+  return working ? 'Working on your message' : null
+}
+
 export function Talk({
   state,
   lines,
@@ -32,72 +42,60 @@ export function Talk({
   onReset?: () => void
 }) {
   const thread = useRef<HTMLDivElement>(null)
-  const [draft, setDraft] = useState('')
   useEffect(() => {
     if (thread.current) thread.current.scrollTop = thread.current.scrollHeight
   }, [lines, working])
-  const send = () => {
-    const text = draft.trim()
-    if (!text || working || !onSay) return
-    onSay(text)
-    setDraft('')
-  }
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    send()
+    const field = event.currentTarget.elements.namedItem('say') as HTMLInputElement
+    const text = field.value.trim()
+    if (!text || working || !onSay) return
+    onSay(text)
+    field.value = ''
   }
-  const keys = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
-      event.preventDefault()
-      send()
-    }
-  }
+  const status = doing(lines, working)
   return (
-    <main className="coco">
-      <div className="agent">
-        <h1>Coco</h1>
-        <p className="about">Your personal agent</p>
+    <section className="card chat">
+      <header>
+        <h1>Coco, your agent</h1>
         {state.zip && (
-          <p className="memory">
+          <p className="small">
             Remembers: your {state.conditions.length} conditions · ships to {state.zip}
           </p>
         )}
-      </div>
+      </header>
       <div className="thread" ref={thread} aria-live="polite">
         {lines.length === 0 && <p className="theirs">What do you need?</p>}
         {lines.map((line, index) => {
           if (line.who === 'steps') return <Steps key={index} steps={line.steps} />
           return (
-            <div key={index} className={line.who === 'you' ? 'mine' : 'theirs'}>
+            <p key={index} className={line.who === 'you' ? 'mine' : 'theirs'}>
               <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
               {line.text}
-            </div>
+            </p>
           )
         })}
       </div>
-      <form className="say" onSubmit={submit}>
-        <label htmlFor="say" className="sr">
-          Message Coco
-        </label>
-        <textarea
-          id="say"
-          rows={1}
-          value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-          onKeyDown={keys}
-          placeholder="Message Coco"
-          disabled={working}
-        />
-        <button type="submit" className="primary" disabled={working || !draft.trim()}>
-          Send
-        </button>
-      </form>
-      {lines.some((line) => line.who === 'you') && (
-        <p className="saved">
-          <button onClick={onReset}>Start a new request</button>
-        </p>
-      )}
-    </main>
+      <div className="composer">
+        {status && <p className="small doing">{status}</p>}
+        <form className="say" onSubmit={submit}>
+          <label htmlFor="say" className="sr">
+            Message Coco
+          </label>
+          <input id="say" name="say" type="text" autoComplete="off" placeholder="Message Coco" />
+          <button type="submit" className="send" disabled={working}>
+            Send
+          </button>
+        </form>
+        {lines.some((line) => line.who === 'you') && (
+          <p className="small">
+            <button className="link" onClick={onReset}>
+              Start a new request
+            </button>
+          </p>
+        )}
+      </div>
+    </section>
   )
 }
 
@@ -129,7 +127,7 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     return () => window.clearTimeout(timer)
   }, [waiting, working, state, lines])
 
-  if (!state) return <main className="coco"><p>Loading Coco.</p></main>
+  if (!state) return <section className="card chat"><p className="small">Loading Coco.</p></section>
 
   const say = async (text: string) => {
     setWorking(true)

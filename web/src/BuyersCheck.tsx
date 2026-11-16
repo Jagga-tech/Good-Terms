@@ -1,27 +1,23 @@
 import { useEffect, useState } from 'react'
 import { decide, getCheck, getCheckoutLink, replayCheck, type Action, type Check, type CheckStore, type Row } from './api'
-import { Mark, Reply, StoreWords } from './Evidence'
-import { MerchantBox } from './MerchantView'
+import { Reply, Status, StoreWords } from './Evidence'
+import { MerchantPanel } from './MerchantView'
 import { Link, navigate, withParam } from './router'
 
 export function ConditionRow({ row }: { row: Row }) {
-  const wordsCarryTheStatus = row.status_text === row.pages_text
   return (
     <section className="condition" data-condition={row.condition}>
       <h4>{row.condition_label}</h4>
-      <div className="answer">
-        <div className="said">
-          {row.page_sentences.map((sentence) => (
-            <StoreWords key={sentence.sentence + sentence.url} sentence={sentence} date={row.date_read} />
-          ))}
-          {row.pages_text && <p className="plain">{row.pages_text}</p>}
-          {row.page_status !== 'pending' && <p className="label">From the store's pages</p>}
-        </div>
-        <p className={`status ${row.status_shown}`}>
-          <Mark status={row.status_shown} />
-          {!wordsCarryTheStatus && <span>{row.status_text}</span>}
-        </p>
+      <div className="said">
+        {row.page_sentences.map((sentence) => (
+          <StoreWords key={sentence.sentence + sentence.url} sentence={sentence} date={row.date_read} />
+        ))}
+        {row.pages_text && <p className="plain">{row.pages_text}</p>}
+        {row.page_status !== 'pending' && <p className="small">From the store's pages</p>}
       </div>
+      <p className="verdict">
+        <Status status={row.status_shown} text={row.status_text} />
+      </p>
       {row.contradiction_text && <p className="flag">{row.contradiction_text}</p>}
       <Reply row={row} label="From the store's assistant" />
     </section>
@@ -30,10 +26,10 @@ export function ConditionRow({ row }: { row: Row }) {
 
 type Act = (store: CheckStore, action: Action) => void
 
-export function StoreEntry({ store, open, to, onAct }: { store: CheckStore; open: boolean; to: string; onAct?: Act }) {
+export function StoreEntry({ store, open, to }: { store: CheckStore; open: boolean; to: string }) {
   return (
     <li className="store" data-store={store.domain} data-result={store.result}>
-      <Link to={to}>
+      <Link to={to} current={open}>
         <span className="name">{store.name ?? store.domain}</span>
         {store.offer && <span className="price">{store.offer.price_text}</span>}
       </Link>
@@ -41,29 +37,13 @@ export function StoreEntry({ store, open, to, onAct }: { store: CheckStore; open
       {store.card_note && <p className="note">{store.card_note}</p>}
       <ul className="marks">
         {store.rows.map((row) => (
-          <li key={row.condition} className={row.status_shown}>
-            <Mark status={row.status_shown} />
+          <li key={row.condition}>
             <span>{row.condition_label}</span>
-            <span className="word">{row.status_text}</span>
+            <Status status={row.status_shown} text={row.status_text} />
           </li>
         ))}
       </ul>
       {store.decision && <p className="decision">{store.decision.text}</p>}
-      {(store.actions ?? []).length > 0 && (
-        <p className="actions">
-          {(store.actions ?? []).map((action) =>
-            action.action === 'open_site' ? (
-              <a key={action.action} className="button" href={store.storefront_url ?? '#'} target="_blank" rel="noopener noreferrer">
-                {action.label}
-              </a>
-            ) : (
-              <button key={action.action} className={action.first ? 'primary' : 'button'} onClick={() => onAct?.(store, action)}>
-                {action.label}
-              </button>
-            ),
-          )}
-        </p>
-      )}
       {open && (
         <div className="detail">
           {store.rows.map((row) => (
@@ -80,59 +60,40 @@ export function StoreEntry({ store, open, to, onAct }: { store: CheckStore; open
   )
 }
 
-export function CheckView({
-  check,
-  openStore,
-  onReplay,
-  onAct,
-}: {
-  check: Check
-  openStore: string | null
-  onReplay?: () => void
-  onAct?: Act
-}) {
-  const groups = [
-    { title: 'Within budget', stores: check.stores.filter((store) => !store.offer || store.offer.within_budget) },
-    { title: 'Over budget', stores: check.stores.filter((store) => store.offer && !store.offer.within_budget) },
-  ]
-  return (
-    <section className="box">
-      <h1>Buyer's Check</h1>
-      <p className="request">
-        {check.search_text}
-        {check.requested_size && <span> · size {check.requested_size}</span>}
-      </p>
-      <p className="conditions">
-        Your conditions:{' '}
-        {check.conditions.map((label) => (
-          <span key={label} className="chip">
-            {label}
-          </span>
+export function Decision({ check, store, onAct }: { check: Check; store: CheckStore | null; onAct?: Act }) {
+  const decided = check.stores.filter((entry) => entry.decision)
+  if (!store)
+    return (
+      <div className="card decide">
+        <p>Pick a store below to see what it says and decide.</p>
+        {decided.map((entry) => (
+          <p key={entry.domain} className="small">
+            {entry.name}: {entry.decision!.text}
+          </p>
         ))}
-      </p>
-      {check.saved_on && (
-        <p className="saved">
-          Saved rows from {check.saved_on}. {onReplay && <button onClick={onReplay}>Replay this check from the start</button>}
+      </div>
+    )
+  return (
+    <div className="card decide" data-store={store.domain}>
+      <h3>{store.name}</h3>
+      <p className="result">{store.result_text}</p>
+      {store.decision && <p className="decision">{store.decision.text}</p>}
+      {(store.actions ?? []).length > 0 && (
+        <p className="actions">
+          {(store.actions ?? []).map((action) =>
+            action.action === 'open_site' ? (
+              <a key={action.action} className="second" href={store.storefront_url ?? '#'} target="_blank" rel="noopener noreferrer">
+                {action.label}
+              </a>
+            ) : (
+              <button key={action.action} className={action.first ? 'primary' : 'second'} onClick={() => onAct?.(store, action)}>
+                {action.label}
+              </button>
+            ),
+          )}
         </p>
       )}
-      {check.price_gap && <p className="gap">{check.price_gap.text}</p>}
-      {check.price_note && <p className="pricenote">{check.price_note}</p>}
-      {groups.map(
-        (group) =>
-          group.stores.length > 0 && (
-            <section key={group.title}>
-              <h2>{group.title}</h2>
-              <ul className="stores">
-                {group.stores.map((store) => {
-                  const open = store.domain === openStore
-                  const to = withParam('store', open ? null : store.domain)
-                  return <StoreEntry key={store.domain} store={store} open={open} to={to} onAct={onAct} />
-                })}
-              </ul>
-            </section>
-          ),
-      )}
-    </section>
+    </div>
   )
 }
 
@@ -148,30 +109,27 @@ export function Review({
   onCheckout?: () => void
 }) {
   return (
-    <section className="box review" data-store={store.domain}>
-      <h1>Before you go to checkout</h1>
-      <p className="request">{store.name}</p>
+    <div className="card decide review" data-store={store.domain}>
+      <h3>Before you go to checkout</h3>
+      <p className="small">{store.name}</p>
       {store.rows.map((row) => (
         <section key={row.condition} className="condition" data-condition={row.condition}>
           <h4>{row.condition_label}</h4>
-          <div className="answer">
-            <div className="said">
-              {row.page_sentences.slice(0, 1).map((sentence) => (
-                <StoreWords key={sentence.sentence} sentence={sentence} date={row.date_read} />
-              ))}
-              {(row.pages_text || row.page_sentences.length === 0) && <p className="plain">{row.pages_text}</p>}
-            </div>
-            <p className={`status ${row.status_shown}`}>
-              <Mark status={row.status_shown} />
-              <span>{row.status_text}</span>
-            </p>
+          <div className="said">
+            {row.page_sentences.slice(0, 1).map((sentence) => (
+              <StoreWords key={sentence.sentence} sentence={sentence} date={row.date_read} />
+            ))}
+            {(row.pages_text || row.page_sentences.length === 0) && <p className="plain">{row.pages_text}</p>}
           </div>
+          <p className="verdict">
+            <Status status={row.status_shown} text={row.status_text} />
+          </p>
         </section>
       ))}
       <p className="result">{store.result_text}</p>
       {store.decision && (
         <p className="decision">
-          {store.decision.text} <span className="label">Recorded {store.decision.time}.</span>
+          {store.decision.text} <span className="small">Recorded {store.decision.time}.</span>
         </p>
       )}
       {store.offer && (
@@ -179,22 +137,100 @@ export function Review({
           {store.offer.product_title}, {store.offer.variant_labels.join(' / ')}. {store.offer.price_text}.
         </p>
       )}
-      <p className="pricenote">{check.final_total_note}</p>
+      <p className="small">{check.final_total_note}</p>
       <p className="actions">
         {link && (
-          <a className="primary" href={link} target="_blank" rel="noopener noreferrer" onClick={onCheckout}>
+          <a className="primary checkout" href={link} target="_blank" rel="noopener noreferrer" onClick={onCheckout}>
             Go to checkout
           </a>
         )}
         <Link to={withParam('review', null)}>Back to all stores</Link>
       </p>
       {link && (
-        <p className="label">
+        <p className="small">
           This opens {store.name}'s own checkout in a new tab. You enter your details and pay there, not here.
         </p>
       )}
       {!link && <p className="plain">The checkout link is given after your choice at this store.</p>}
-    </section>
+    </div>
+  )
+}
+
+export function CheckView({
+  check,
+  openStore,
+  review,
+  link,
+  onReplay,
+  onAct,
+  onCheckout,
+}: {
+  check: Check
+  openStore: string | null
+  review?: string | null
+  link?: string | null
+  onReplay?: () => void
+  onAct?: Act
+  onCheckout?: () => void
+}) {
+  const groups = [
+    { title: 'Within budget', stores: check.stores.filter((store) => !store.offer || store.offer.within_budget) },
+    { title: 'Over budget', stores: check.stores.filter((store) => store.offer && !store.offer.within_budget) },
+  ]
+  const find = (domain?: string | null) => check.stores.find((store) => store.domain === domain) ?? null
+  const reviewed = find(review)
+  return (
+    <div className="view">
+      <section>
+        <h2>Stores checked</h2>
+        <p className="small">
+          {check.search_text}
+          {check.requested_size && <span> · size {check.requested_size}</span>}
+        </p>
+        <p className="conditions">
+          Your conditions:{' '}
+          {check.conditions.map((label) => (
+            <span key={label} className="chip">
+              {label}
+            </span>
+          ))}
+        </p>
+        {check.price_gap && <p className="gap">{check.price_gap.text}</p>}
+        {check.price_note && <p className="small">{check.price_note}</p>}
+        {check.saved_on && (
+          <p className="small">
+            Saved rows from {check.saved_on}. {onReplay && <button className="link" onClick={onReplay}>Replay this check from the start</button>}
+          </p>
+        )}
+      </section>
+      <section>
+        <h2>Your decision</h2>
+        {reviewed ? (
+          <Review check={check} store={reviewed} link={link ?? null} onCheckout={onCheckout} />
+        ) : (
+          <Decision check={check} store={find(openStore)} onAct={onAct} />
+        )}
+      </section>
+      <section>
+        <h2>What each store says</h2>
+        <div className="card">
+          {groups.map(
+            (group) =>
+              group.stores.length > 0 && (
+                <div key={group.title}>
+                  <p className="small group">{group.title}</p>
+                  <ul className="stores">
+                    {group.stores.map((store) => {
+                      const open = store.domain === openStore
+                      return <StoreEntry key={store.domain} store={store} open={open} to={withParam('store', open ? null : store.domain)} />
+                    })}
+                  </ul>
+                </div>
+              ),
+          )}
+        </div>
+      </section>
+    </div>
   )
 }
 
@@ -207,7 +243,7 @@ export default function BuyersCheck({
   id: string
   openStore: string | null
   review?: string | null
-  merchant?: string | null
+  merchant?: { store: string | null } | null
 }) {
   const [check, setCheck] = useState<Check | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -240,24 +276,16 @@ export default function BuyersCheck({
         .catch(() => setLink(null))
   }, [id, review, version])
 
-  if (error) return <section className="box"><p>We could not load this check. {error}</p></section>
-  if (!check || String(check.id) !== id) return <section className="box"><p>Loading the check.</p></section>
+  if (error) return <p className="plain">We could not load this check. {error}</p>
+  if (!check || String(check.id) !== id) return <p className="plain">Loading the check.</p>
+  if (merchant) return <MerchantPanel check={check} domain={merchant.store} />
   const reload = () => setVersion((now) => now + 1)
   const act: Act = async (store, action) => {
     if (action.action !== 'review') await decide(check.id, store.domain, action.action)
     if (action.action === 'skip') reload()
     else navigate(withParam('review', store.domain))
   }
-  const reviewed = review ? check.stores.find((store) => store.domain === review) : null
   const replay = () => replayCheck(check.id).then((made) => navigate(`/check/${made.id}`))
-  return (
-    <>
-      {reviewed ? (
-        <Review check={check} store={reviewed} link={link} onCheckout={() => decide(check.id, reviewed.domain, 'checkout').then(reload)} />
-      ) : (
-        <CheckView check={check} openStore={openStore} onReplay={replay} onAct={act} />
-      )}
-      <MerchantBox check={check} domain={merchant ?? null} />
-    </>
-  )
+  const checkout = () => review && decide(check.id, review, 'checkout').then(reload)
+  return <CheckView check={check} openStore={openStore} review={review} link={link} onReplay={replay} onAct={act} onCheckout={checkout} />
 }

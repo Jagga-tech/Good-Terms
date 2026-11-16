@@ -1,7 +1,7 @@
 import type { Row, Sentence } from './api'
 
-export function Mark({ status }: { status: string }) {
-  return <span className={`mark ${status}`} aria-hidden="true" />
+export function Status({ status, text }: { status: string; text: string }) {
+  return <span className={`status ${status}`}>{text}</span>
 }
 
 export function linkText(url: string) {
@@ -14,7 +14,7 @@ export function StoreWords({ sentence, date }: { sentence: Sentence; date: strin
     <figure className="words">
       {sentence.heading && <figcaption>Under the heading “{sentence.heading}”</figcaption>}
       <blockquote cite={sentence.url}>“{sentence.sentence}”</blockquote>
-      <p className="source">
+      <p className="small">
         <a href={sentence.url} target="_blank" rel="noreferrer">
           {linkText(sentence.url)}
         </a>
@@ -28,7 +28,7 @@ export function Reply({ row, label }: { row: Row; label: string }) {
   if (!row.assistant_reply && !row.assistant_text) return null
   return (
     <div className="reply">
-      <p className="label">
+      <p className="small">
         {label}
         {row.reply_time && <span> · asked {row.reply_time}</span>}
       </p>
