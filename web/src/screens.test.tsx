@@ -1,12 +1,12 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, test } from 'vitest'
 import raw from '../test-data.json'
-import { Footer, NothingYet, Tabs, parseRoute } from './App'
+import { Footer, NothingYet, parseRoute } from './App'
 import type { Check, CheckStore, Row, Store, StoreName } from './api'
 import { CheckView, ConditionRow, Review, StoreEntry } from './BuyersCheck'
 import { Steps, Talk } from './Coco'
 import type { CocoState } from './api'
-import { MerchantStore, MerchantTab } from './MerchantView'
+import { MerchantBox, MerchantStore } from './MerchantView'
 
 const data = raw as unknown as Record<string, Check> & {
   stores: StoreName[]
@@ -219,29 +219,29 @@ test('Merchant view follows the rules for each kind of row', () => {
   expect(clearNo).not.toMatch(/You can add|Add it to|Make them agree|Where to add it|change/i)
 })
 
-test('the right side has two tabs, and Merchant view opens on no store by itself', () => {
-  const buyer = parseRoute(new URL('http://app/check/1?store=novillashop.com'))
-  expect(buyer).toEqual({ screen: 'shop', id: '1', tab: 'buyer', store: 'novillashop.com', review: null, merchantStore: null })
-  const merchant = parseRoute(new URL('http://app/check/1?view=merchant'))
-  expect(merchant).toMatchObject({ tab: 'merchant', store: null, merchantStore: null })
+test('Buyer’s Check and Merchant view are two separate boxes, and Merchant view opens on no store', () => {
+  const buyer = parseRoute(new URL('http://app/check/1?store=novillashop.com&m=bedstory.com'))
+  expect(buyer).toEqual({ screen: 'shop', id: '1', store: 'novillashop.com', review: null, merchantStore: 'bedstory.com' })
   expect(parseRoute(new URL('http://app/merchant'))).toEqual({ screen: 'none' })
-  const tabs = renderToStaticMarkup(<Tabs tab="merchant" buyer="/check/1" merchant="/check/1?view=merchant" />)
-  expect(text(tabs)).toContain("Buyer's Check")
-  expect(text(tabs)).toContain('Merchant view: what a store would see')
-  expect(tabs.match(/aria-current="page"/g)).toHaveLength(1)
-  const unpicked = renderToStaticMarkup(<MerchantTab check={data.decided} domain={null} base="/check/2" />)
-  expect(unpicked).not.toContain('<article')
-  for (const store of data.decided.stores) expect(text(unpicked)).toContain(store.name!)
+  const check = renderToStaticMarkup(<CheckView check={data.final} openStore="novillashop.com" />)
+  expect(check).toMatch(/^<section class="box">/)
+  expect(text(check)).not.toMatch(/Shopify admin|your return policy|your pages|Merchant view/i)
+  const unpicked = renderToStaticMarkup(<MerchantBox check={data.decided} domain={null} />)
+  expect(unpicked).toMatch(/^<section class="box">/)
+  expect(text(unpicked)).toContain('Merchant view: what a store would see')
   expect(text(unpicked)).toContain('Demo: view as')
-  const picked = text(renderToStaticMarkup(<MerchantTab check={data.decided} domain="napqueensleep.com" base="/check/2" />))
+  expect(unpicked).not.toContain('<article')
+  expect(unpicked).not.toMatch(/role="tab|class="tabs/)
+  for (const store of data.decided.stores) expect(text(unpicked)).toContain(store.name!)
+  const picked = text(renderToStaticMarkup(<MerchantBox check={data.decided} domain="napqueensleep.com" />))
   expect(picked).toContain('Your store: NapQueen')
   expect(picked).not.toMatch(/You chose|\$229|under \$400|94541/)
-  const reading = text(renderToStaticMarkup(<MerchantTab check={data.replay_replies} domain="novillashop.com" base="/check/3" />))
+  const reading = text(renderToStaticMarkup(<MerchantBox check={data.replay_replies} domain="novillashop.com" />))
   expect(reading).toContain("Still reading this store's pages")
   expect(reading).not.toContain('Your store:')
-  const check = text(renderToStaticMarkup(<CheckView check={data.final} openStore="novillashop.com" />))
-  expect(check).not.toMatch(/Shopify admin|your return policy|your pages/i)
+  expect(text(renderToStaticMarkup(<MerchantBox check={null} domain={null} />))).toContain('Nothing is being checked yet.')
 })
+
 
 test('every screen has the footer', () => {
   expect(text(renderToStaticMarkup(<Footer />)).trim()).toBe('Prototype. Not affiliated with Shopify.')
@@ -273,14 +273,14 @@ const coco: CocoState = {
   busy: false,
 }
 
-test('Coco’s first run is one message in the chat with two reply buttons, no form', () => {
-  const lines = [{ who: 'coco' as const, text: 'I check every store on your three conditions and ship to 94541. Is that right?', choices: ['Looks right', 'Change'] }]
-  const markup = renderToStaticMarkup(<Talk state={{ ...coco, conditions_confirmed: false, zip: null }} lines={lines} working={false} />)
-  expect(text(markup)).toContain(lines[0].text)
-  expect([...markup.matchAll(/<button[^>]*>([^<]+)</g)].map((m) => m[1])).toEqual(['Looks right', 'Change', 'Send'])
-  expect(markup).not.toMatch(/<input|<dl|Save my conditions/)
-  expect(text(markup)).not.toContain('Remembers:')
+test('Coco asks no setup question: it opens on What do you need, with no buttons to answer', () => {
+  const markup = renderToStaticMarkup(<Talk state={coco} lines={[]} working={false} />)
+  expect(text(markup)).toContain('What do you need?')
+  expect(text(markup)).toContain('Remembers: your 3 conditions · ships to 94541')
+  expect([...markup.matchAll(/<button[^>]*>([^<]+)</g)].map((m) => m[1])).toEqual(['Send'])
+  expect(markup).not.toMatch(/Looks right|Is that right|<input|<dl/)
 })
+
 
 
 test('Coco is an agent window: header with memory, messages, step lines, one message box', () => {
@@ -312,7 +312,7 @@ test('Coco is an agent window: header with memory, messages, step lines, one mes
   const check = text(renderToStaticMarkup(<CheckView check={data.final} openStore={null} />))
   expect(check.indexOf('Your conditions:')).toBeLessThan(check.indexOf('Within budget'))
   expect(greenIn(markup)).toBe(0)
-  expect(parseRoute(new URL('http://app/'))).toMatchObject({ screen: 'shop', id: null, tab: 'buyer' })
+  expect(parseRoute(new URL('http://app/'))).toMatchObject({ screen: 'shop', id: null, merchantStore: null })
 })
 
 test('a step line shows a tick only when that step is done', () => {

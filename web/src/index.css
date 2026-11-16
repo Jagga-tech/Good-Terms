@@ -37,17 +37,14 @@ body {
   padding: 24px 0;
 }
 
-.coco,
-.pane {
-  border: 1px solid var(--navy);
-  height: calc(100vh - 190px);
-  min-height: 26rem;
-}
-
 .coco {
+  position: sticky;
+  top: 16px;
+  height: calc(100vh - 130px);
+  min-height: 24rem;
   display: flex;
   flex-direction: column;
-  padding: 20px 24px;
+  padding: 0;
 }
 
 .agent {
@@ -93,16 +90,6 @@ body {
   max-width: 92%;
 }
 
-.choices {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
-}
-
-.choices .primary {
-  margin-top: 0;
-}
-
 .steps {
   display: grid;
   gap: 4px;
@@ -134,27 +121,6 @@ body {
   white-space: nowrap;
 }
 
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 28px;
-  padding: 28px 0 0;
-}
-
-.tabs a {
-  padding-bottom: 6px;
-  text-decoration: none;
-  border-bottom: 2px solid var(--line);
-}
-
-.tabs a[aria-current='page'] {
-  border-bottom-color: var(--navy);
-}
-
-.pane main {
-  padding-top: 24px;
-}
-
 .headline {
   margin-top: 16px;
   font-size: 21px;
@@ -168,8 +134,14 @@ body {
 
 .pane {
   min-width: 0;
-  padding: 0 24px;
-  overflow-y: auto;
+  display: grid;
+  gap: 24px;
+}
+
+.box {
+  border: 1px solid var(--navy);
+  padding: 24px 24px 32px;
+  min-width: 0;
 }
 
 h1,
@@ -628,6 +600,10 @@ blockquote,
   cursor: pointer;
 }
 
+.box .merchant {
+  margin-top: 24px;
+}
+
 .review .condition:first-of-type {
   margin-top: 16px;
 }
@@ -655,11 +631,10 @@ footer {
     gap: 16px;
   }
 
-  .coco,
-  .pane {
+  .coco {
+    position: static;
     height: auto;
     min-height: 0;
-    overflow: visible;
   }
 
   .thread {

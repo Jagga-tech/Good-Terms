@@ -32,3 +32,11 @@ export function Link({ to, children, current }: { to: string; children: ReactNod
     </a>
   )
 }
+
+export function withParam(name: string, value: string | null) {
+  const here = typeof window === 'undefined' ? new URL('http://app/') : new URL(window.location.href)
+  if (value === null) here.searchParams.delete(name)
+  else here.searchParams.set(name, value)
+  const query = here.searchParams.toString()
+  return here.pathname + (query ? `?${query}` : '')
+}

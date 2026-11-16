@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { decide, getCheck, getCheckoutLink, replayCheck, type Action, type Check, type CheckStore, type Row } from './api'
 import { Mark, Reply, StoreWords } from './Evidence'
-import { MerchantTab } from './MerchantView'
-import { Link, navigate } from './router'
+import { MerchantBox } from './MerchantView'
+import { Link, navigate, withParam } from './router'
 
 export function ConditionRow({ row }: { row: Row }) {
   const wordsCarryTheStatus = row.status_text === row.pages_text
@@ -96,7 +96,7 @@ export function CheckView({
     { title: 'Over budget', stores: check.stores.filter((store) => store.offer && !store.offer.within_budget) },
   ]
   return (
-    <main>
+    <section className="box">
       <h1>Buyer's Check</h1>
       <p className="request">
         {check.search_text}
@@ -125,14 +125,14 @@ export function CheckView({
               <ul className="stores">
                 {group.stores.map((store) => {
                   const open = store.domain === openStore
-                  const to = open ? `/check/${check.id}` : `/check/${check.id}?store=${store.domain}`
+                  const to = withParam('store', open ? null : store.domain)
                   return <StoreEntry key={store.domain} store={store} open={open} to={to} onAct={onAct} />
                 })}
               </ul>
             </section>
           ),
       )}
-    </main>
+    </section>
   )
 }
 
@@ -148,7 +148,7 @@ export function Review({
   onCheckout?: () => void
 }) {
   return (
-    <main className="review" data-store={store.domain}>
+    <section className="box review" data-store={store.domain}>
       <h1>Before you go to checkout</h1>
       <p className="request">{store.name}</p>
       {store.rows.map((row) => (
@@ -186,7 +186,7 @@ export function Review({
             Go to checkout
           </a>
         )}
-        <Link to={`/check/${check.id}`}>Back to all stores</Link>
+        <Link to={withParam('review', null)}>Back to all stores</Link>
       </p>
       {link && (
         <p className="label">
@@ -194,7 +194,7 @@ export function Review({
         </p>
       )}
       {!link && <p className="plain">The checkout link is given after your choice at this store.</p>}
-    </main>
+    </section>
   )
 }
 
@@ -207,7 +207,7 @@ export default function BuyersCheck({
   id: string
   openStore: string | null
   review?: string | null
-  merchant?: { store: string | null } | null
+  merchant?: string | null
 }) {
   const [check, setCheck] = useState<Check | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -240,20 +240,24 @@ export default function BuyersCheck({
         .catch(() => setLink(null))
   }, [id, review, version])
 
-  if (error) return <main><p>We could not load this check. {error}</p></main>
-  if (!check || String(check.id) !== id) return <main><p>Loading the check.</p></main>
-  if (merchant) return <MerchantTab check={check} domain={merchant.store} base={`/check/${check.id}`} />
+  if (error) return <section className="box"><p>We could not load this check. {error}</p></section>
+  if (!check || String(check.id) !== id) return <section className="box"><p>Loading the check.</p></section>
   const reload = () => setVersion((now) => now + 1)
   const act: Act = async (store, action) => {
     if (action.action !== 'review') await decide(check.id, store.domain, action.action)
     if (action.action === 'skip') reload()
-    else navigate(`/check/${check.id}?review=${store.domain}`)
+    else navigate(withParam('review', store.domain))
   }
   const reviewed = review ? check.stores.find((store) => store.domain === review) : null
-  if (reviewed)
-    return (
-      <Review check={check} store={reviewed} link={link} onCheckout={() => decide(check.id, reviewed.domain, 'checkout').then(reload)} />
-    )
   const replay = () => replayCheck(check.id).then((made) => navigate(`/check/${made.id}`))
-  return <CheckView check={check} openStore={openStore} onReplay={replay} onAct={act} />
+  return (
+    <>
+      {reviewed ? (
+        <Review check={check} store={reviewed} link={link} onCheckout={() => decide(check.id, reviewed.domain, 'checkout').then(reload)} />
+      ) : (
+        <CheckView check={check} openStore={openStore} onReplay={replay} onAct={act} />
+      )}
+      <MerchantBox check={check} domain={merchant ?? null} />
+    </>
+  )
 }

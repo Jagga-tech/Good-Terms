@@ -1,6 +1,6 @@
 import type { Check, CheckStore, Row, Sentence, Store } from './api'
 import { Reply, StoreWords } from './Evidence'
-import { Link } from './router'
+import { Link, withParam } from './router'
 
 const SALE_PAGE = /sale|deal|promo|black-friday|cyber|clearance|outlet/i
 const topic = (row: Row) => row.condition_label.toLowerCase()
@@ -110,17 +110,17 @@ export function MerchantStore({ store }: { store: Store }) {
   )
 }
 
-export function MerchantTab({ check, domain, base }: { check: Check | null; domain: string | null; base: string }) {
+export function MerchantBox({ check, domain }: { check: Check | null; domain: string | null }) {
   const store: CheckStore | undefined = check?.stores.find((entry) => entry.domain === domain)
   return (
-    <main>
+    <section className="box">
       <h1>Merchant view: what a store would see</h1>
       {!check && <p className="plain">Nothing is being checked yet.</p>}
       {check && (
         <p className="pick">
           Demo: view as{' '}
           {check.stores.map((entry) => (
-            <Link key={entry.domain} to={`${base}?view=merchant&m=${entry.domain}`} current={entry.domain === domain}>
+            <Link key={entry.domain} to={withParam('m', entry.domain)} current={entry.domain === domain}>
               {entry.name}
             </Link>
           ))}
@@ -128,6 +128,6 @@ export function MerchantTab({ check, domain, base }: { check: Check | null; doma
       )}
       {store && store.progress?.pages_read && <MerchantStore store={store} />}
       {store && !store.progress?.pages_read && <p className="plain">{store.result_text}</p>}
-    </main>
+    </section>
   )
 }

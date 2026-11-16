@@ -7,11 +7,11 @@ import re
 
 import anthropic
 import httpx
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from api import banned, db, goodterms, replies
+from api import banned, db, goodterms
 from api.check import run_check, start_check
 from api.search import search
 
@@ -99,8 +99,6 @@ TOOLS = [
 ]
 COULD_NOT_FINISH = "I couldn't finish that. Please ask me again."
 DEFAULT_ZIP = "94541"
-LOOKS_RIGHT = "Looks right"
-CHANGE = "Change"
 
 
 class LiveBackend:
@@ -172,7 +170,6 @@ class Conversation:
         self.check_id = None
         self.lock = asyncio.Lock()
         self.finishing = None
-        self.awaiting_zip = False
         self.step = None
 
     def system(self):
@@ -239,13 +236,6 @@ class Conversation:
             if said_by == "you":
                 self.lines.append({"who": "you", "text": text})
                 yield {"type": "you", "text": text}
-                if not buyer()["confirmed"]:
-                    reply = self.first_run_reply(text)
-                    self.lines.append({"who": "coco", "text": reply})
-                    yield {"type": "delta", "text": reply}
-                    yield {"type": "line"}
-                    yield {"type": "end"}
-                    return
             self.messages.append({"role": "user", "content": text})
             for _ in range(6):
                 spoken = ""
@@ -287,17 +277,6 @@ class Conversation:
                 self.messages.append({"role": "user", "content": results})
             yield {"type": "end"}
 
-    def first_run_reply(self, text):
-        """Before the buyer's details are saved, Coco settles them here, without the model."""
-        found = re.search(r"\b\d{5}\b", text)
-        if self.awaiting_zip and found:
-            confirm(found.group())
-            self.awaiting_zip = False
-            return f"Saved. I ship to {found.group()} from now on, so what do you need?"
-        if self.awaiting_zip:
-            return "I need a five-digit ZIP code to ship to."
-        return "Tell me first whether that is right."
-
     async def when_finished(self, check_id):
         """When every store is done, GoodTerms tells Coco, with each store's result word for word."""
         await self.backend.wait(check_id)
@@ -315,12 +294,9 @@ current = None
 
 
 def conversation():
-    """The one conversation. On the very first run it opens with Coco's one question."""
     global current
     if current is None:
         current = Conversation()
-    if not current.lines and not buyer()["confirmed"]:
-        current.lines.append({"who": "coco", "text": first_run_text(), "choices": [LOOKS_RIGHT, CHANGE]})
     return current
 
 
@@ -334,12 +310,8 @@ class Said(BaseModel):
 
 
 def buyer():
-    """The one buyer's saved details. They outlive restarts, so Coco asks only once."""
-    conn = replies.connect()
-    conn.execute("CREATE TABLE IF NOT EXISTS buyer (id INTEGER PRIMARY KEY, conditions TEXT, zip TEXT)")
-    row = conn.execute("SELECT conditions, zip FROM buyer WHERE id = 1").fetchone()
-    conn.close()
-    return {"confirmed": bool(row and row[0]), "zip": row[1] if row else None}
+    """The one buyer. Coco already knows them: three saved conditions and a saved ZIP code."""
+    return {"confirmed": True, "zip": DEFAULT_ZIP}
 
 
 def condition_list():
@@ -347,24 +319,6 @@ def condition_list():
     conds = [dict(row) for row in conn.execute("SELECT id, label, definition FROM conditions ORDER BY rowid")]
     conn.close()
     return conds
-
-
-def confirm(zip_code):
-    """First run: the buyer's three conditions and ZIP code are saved together, once."""
-    if not re.fullmatch(r"\d{5}", zip_code.strip()):
-        raise HTTPException(422, "A ZIP code is five digits")
-    buyer()
-    conn = replies.connect()
-    with conn:
-        ids = json.dumps([c["id"] for c in condition_list()])
-        conn.execute("INSERT OR REPLACE INTO buyer VALUES (1, ?, ?)", (ids, zip_code.strip()))
-    conn.close()
-
-
-def first_run_text():
-    labels = [c["label"].lower() for c in condition_list()]
-    listed = ", ".join(labels[:-1]) + " and " + labels[-1]
-    return f"I check every store on your three conditions ({listed}) and ship to {DEFAULT_ZIP}. Is that right?"
 
 
 def step_view(step):
@@ -387,20 +341,7 @@ def step_view(step):
 
 
 def lines_view(conv):
-    confirmed = buyer()["confirmed"]
-    out = []
-    for line in conv.lines:
-        if line["who"] == "steps":
-            out.append({"who": "steps", "steps": step_view(line)})
-        elif line.get("choices") and (confirmed or conv.awaiting_zip or line is not conv.lines[-1]):
-            out.append({"who": line["who"], "text": line["text"]})
-        else:
-            out.append(line)
-    return out
-
-
-class Choice(BaseModel):
-    choice: str
+    return [{"who": "steps", "steps": step_view(l)} if l["who"] == "steps" else l for l in conv.lines]
 
 
 @router.get("/coco")
@@ -429,21 +370,6 @@ async def say(body: Said):
             yield json.dumps(event) + "\n"
 
     return StreamingResponse(stream(), media_type="application/x-ndjson")
-
-
-@router.post("/coco/first-run")
-def first_run(body: Choice):
-    """The buyer's reply to Coco's one first-run question: Looks right, or Change."""
-    conv = conversation()
-    if buyer()["confirmed"]:
-        return get_coco()
-    if body.choice == "right":
-        confirm(DEFAULT_ZIP)
-        conv.lines += [{"who": "you", "text": LOOKS_RIGHT}, {"who": "coco", "text": "Saved. What do you need?"}]
-    else:
-        conv.awaiting_zip = True
-        conv.lines += [{"who": "you", "text": CHANGE}, {"who": "coco", "text": "Which ZIP code should I ship to?"}]
-    return get_coco()
 
 
 @router.post("/coco/reset")

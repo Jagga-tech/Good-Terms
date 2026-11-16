@@ -77,44 +77,15 @@ def test_a_checkout_link_is_refused_until_that_stores_check_has_finished(monkeyp
         assert client.get("/api/checks/2/checkout/example.com").status_code == 404
 
 
-def test_first_run_is_one_question_in_the_chat_with_two_replies(monkeypatch):
+def test_coco_already_knows_the_buyer_and_asks_no_setup_question(monkeypatch):
     monkeypatch.setattr(coco, "current", None)
     with TestClient(app) as client:
-        first = client.get("/api/coco").json()
-        assert first["conditions_confirmed"] is False and first["zip"] is None and first["backup_mode"] is False
-        assert first["lines"] == [
-            {
-                "who": "coco",
-                "text": "I check every store on your three conditions (opened returns, free return shipping and"
-                " sale-item returns) and ship to 94541. Is that right?",
-                "choices": ["Looks right", "Change"],
-            }
-        ]
-        assert coco.sentences(first["lines"][0]["text"]) == 2
-        after = client.post("/api/coco/first-run", json={"choice": "right"}).json()
-        assert after["conditions_confirmed"] is True and after["zip"] == "94541"
-        assert [line["text"] for line in after["lines"][1:]] == ["Looks right", "Saved. What do you need?"]
-        assert not any("choices" in line for line in after["lines"])
-        client.post("/api/coco/reset")
-        again = client.get("/api/coco").json()
-        assert again["lines"] == [] and again["conditions_confirmed"] is True
+        state = client.get("/api/coco").json()
+        assert state["lines"] == [] and state["zip"] == "94541" and state["conditions_confirmed"] is True
+        assert len(state["conditions"]) == 3 and state["backup_mode"] is False
+        assert client.post("/api/coco/first-run", json={"choice": "right"}).status_code in (404, 405)
         conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
         assert "Their saved ZIP code: 94541." in conv.system() and "never ask for it" in conv.system()
-
-
-def test_change_takes_a_new_zip_in_the_chat_with_no_form(monkeypatch):
-    monkeypatch.setattr(coco, "current", None)
-    with TestClient(app) as client:
-        client.get("/api/coco")
-        asked = client.post("/api/coco/first-run", json={"choice": "change"}).json()
-        assert asked["lines"][-1] == {"who": "coco", "text": "Which ZIP code should I ship to?"}
-        assert not any("choices" in line for line in asked["lines"]) and asked["conditions_confirmed"] is False
-        client.post("/api/coco", json={"text": "the usual one"})
-        assert client.get("/api/coco").json()["lines"][-1]["text"] == "I need a five-digit ZIP code to ship to."
-        client.post("/api/coco", json={"text": "ship to 10001 please"})
-        saved = client.get("/api/coco").json()
-        assert saved["zip"] == "10001" and saved["conditions_confirmed"] is True
-        assert saved["lines"][-1]["text"] == "Saved. I ship to 10001 from now on, so what do you need?"
 
 
 def test_step_lines_come_from_the_real_search_and_check(monkeypatch):

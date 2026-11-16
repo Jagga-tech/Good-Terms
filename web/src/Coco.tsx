@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { answerFirstRun, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState, type Step } from './api'
+import { getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState, type Step } from './api'
 import { navigate } from './router'
 
 export function Steps({ steps }: { steps: Step[] }) {
@@ -23,14 +23,12 @@ export function Talk({
   lines,
   working,
   onSay,
-  onChoose,
   onReset,
 }: {
   state: CocoState
   lines: CocoLine[]
   working: boolean
   onSay?: (text: string) => void
-  onChoose?: (choice: 'right' | 'change') => void
   onReset?: () => void
 }) {
   const thread = useRef<HTMLDivElement>(null)
@@ -54,13 +52,12 @@ export function Talk({
       send()
     }
   }
-  const remembers = state.conditions_confirmed && state.zip
   return (
     <main className="coco">
       <div className="agent">
         <h1>Coco</h1>
         <p className="about">Your personal agent</p>
-        {remembers && (
+        {state.zip && (
           <p className="memory">
             Remembers: your {state.conditions.length} conditions · ships to {state.zip}
           </p>
@@ -74,16 +71,6 @@ export function Talk({
             <div key={index} className={line.who === 'you' ? 'mine' : 'theirs'}>
               <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
               {line.text}
-              {line.choices && (
-                <p className="choices">
-                  <button className="primary" onClick={() => onChoose?.('right')}>
-                    {line.choices[0]}
-                  </button>
-                  <button className="button" onClick={() => onChoose?.('change')}>
-                    {line.choices[1]}
-                  </button>
-                </p>
-              )}
             </div>
           )
         })}
@@ -105,7 +92,7 @@ export function Talk({
           Send
         </button>
       </form>
-      {lines.some((line) => line.who === 'you') && state.conditions_confirmed && (
+      {lines.some((line) => line.who === 'you') && (
         <p className="saved">
           <button onClick={onReset}>Start a new request</button>
         </p>
@@ -165,10 +152,9 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
       await refresh()
     }
   }
-  const choose = (choice: 'right' | 'change') => answerFirstRun(choice).then(refresh)
   const reset = () =>
     resetCoco()
       .then(refresh)
       .then(() => navigate('/'))
-  return <Talk state={state} lines={lines} working={working} onSay={say} onChoose={choose} onReset={reset} />
+  return <Talk state={state} lines={lines} working={working} onSay={say} onReset={reset} />
 }
