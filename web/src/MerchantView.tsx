@@ -41,9 +41,19 @@ export function lineFor(row: Row) {
   return `Buyers who ask about ${topic(row)} get no answer from your pages. You can add it in your return policy.`
 }
 
+const listed = (rows: Row[]) => {
+  const names = rows.map(topic)
+  return names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0]
+}
+
 export function headline(store: Store) {
   const rows = store.rows
-  if (rows.length === 0 || !rows.every((row) => kindOf(row) === 'clear')) return null
+  const unread = rows.find((row) => row.read_note)?.read_note
+  if (unread) return unread
+  const of = (kind: string) => rows.filter((row) => kindOf(row) === kind)
+  if (of('disagree').length > 0) return `Your pages say different things about ${listed(of('disagree'))}`
+  if (of('missing').length > 0) return `Your pages leave ${of('missing').length} of this buyer's conditions unanswered`
+  if (of('differs').length > 0) return `Your pages and your store's assistant say different things about ${listed(of('differs'))}`
   const yes = rows.filter((row) => row.page_status === 'yes').length
   const no = rows.length - yes
   if (no === 0) return `Your pages say yes to all ${rows.length} of this buyer's conditions`
@@ -66,15 +76,13 @@ function Evidence({ row }: { row: Row }) {
 export function MerchantStore({ store }: { store: Store }) {
   const clear = store.rows.filter((row) => kindOf(row) === 'clear')
   const open = store.rows.filter((row) => kindOf(row) !== 'clear')
-  const note = store.rows.find((row) => row.read_note)?.read_note
   const tips = clear.filter(saleTip)
   const top = headline(store)
   const offer = 'offer' in store ? (store as CheckStore).offer : null
   return (
     <article className="merchant" data-store={store.domain}>
-      <h3 className={top ? 'small' : 'headline'}>Your store: {store.name}</h3>
-      {top && <p className="headline">{top}</p>}
-      {note && <p className="plain">{note}</p>}
+      <h3 className="small">Your store: {store.name}</h3>
+      <p className="headline">{top}</p>
       <div className="card parts">
         {offer && (
           <section>

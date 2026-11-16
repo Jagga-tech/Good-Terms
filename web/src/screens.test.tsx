@@ -172,7 +172,7 @@ test('Merchant view speaks to the merchant, in order, with no counts, prices or 
     own = own.replace(/[\w.-]+\.com\S*/g, '').replace(/\d{4}-\d{2}-\d{2}( \d{2}:\d{2})?/g, '')
     const sold = 'offer' in store ? (store as CheckStore).offer : null
     if (sold) for (const piece of [sold.product_title, sold.variant_labels.join(' / '), sold.price_text]) own = own.split(piece).join('')
-    own = own.replace(/Your pages (say yes to|answer) all 3 of this buyer's conditions( clearly: [\w ]+?(?= What| Your| $))?/, '').replace(/\(\/[\w/-]+\)|\/(pages|policies|products)\/[\w-]+/g, '')
+    own = own.replace(/Your pages (say yes to|answer) all 3 of this buyer's conditions( clearly: [\w ]+?(?= What| Your| The| $))?/, '').replace(/Your pages leave \d of this buyer's conditions unanswered/, '').replace(/\(\/[\w/-]+\)|\/(pages|policies|products)\/[\w-]+/g, '')
     expect(own).not.toMatch(/this store|the merchant|buyer's|budget|\$|\d/i)
     expect(own.replace('Sales channels', '')).not.toMatch(/\b(win|wins|winning|won|lose|loses|losing|lost|beat|ahead|behind|rank|best|worse|competitor|sales|revenue|conversion|chose|skipped)\b/i)
     expect(own).toMatch(/your store/i)
@@ -202,11 +202,16 @@ test('Merchant view follows the rules for each kind of row', () => {
   expect(napqueen).toContain("Your store's assistant says yes to sale-item returns, but your pages don't say it. You can add it in your return policy.")
   expect(napqueen).toContain('Buyers who ask about free return shipping get no answer from your pages. You can add it in your return policy.')
   expect(napqueen).not.toMatch(/Your pages (answer|say yes to) all/)
+  expect(napqueen).toContain("Your pages leave 3 of this buyer's conditions unanswered")
 
   const bedstory = view(data.final, 'bedstory.com')
   expect(bedstory).toContain('Your pages /pages/return-policy and /pages/365-night-home-trial say different things about free return shipping. Make them agree.')
   expect(bedstory).toContain('Two sentences on your page /pages/365-night-home-trial say different things about opened returns. Make them agree.')
 
+  expect(bedstory).toContain('Your pages say different things about opened returns, free return shipping and sale-item returns')
+  expect(view(data.latest, 'napqueensleep.com')).toContain("Your pages leave 3 of this buyer's conditions unanswered")
+  for (const check of [data.final, data.latest])
+    for (const store of check.stores) expect(renderToStaticMarkup(<MerchantStore store={store} />)).toMatch(/<p class="headline">[^<]+<\/p>/)
   const lee = view(data.final, 'leefurniture.com')
   expect(lee).toContain("Your store's assistant says no to opened returns, and your pages don't say either way.")
   expect(lee).toContain('Pages were not read in this saved run.')

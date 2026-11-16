@@ -153,7 +153,7 @@ Space live runs out. They read real stores' pages, paced and within each store's
 
 `fixtures/` holds real saved data from November 15, 2026. Nothing in it is made up.
 
-- **The answer key.** Page labels for ten stores, labeled by hand: `rows_six_stores.json` and `labels_five_extra_stores.json`. `make frozen` scores against it. One known difference is listed and left as it is: BonaNest's opened-returns row.
+- **The answer key.** Page labels for ten stores: `rows_six_stores.json` and `labels_five_extra_stores.json`. The labels came from the research session with an AI assistant, and the project's owner signed off some of them. They were not checked by anyone independent. `make frozen` scores against it. One known difference is listed and left as it is: BonaNest's opened-returns row.
 - **Saved page text.** A folder per store, `pages_*`, with the text of each page read and a report of every address tried.
 - **Saved replies.** Store assistants' answers, word for word, with a label for each, including the "not excluded" cases the labeler must not call a yes.
 - **Combining cases.** `combining_cases.json`: every row of the table that combines the two sources, and real cases from a live run with their exact sentences.
@@ -163,7 +163,7 @@ Space live runs out. They read real stores' pages, paced and within each store's
 
 - **A row is a dated statement, not a promise.** It says what a store's pages said on the day they were read. Nothing checks that the store honors it.
 - **The labeler can be wrong.** It errs toward "doesn't say", and a wrong yes has not appeared in testing, but a wrong no or a missed yes can. A saved label stays until the page text changes.
-- **The labels in the answer key come from one person.**
+- **The answer key was not checked independently.** Its labels came from a research session with an AI assistant, some of them signed off by the project's owner. Someone else should label the stores without seeing these.
 - **One category, three conditions, one buyer.** The demo is a queen mattress under $400. The three conditions are fixed and the ZIP code is fixed at 94541.
 - **The search is not pinned.** Stores and prices change between runs.
 - **Prices are catalog prices.** Shipping and tax appear only on the store's checkout page.
