@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import sqlite3
 from pathlib import Path
@@ -8,7 +9,7 @@ from api.combine import page_status
 
 ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = ROOT / "fixtures"
-DB = ROOT / "goodterms.db"
+DB = Path(os.environ.get("GOODTERMS_DB") or ROOT / "goodterms.db")
 REPLY_KEYS = {"opened_returns": "opened", "free_return_shipping": "shipping", "sale_item_returns": "sale"}
 
 SCHEMA = """

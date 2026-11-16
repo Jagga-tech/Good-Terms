@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { confirmConditions, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState } from './api'
 import { navigate } from './router'
 
@@ -24,18 +24,21 @@ export function FirstRun({ state, onConfirm }: { state: CocoState; onConfirm?: (
 }
 
 export function Talk({
-  state,
   lines,
   working,
   onSay,
   onReset,
 }: {
-  state: CocoState
+  state?: CocoState
   lines: CocoLine[]
   working: boolean
   onSay?: (text: string) => void
   onReset?: () => void
 }) {
+  const thread = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (thread.current) thread.current.scrollTop = thread.current.scrollHeight
+  }, [lines, working])
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const field = event.currentTarget.elements.namedItem('say') as HTMLInputElement
@@ -46,25 +49,20 @@ export function Talk({
   return (
     <main className="coco">
       <h1>Coco</h1>
-      <p className="conditions">
-        Your conditions:{' '}
-        {state.conditions.map((condition) => (
-          <span key={condition.id} className="chip">
-            {condition.label}
-          </span>
-        ))}
-      </p>
-      <div className="talk">
+      <div className="thread" ref={thread}>
+        {lines.length === 0 && <p className="plain">Tell me what you need, with the size, your budget and your ZIP code.</p>}
         {lines.map((line, index) => (
-          <p key={index} className={`line ${line.who}`}>
-            <span className="who">{line.who === 'you' ? 'You' : 'Coco'}</span>
-            <span>{line.text}</span>
+          <p key={index} className={`bubble ${line.who === 'you' ? 'mine' : 'theirs'}`}>
+            <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
+            {line.text}
           </p>
         ))}
-        {working && <p className="plain working">Coco is working on it.</p>}
+        {working && <p className="working">Coco is working on it.</p>}
       </div>
       <form className="say" onSubmit={submit}>
-        <label htmlFor="say">Tell Coco what you need</label>
+        <label htmlFor="say" className="sr">
+          Tell Coco what you need
+        </label>
         <input id="say" name="say" autoComplete="off" placeholder="A queen mattress under $400, shipping to 94541" disabled={working} />
         <button type="submit" className="primary" disabled={working}>
           Send
@@ -130,5 +128,9 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
       await refresh()
     }
   }
-  return <Talk state={state} lines={lines} working={working} onSay={say} onReset={() => resetCoco().then(refresh)} />
+  const reset = () =>
+    resetCoco()
+      .then(refresh)
+      .then(() => navigate('/'))
+  return <Talk lines={lines} working={working} onSay={say} onReset={reset} />
 }

@@ -31,7 +31,7 @@ body {
 
 .split {
   display: grid;
-  grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 56px;
   align-items: start;
 }
@@ -39,8 +39,83 @@ body {
 .coco {
   position: sticky;
   top: 0;
-  max-height: 100vh;
+  height: calc(100vh - 78px);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0 24px;
+}
+
+.thread {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border: 1px solid var(--navy);
+  border-radius: 3px;
+  font-size: 18px;
+}
+
+.bubble.mine {
+  align-self: flex-end;
+  background: var(--navy);
+  color: var(--white);
+}
+
+.bubble.theirs {
+  align-self: flex-start;
+  background: var(--white);
+  font-weight: 400;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding: 28px 0 0;
+}
+
+.tabs a {
+  padding-bottom: 6px;
+  text-decoration: none;
+  border-bottom: 2px solid var(--line);
+}
+
+.tabs a[aria-current='page'] {
+  border-bottom-color: var(--navy);
+}
+
+.pane main {
+  padding-top: 24px;
+}
+
+.headline {
+  margin-top: 16px;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.tip {
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .pane {
@@ -420,56 +495,27 @@ blockquote,
   cursor: default;
 }
 
-.talk {
-  margin-top: 32px;
-  border-top: 1px solid var(--line);
-}
 
-.line {
-  display: grid;
-  gap: 2px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 18px;
-}
-
-.line.coco {
-  font-weight: 400;
-}
 
 .terms dd::first-letter {
   text-transform: uppercase;
 }
 
-.who {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--quiet);
-}
 
 .working {
-  padding: 14px 0;
-  font-size: 17px;
+  color: var(--quiet);
+  font-size: 15px;
 }
 
-.opened {
-  margin-top: 16px;
-  font-weight: 700;
-}
 
 .say {
-  margin-top: 32px;
+  margin-top: 12px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 12px;
 }
 
-.say label {
-  flex-basis: 100%;
-  font-size: 14px;
-  color: var(--quiet);
-}
 
 .say input {
   flex: 1 1 16rem;
@@ -547,9 +593,13 @@ footer {
 
   .coco {
     position: static;
-    max-height: none;
+    height: auto;
     padding-bottom: 24px;
     border-bottom: 1px solid var(--line);
+  }
+
+  .thread {
+    max-height: 60vh;
   }
 }
 

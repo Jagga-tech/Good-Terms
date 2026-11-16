@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import BuyersCheck from './BuyersCheck'
 import Coco from './Coco'
-import MerchantView from './MerchantView'
+import { MerchantTab } from './MerchantView'
 import { Link, navigate, useRoute } from './router'
 
 export function Footer() {
@@ -11,10 +11,15 @@ export function Footer() {
 export function parseRoute(url: URL) {
   const check = url.pathname.match(/^\/check\/(\d+)$/)
   const asked = (name: string) => url.searchParams.get(name)
-  if (check) return { screen: 'shop' as const, id: check[1], store: asked('store'), review: asked('review') }
-  if (url.pathname === '/') return { screen: 'shop' as const, id: null, store: null, review: null }
-  if (url.pathname === '/merchant') return { screen: 'merchant' as const, store: asked('store') }
-  return { screen: 'none' as const }
+  if (!check && url.pathname !== '/') return { screen: 'none' as const }
+  return {
+    screen: 'shop' as const,
+    id: check ? check[1] : null,
+    tab: asked('view') === 'merchant' ? ('merchant' as const) : ('buyer' as const),
+    store: asked('store'),
+    review: asked('review'),
+    merchantStore: asked('m'),
+  }
 }
 
 export function NothingYet() {
@@ -30,42 +35,53 @@ export function NothingYet() {
   )
 }
 
+export function Tabs({ tab, buyer, merchant }: { tab: 'buyer' | 'merchant'; buyer: string; merchant: string }) {
+  return (
+    <nav className="tabs">
+      <Link to={buyer} current={tab === 'buyer'}>
+        Buyer's Check
+      </Link>
+      <Link to={merchant} current={tab === 'merchant'}>
+        Merchant view: what a store would see
+      </Link>
+    </nav>
+  )
+}
+
 export default function App() {
   const url = useRoute()
   const route = parseRoute(url)
-  const last = useRef({ shop: '/', merchant: '/merchant' })
-  if (route.screen !== 'none') last.current[route.screen] = url.pathname + url.search
+  const last = useRef<Record<string, string>>({})
 
   useEffect(() => {
     if (route.screen === 'none') navigate('/', true)
   }, [route.screen])
 
+  if (route.screen === 'none') return null
+  const base = route.id ? `/check/${route.id}` : '/'
+  last.current[`${base}:${route.tab}`] = url.pathname + url.search
+  const buyer = last.current[`${base}:buyer`] ?? base
+  const merchant = last.current[`${base}:merchant`] ?? `${base}?view=merchant`
   return (
     <>
       <header>
         <span className="brand">GoodTerms</span>
-        <nav>
-          <Link to={last.current.shop} current={route.screen === 'shop'}>
-            Coco and Buyer's Check
-          </Link>
-          <Link to={last.current.merchant} current={route.screen === 'merchant'}>
-            Merchant View
-          </Link>
-        </nav>
       </header>
-      {route.screen === 'shop' && (
-        <div className="split">
-          <Coco checkShown={route.id} />
-          <div className="pane">
-            {route.id ? <BuyersCheck id={route.id} openStore={route.store} review={route.review} /> : <NothingYet />}
-          </div>
+      <div className="split">
+        <Coco checkShown={route.id} />
+        <div className="pane">
+          <Tabs tab={route.tab} buyer={buyer} merchant={merchant} />
+          {route.id && (
+            <BuyersCheck
+              id={route.id}
+              openStore={route.store}
+              review={route.review}
+              merchant={route.tab === 'merchant' ? { store: route.merchantStore } : null}
+            />
+          )}
+          {!route.id && (route.tab === 'merchant' ? <MerchantTab check={null} domain={null} base="/" /> : <NothingYet />)}
         </div>
-      )}
-      {route.screen === 'merchant' && (
-        <div className="single">
-          <MerchantView domain={route.store} />
-        </div>
-      )}
+      </div>
       <Footer />
     </>
   )

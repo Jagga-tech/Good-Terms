@@ -1,18 +1,39 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import { getStore, getStores, type Row, type Store, type StoreName } from './api'
+import type { Check, CheckStore, Row, Sentence, Store } from './api'
 import { Reply, StoreWords } from './Evidence'
-import { Link, navigate } from './router'
+import { Link } from './router'
 
+const SALE_PAGE = /sale|deal|promo|black-friday|cyber|clearance|outlet/i
 const topic = (row: Row) => row.condition_label.toLowerCase()
-const isClear = (row: Row) =>
-  row.page_sentences.length > 0 && ['yes', 'no'].includes(row.page_status) && !row.contradiction
+const page = (url: string) => new URL(url).pathname
+const saysYes = (sentence: Sentence) => sentence.label === 'yes'
+const against = (sentence: Sentence) => sentence.label === 'no' || sentence.label === 'unclear'
 
-function missingLine(row: Row) {
-  const pagesAnswer = ['yes', 'no'].includes(row.page_status)
-  if (row.page_sentences.length > 1 && row.contradiction)
-    return `Your pages say two different things about ${topic(row)}. You can settle it in your return policy.`
-  if (pagesAnswer && row.contradiction)
-    return `Your pages and your store's assistant say different things about ${topic(row)}. You can settle it in your return policy.`
+type Kind = 'clear' | 'disagree' | 'differs' | 'missing'
+
+export function kindOf(row: Row): Kind {
+  if (row.page_sentences.some(saysYes) && row.page_sentences.some(against)) return 'disagree'
+  if (!['yes', 'no'].includes(row.page_status) || row.page_sentences.length === 0) return 'missing'
+  return row.contradiction ? 'differs' : 'clear'
+}
+
+export function saleTip(row: Row) {
+  const yes = row.page_sentences.filter(saysYes)
+  if (row.page_status !== 'yes' || yes.length === 0 || !yes.every((sentence) => SALE_PAGE.test(page(sentence.url)))) return null
+  return `This answer sits on a sale page (${page(yes[0].url)}) that will end. Add it to your return policy so it stays.`
+}
+
+export function lineFor(row: Row) {
+  const kind = kindOf(row)
+  if (kind === 'clear') return `Your pages answer ${topic(row)} clearly.`
+  if (kind === 'disagree') {
+    const first = page(row.page_sentences.find(saysYes)!.url)
+    const second = page(row.page_sentences.find(against)!.url)
+    return first === second
+      ? `Two sentences on your page ${first} say different things about ${topic(row)}. Make them agree.`
+      : `Your pages ${first} and ${second} say different things about ${topic(row)}. Make them agree.`
+  }
+  if (kind === 'differs')
+    return `Your pages and your store's assistant say different things about ${topic(row)}. Make them agree.`
   if (row.assistant_status === 'yes')
     return `Your store's assistant says yes to ${topic(row)}, but your pages don't say it. You can add it in your return policy.`
   if (row.assistant_status === 'no')
@@ -25,7 +46,7 @@ function Evidence({ row }: { row: Row }) {
     <>
       <p className="asked">Your buyers ask: “{row.question}”</p>
       {row.page_sentences.map((sentence) => (
-        <StoreWords key={sentence.sentence} sentence={sentence} date={row.date_read} />
+        <StoreWords key={sentence.sentence + sentence.url} sentence={sentence} date={row.date_read} />
       ))}
       <Reply row={row} label={row.assistant_reply ? "Your store's assistant says" : "Your store's assistant"} />
     </>
@@ -33,100 +54,72 @@ function Evidence({ row }: { row: Row }) {
 }
 
 export function MerchantStore({ store }: { store: Store }) {
-  const clear = store.rows.filter(isClear)
-  const missing = store.rows.filter((row) => !isClear(row))
+  const clear = store.rows.filter((row) => kindOf(row) === 'clear')
+  const open = store.rows.filter((row) => kindOf(row) !== 'clear')
   const note = store.rows.find((row) => row.read_note)?.read_note
+  const tips = clear.filter(saleTip)
   return (
     <article className="merchant" data-store={store.domain}>
       <h2>Your store: {store.name}</h2>
       {note && <p className="plain">{note}</p>}
+      {open.length === 0 && clear.length === store.rows.length && (
+        <p className="headline">Your pages answer all {store.rows.length} of this buyer's conditions</p>
+      )}
       <section>
         <h3>What your pages answer clearly</h3>
         {clear.length === 0 && <p>Nothing yet.</p>}
         {clear.map((row) => (
           <div key={row.condition} className="condition" data-condition={row.condition}>
             <p className="line">
-              Your pages answer {topic(row)} clearly. The answer is: {row.status_text.toLowerCase()}.
+              {lineFor(row)} The answer is: {row.status_text.toLowerCase()}.
             </p>
+            {saleTip(row) && <p className="tip">{saleTip(row)}</p>}
             <Evidence row={row} />
           </div>
         ))}
       </section>
       <section>
         <h3>What is missing</h3>
-        {missing.length === 0 && <p>Nothing is missing.</p>}
-        {missing.map((row) => (
+        {open.length === 0 && <p>Nothing is missing.</p>}
+        {open.map((row) => (
           <div key={row.condition} className="condition" data-condition={row.condition}>
-            <p className="line">{missingLine(row)}</p>
+            <p className="line">{lineFor(row)}</p>
             <Evidence row={row} />
           </div>
         ))}
       </section>
-      <section>
-        <h3>Where to add it</h3>
-        <p>Your return policy: in your Shopify admin, go to Settings, then Policies.</p>
-        <p>
-          The knowledge base your store's assistant reads: in your Shopify admin, go to Sales channels, Agentic, then
-          Knowledge base.
-        </p>
-      </section>
+      {(open.length > 0 || tips.length > 0) && (
+        <section>
+          <h3>Where to add it</h3>
+          <p>Your return policy: in your Shopify admin, go to Settings, then Policies.</p>
+          <p>
+            The knowledge base your store's assistant reads: in your Shopify admin, go to Sales channels, Agentic, then
+            Knowledge base.
+          </p>
+        </section>
+      )}
     </article>
   )
 }
 
-export function Lookup({ stores, current }: { stores: StoreName[]; current: string | null }) {
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const typed = String(new FormData(event.currentTarget).get('store') ?? '').trim()
-    if (typed) navigate(`/merchant?store=${encodeURIComponent(typed)}`)
-  }
-  return (
-    <div className="lookup">
-      <form onSubmit={submit}>
-        <label htmlFor="store">Your store's domain</label>
-        <input id="store" name="store" list="stores" defaultValue={current ?? ''} placeholder="yourstore.com" />
-        <datalist id="stores">
-          {stores.map((store) => (
-            <option key={store.domain} value={store.domain} />
-          ))}
-        </datalist>
-        <button type="submit">Look up</button>
-      </form>
-      <p className="pick">
-        Or pick one:{' '}
-        {stores.map((store) => (
-          <Link key={store.domain} to={`/merchant?store=${store.domain}`} current={store.domain === current}>
-            {store.name}
-          </Link>
-        ))}
-      </p>
-    </div>
-  )
-}
-
-export function MerchantPage({ stores, store, domain }: { stores: StoreName[]; store: Store | null; domain: string | null }) {
+export function MerchantTab({ check, domain, base }: { check: Check | null; domain: string | null; base: string }) {
+  const store: CheckStore | undefined = check?.stores.find((entry) => entry.domain === domain)
   return (
     <main>
-      <h1>Merchant View</h1>
-      <p className="request">What your pages and your store's assistant tell your buyers.</p>
-      <Lookup stores={stores} current={domain} />
-      {store && store.checked && store.progress?.pages_read && <MerchantStore store={store} />}
-      {store && !(store.checked && store.progress?.pages_read) && (
-        <p className="plain">We have no finished check for {domain} yet.</p>
+      <h1>Merchant view: what a store would see</h1>
+      {!check && <p className="plain">Nothing is being checked yet.</p>}
+      {check && (
+        <p className="pick">
+          Pick a store from this check:{' '}
+          {check.stores.map((entry) => (
+            <Link key={entry.domain} to={`${base}?view=merchant&m=${entry.domain}`} current={entry.domain === domain}>
+              {entry.name}
+            </Link>
+          ))}
+        </p>
       )}
+      {store && store.progress?.pages_read && <MerchantStore store={store} />}
+      {store && !store.progress?.pages_read && <p className="plain">{store.result_text}</p>}
     </main>
   )
-}
-
-export default function MerchantView({ domain }: { domain: string | null }) {
-  const [stores, setStores] = useState<StoreName[]>([])
-  const [store, setStore] = useState<Store | null>(null)
-  useEffect(() => {
-    getStores().then(setStores)
-  }, [])
-  useEffect(() => {
-    setStore(null)
-    if (domain) getStore(domain).then(setStore)
-  }, [domain])
-  return <MerchantPage stores={stores} store={store} domain={domain} />
 }

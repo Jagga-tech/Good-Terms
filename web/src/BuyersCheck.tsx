@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { decide, getCheck, getCheckoutLink, replayCheck, type Action, type Check, type CheckStore, type Row } from './api'
 import { Mark, Reply, StoreWords } from './Evidence'
+import { MerchantTab } from './MerchantView'
 import { Link, navigate } from './router'
 
 export function ConditionRow({ row }: { row: Row }) {
@@ -197,7 +198,17 @@ export function Review({
   )
 }
 
-export default function BuyersCheck({ id, openStore, review }: { id: string; openStore: string | null; review?: string | null }) {
+export default function BuyersCheck({
+  id,
+  openStore,
+  review,
+  merchant,
+}: {
+  id: string
+  openStore: string | null
+  review?: string | null
+  merchant?: { store: string | null } | null
+}) {
   const [check, setCheck] = useState<Check | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
@@ -231,6 +242,7 @@ export default function BuyersCheck({ id, openStore, review }: { id: string; ope
 
   if (error) return <main><p>We could not load this check. {error}</p></main>
   if (!check || String(check.id) !== id) return <main><p>Loading the check.</p></main>
+  if (merchant) return <MerchantTab check={check} domain={merchant.store} base={`/check/${check.id}`} />
   const reload = () => setVersion((now) => now + 1)
   const act: Act = async (store, action) => {
     if (action.action !== 'review') await decide(check.id, store.domain, action.action)

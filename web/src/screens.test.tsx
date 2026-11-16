@@ -1,12 +1,12 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, test } from 'vitest'
 import raw from '../test-data.json'
-import { Footer, NothingYet, parseRoute } from './App'
+import { Footer, NothingYet, Tabs, parseRoute } from './App'
 import type { Check, CheckStore, Row, Store, StoreName } from './api'
 import { CheckView, ConditionRow, Review, StoreEntry } from './BuyersCheck'
 import { FirstRun, Talk } from './Coco'
 import type { CocoState } from './api'
-import { MerchantPage, MerchantStore } from './MerchantView'
+import { MerchantStore, MerchantTab } from './MerchantView'
 
 const data = raw as unknown as Record<string, Check> & {
   stores: StoreName[]
@@ -161,44 +161,78 @@ test('both screens show the same sentence, reply, link and date for the same row
 const quoted = (store: Store) =>
   store.rows.flatMap((row: Row) => [row.assistant_reply!, row.question, ...row.page_sentences.flatMap((s) => [s.sentence, s.heading ?? '', s.url])])
 
-test('Merchant View speaks to the merchant, in order, with no counts, prices or buyer details', () => {
+test('Merchant view speaks to the merchant, in order, with no counts, prices or buyer details', () => {
   const names = [...data.final.stores, ...data.latest.stores]
-  for (const store of [...Object.values(data.merchant), ...data.final.stores]) {
+  for (const store of [...Object.values(data.merchant), ...data.final.stores, ...data.decided.stores]) {
     const markup = renderToStaticMarkup(<MerchantStore store={store} />)
     let own = text(markup)
-    for (const piece of quoted(store).filter(Boolean)) own = own.split(piece).join('')
+    for (const piece of quoted(store).filter(Boolean).sort((a, b) => b.length - a.length)) own = own.split(piece).join('')
     own = own.replace(/[\w.-]+\.com\S*/g, '').replace(/\d{4}-\d{2}-\d{2}( \d{2}:\d{2})?/g, '')
+    own = own.replace("Your pages answer all 3 of this buyer's conditions", '').replace(/\(\/[\w/-]+\)|\/(pages|policies|products)\/[\w-]+/g, '')
     expect(own).not.toMatch(/this store|the merchant|buyer's|budget|\$|\d/i)
+    expect(own.replace('Sales channels', '')).not.toMatch(/\b(win|wins|winning|won|lose|loses|losing|lost|beat|ahead|behind|rank|best|worse|competitor|sales|revenue|conversion|chose|skipped)\b/i)
     expect(own).toMatch(/your store/i)
-    const order = ['What your pages answer clearly', 'What is missing', 'Where to add it'].map((h) => own.indexOf(h))
+    const order = ['What your pages answer clearly', 'What is missing'].map((h) => own.indexOf(h))
     expect(order[0]).toBeGreaterThan(-1)
-    expect(order).toEqual([...order].sort((a, b) => a - b))
-    expect(own.split('Settings, then Policies').length).toBe(2)
-    expect(own.split('Sales channels, Agentic, then Knowledge base').length).toBe(2)
+    expect(order[0]).toBeLessThan(order[1])
+    const adds = own.indexOf('Where to add it')
+    if (adds > -1) expect(adds).toBeGreaterThan(order[1])
+    expect(own.split('Settings, then Policies').length).toBe(adds > -1 ? 2 : 1)
+    expect(own.split('Sales channels, Agentic, then Knowledge base').length).toBe(adds > -1 ? 2 : 1)
     for (const other of names) if (other.domain !== store.domain) expect(own).not.toContain(other.name!)
+    if ('offer' in store && (store as CheckStore).offer) expect(text(markup)).not.toContain((store as CheckStore).offer!.price_text)
     expect(greenIn(markup)).toBe(0)
   }
 })
 
-test('Merchant View puts each row under the right heading', () => {
-  const lines = (domain: string) =>
-    text(renderToStaticMarkup(<MerchantStore store={data.final.stores.find((store) => store.domain === domain)!} />))
-  expect(lines('novillashop.com')).toContain('Your pages answer sale-item returns clearly. The answer is: yes.')
-  expect(lines('novillashop.com')).toContain('Nothing is missing.')
-  expect(lines('napqueensleep.com')).toContain("Your store's assistant says yes to sale-item returns, but your pages don't say it. You can add it in your return policy.")
-  expect(lines('napqueensleep.com')).toContain('Buyers who ask about free return shipping get no answer from your pages. You can add it in your return policy.')
-  expect(lines('bedstory.com')).toContain('Your pages say two different things about free return shipping.')
-  expect(lines('leefurniture.com')).toContain("Your store's assistant says no to opened returns, and your pages don't say either way.")
-  expect(lines('leefurniture.com')).toContain('Pages were not read in this saved run.')
+test('Merchant view follows the rules for each kind of row', () => {
+  const view = (check: Check, domain: string) =>
+    text(renderToStaticMarkup(<MerchantStore store={check.stores.find((store) => store.domain === domain)!} />))
+  const novilla = view(data.final, 'novillashop.com')
+  expect(novilla).toContain("Your pages answer all 3 of this buyer's conditions")
+  expect(novilla).toContain('Your pages answer sale-item returns clearly. The answer is: yes.')
+  expect(novilla).toContain('This answer sits on a sale page (/pages/black-friday-sale) that will end. Add it to your return policy so it stays.')
+  expect(novilla).toContain('Nothing is missing.')
+  expect(novilla).toContain('Where to add it')
+
+  const napqueen = view(data.final, 'napqueensleep.com')
+  expect(napqueen).toContain("Your store's assistant says yes to sale-item returns, but your pages don't say it. You can add it in your return policy.")
+  expect(napqueen).toContain('Buyers who ask about free return shipping get no answer from your pages. You can add it in your return policy.')
+  expect(napqueen).not.toContain('Your pages answer all')
+
+  const bedstory = view(data.final, 'bedstory.com')
+  expect(bedstory).toContain('Your pages /pages/return-policy and /pages/365-night-home-trial say different things about free return shipping. Make them agree.')
+  expect(bedstory).toContain('Two sentences on your page /pages/365-night-home-trial say different things about opened returns. Make them agree.')
+
+  const lee = view(data.final, 'leefurniture.com')
+  expect(lee).toContain("Your store's assistant says no to opened returns, and your pages don't say either way.")
+  expect(lee).toContain('Pages were not read in this saved run.')
+
+  const clearNo = view(data.latest, 'comformattress.com')
+  expect(clearNo).toContain("Your pages answer all 3 of this buyer's conditions")
+  expect(clearNo).toContain('Your pages answer opened returns clearly. The answer is: no.')
+  expect(clearNo).not.toMatch(/You can add|Add it to|Make them agree|Where to add it|change/i)
 })
 
-test('the two screens keep separate state, and Merchant View does not open on the buyer’s store', () => {
+test('the right side has two tabs, and Merchant view opens on no store by itself', () => {
   const buyer = parseRoute(new URL('http://app/check/1?store=novillashop.com'))
-  expect(buyer).toEqual({ screen: 'shop', id: '1', store: 'novillashop.com', review: null })
-  expect(parseRoute(new URL('http://app/merchant'))).toEqual({ screen: 'merchant', store: null })
-  const lookup = renderToStaticMarkup(<MerchantPage stores={data.stores} store={null} domain={null} />)
-  expect(lookup).not.toContain('<article')
-  expect(text(lookup)).toContain('Or pick one:')
+  expect(buyer).toEqual({ screen: 'shop', id: '1', tab: 'buyer', store: 'novillashop.com', review: null, merchantStore: null })
+  const merchant = parseRoute(new URL('http://app/check/1?view=merchant'))
+  expect(merchant).toMatchObject({ tab: 'merchant', store: null, merchantStore: null })
+  expect(parseRoute(new URL('http://app/merchant'))).toEqual({ screen: 'none' })
+  const tabs = renderToStaticMarkup(<Tabs tab="merchant" buyer="/check/1" merchant="/check/1?view=merchant" />)
+  expect(text(tabs)).toContain("Buyer's Check")
+  expect(text(tabs)).toContain('Merchant view: what a store would see')
+  expect(tabs.match(/aria-current="page"/g)).toHaveLength(1)
+  const unpicked = renderToStaticMarkup(<MerchantTab check={data.decided} domain={null} base="/check/2" />)
+  expect(unpicked).not.toContain('<article')
+  for (const store of data.decided.stores) expect(text(unpicked)).toContain(store.name!)
+  const picked = text(renderToStaticMarkup(<MerchantTab check={data.decided} domain="napqueensleep.com" base="/check/2" />))
+  expect(picked).toContain('Your store: NapQueen')
+  expect(picked).not.toMatch(/You chose|\$229|under \$400|94541/)
+  const reading = text(renderToStaticMarkup(<MerchantTab check={data.replay_replies} domain="novillashop.com" base="/check/3" />))
+  expect(reading).toContain("Still reading this store's pages")
+  expect(reading).not.toContain('Your store:')
   const check = text(renderToStaticMarkup(<CheckView check={data.final} openStore="novillashop.com" />))
   expect(check).not.toMatch(/Shopify admin|your return policy|your pages/i)
 })
@@ -241,19 +275,25 @@ test('Coco’s first run asks the buyer to confirm the three conditions', () => 
   expect(text(markup)).toContain('Confirm my conditions')
 })
 
-test('Coco’s messages are plain lines under the buyer’s request, not a chat thread', () => {
+test('Coco is a message thread in our own style, and holds no conditions list', () => {
   const lines = [
     { who: 'you' as const, text: 'a queen mattress under $400, shipping to 94541' },
     { who: 'coco' as const, text: "I searched for a Queen and found 6 stores. Buyer's Check is open." },
   ]
-  const markup = renderToStaticMarkup(<Talk state={{ ...coco, check_id: 3 }} lines={lines} working={false} />)
+  const markup = renderToStaticMarkup(<Talk lines={lines} working={false} />)
   const page = text(markup)
-  expect(page.indexOf(lines[0].text)).toBeGreaterThan(-1)
   expect(page.indexOf(lines[0].text)).toBeLessThan(page.indexOf(lines[1].text))
-  expect(markup).not.toMatch(/bubble|avatar|typing|<img|<svg|…|\.\.\./i)
-  for (const condition of coco.conditions) expect(page).toContain(condition.label)
+  expect(markup).toContain('class="bubble mine"')
+  expect(markup).toContain('class="bubble theirs"')
+  expect(markup).not.toMatch(/class="bubble (you|coco)"/)
+  expect(markup).not.toMatch(/avatar|typing|<img|<svg|…|\.\.\./i)
+  expect(markup.indexOf('class="thread"')).toBeLessThan(markup.indexOf('<form'))
+  for (const condition of coco.conditions) expect(page).not.toContain(condition.label)
+  const check = text(renderToStaticMarkup(<CheckView check={data.final} openStore={null} />))
+  for (const condition of coco.conditions) expect(check.split(condition.label).length).toBeGreaterThan(1)
+  expect(check.indexOf('Your conditions:')).toBeLessThan(check.indexOf('Within budget'))
   expect(greenIn(markup)).toBe(0)
-  expect(parseRoute(new URL('http://app/'))).toEqual({ screen: 'shop', id: null, store: null, review: null })
+  expect(parseRoute(new URL('http://app/'))).toMatchObject({ screen: 'shop', id: null, tab: 'buyer' })
 })
 
 test('one price line above the list, and no price basis on any row', () => {
@@ -268,7 +308,7 @@ test('a card whose store’s pages disagree says so on the card itself', () => {
   const closed = entry(named(data.latest, 'BedStory'), false)
   expect(closed).toContain('Its pages say different things')
   expect(entry(named(data.latest, 'Novilla'), false)).not.toContain('Its pages say different things')
-  expect(text(renderToStaticMarkup(<MerchantStore store={data.merchant['bedstory.com']} />))).not.toContain('Its pages say')
+  expect(text(renderToStaticMarkup(<MerchantStore store={named(data.latest, 'BedStory')} />))).not.toContain('Its pages say')
 })
 
 test('decision buttons follow the result, and none show while pages are being read', () => {

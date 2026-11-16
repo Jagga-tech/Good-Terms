@@ -69,7 +69,7 @@ def test_no_status_text_is_hardcoded_in_the_web_app():
 def test_nothing_looks_like_a_product_grid_or_a_chat_thread():
     for path in SOURCES:
         source = read(path).lower()
-        assert not re.search(r"bubble|avatar|typing|add to cart|rating|badge|★|⭐|sale-tag|carousel", source), path
+        assert not re.search(r"avatar|typing|add to cart|rating|badge|★|⭐|sale-tag|carousel|imessage", source), path
     css = read(WEB / "src" / "index.css")
     assert len(set(re.findall(r"font-weight:\s*(\w+)", css)) | {"400"}) == 2
     assert len(re.findall(r"font(?:-family)?:[^;]*serif", css)) == 1

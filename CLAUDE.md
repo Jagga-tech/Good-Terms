@@ -65,9 +65,11 @@ Rulings made during M1:
 
 Rulings made during M5 and M6:
 
-9. Coco and Buyer's Check share one screen: Coco in a narrow column on the left, Buyer's Check on the right, stacked on a phone. This replaces the plan's separate routes for those two. Merchant View stays its own screen and is never in the split.
+9. One screen, two halves, stacked on a phone. Left: Coco as a message thread, the buyer's messages on the right and Coco's on the left, input at the bottom. Bubbles are allowed for Coco, in our three colours and not a copy of any messaging app; still no avatars and no typing dots. Right: two tabs, one at a time, "Buyer's Check" and "Merchant view: what a store would see". This replaces the plan's separate routes and its no-bubbles rule for Coco.
 10. Prices: no "catalog price" on any row. One line above the list says "Prices are from Shopify's catalog. Shipping and tax are added at checkout."
 11. A card whose store's pages disagree says "Its pages say different things" on the card itself.
+13. The buyer's conditions show in one place only, above the store list on Buyer's Check.
+14. Merchant view works for every store in the check and shows nothing about the buyer (no budget, price, choice or other store). Rules: pages answer all 3 → "Your pages answer all 3 of this buyer's conditions"; an answer that sits only on a sale page → tip to add it to the return policy; something missing → say what and where to add it; two pages disagree → name the two and say to make them agree; a clear no → "Your pages answer this clearly", with no advice to change policy. No winning or losing words, no sales numbers.
 12. Coco may quote a store's result in the row's exact words when asked about it after its check has finished.
 
 ## Guardrails
