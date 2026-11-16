@@ -89,6 +89,8 @@ export type Condition = { id: string; label: string; definition: string }
 export type CocoState = {
   conditions_confirmed: boolean
   conditions: Condition[]
+  zip: string | null
+  backup_mode: boolean
   lines: CocoLine[]
   check_id: number | null
   check_done: boolean
@@ -102,7 +104,7 @@ export type CocoEvent =
   | { type: 'end' }
 
 export const getCoco = () => call<CocoState>('/coco')
-export const confirmConditions = () => call<CocoState>('/buyer/conditions', 'POST')
+export const confirmConditions = (zip: string) => call<CocoState>('/buyer/conditions', 'POST', { zip })
 export const resetCoco = () => call<{ ok: boolean }>('/coco/reset', 'POST')
 
 export async function sayToCoco(text: string, onEvent: (event: CocoEvent) => void) {

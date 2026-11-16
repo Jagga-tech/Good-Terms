@@ -19,7 +19,7 @@ export function kindOf(row: Row): Kind {
 export function saleTip(row: Row) {
   const yes = row.page_sentences.filter(saysYes)
   if (row.page_status !== 'yes' || yes.length === 0 || !yes.every((sentence) => SALE_PAGE.test(page(sentence.url)))) return null
-  return `This answer sits on a sale page (${page(yes[0].url)}) that will end. Add it to your return policy so it stays.`
+  return `This answer sits on a sale page (${page(yes[0].url)}) that may change when the sale ends. Add it to your return policy so it stays.`
 }
 
 export function lineFor(row: Row) {
@@ -39,6 +39,16 @@ export function lineFor(row: Row) {
   if (row.assistant_status === 'no')
     return `Your store's assistant says no to ${topic(row)}, and your pages don't say either way. You can add your answer in your return policy.`
   return `Buyers who ask about ${topic(row)} get no answer from your pages. You can add it in your return policy.`
+}
+
+export function headline(store: Store) {
+  const rows = store.rows
+  if (rows.length === 0 || !rows.every((row) => kindOf(row) === 'clear')) return null
+  const yes = rows.filter((row) => row.page_status === 'yes').length
+  const no = rows.length - yes
+  if (no === 0) return `Your pages say yes to all ${rows.length} of this buyer's conditions`
+  const counts = [yes > 0 ? `${yes} yes` : '', `${no} no`].filter(Boolean).join(' and ')
+  return `Your pages answer all ${rows.length} of this buyer's conditions clearly: ${counts}`
 }
 
 function Evidence({ row }: { row: Row }) {
@@ -62,9 +72,7 @@ export function MerchantStore({ store }: { store: Store }) {
     <article className="merchant" data-store={store.domain}>
       <h2>Your store: {store.name}</h2>
       {note && <p className="plain">{note}</p>}
-      {open.length === 0 && clear.length === store.rows.length && (
-        <p className="headline">Your pages answer all {store.rows.length} of this buyer's conditions</p>
-      )}
+      {headline(store) && <p className="headline">{headline(store)}</p>}
       <section>
         <h3>What your pages answer clearly</h3>
         {clear.length === 0 && <p>Nothing yet.</p>}
@@ -110,7 +118,7 @@ export function MerchantTab({ check, domain, base }: { check: Check | null; doma
       {!check && <p className="plain">Nothing is being checked yet.</p>}
       {check && (
         <p className="pick">
-          Pick a store from this check:{' '}
+          Demo: view as{' '}
           {check.stores.map((entry) => (
             <Link key={entry.domain} to={`${base}?view=merchant&m=${entry.domain}`} current={entry.domain === domain}>
               {entry.name}

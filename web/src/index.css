@@ -32,17 +32,51 @@ body {
 .split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 56px;
+  gap: 24px;
   align-items: start;
+  padding: 24px 0;
+}
+
+.coco,
+.pane {
+  border: 1px solid var(--navy);
 }
 
 .coco {
   position: sticky;
-  top: 0;
-  height: calc(100vh - 78px);
+  top: 24px;
+  height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
-  padding: 32px 0 24px;
+  padding: 20px 24px;
+}
+
+.about {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--quiet);
+}
+
+.firstrun {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  overflow-y: auto;
+}
+
+.firstrun input {
+  width: 8rem;
+  padding: 8px 12px;
+  border: 1px solid var(--navy);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+}
+
+.firstrun label {
+  font-size: 14px;
+  color: var(--quiet);
 }
 
 .thread {
@@ -120,7 +154,7 @@ body {
 
 .pane {
   min-width: 0;
-  max-width: 54rem;
+  padding: 0 24px;
 }
 
 h1,
@@ -508,6 +542,11 @@ blockquote,
 }
 
 
+.coco .saved {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
 .say {
   margin-top: 12px;
   display: flex;
@@ -588,14 +627,15 @@ footer {
 @media (max-width: 900px) {
   .split {
     grid-template-columns: 1fr;
-    gap: 0;
+  }
+
+  .split {
+    gap: 16px;
   }
 
   .coco {
     position: static;
     height: auto;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--line);
   }
 
   .thread {

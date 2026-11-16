@@ -168,7 +168,7 @@ test('Merchant view speaks to the merchant, in order, with no counts, prices or 
     let own = text(markup)
     for (const piece of quoted(store).filter(Boolean).sort((a, b) => b.length - a.length)) own = own.split(piece).join('')
     own = own.replace(/[\w.-]+\.com\S*/g, '').replace(/\d{4}-\d{2}-\d{2}( \d{2}:\d{2})?/g, '')
-    own = own.replace("Your pages answer all 3 of this buyer's conditions", '').replace(/\(\/[\w/-]+\)|\/(pages|policies|products)\/[\w-]+/g, '')
+    own = own.replace(/Your pages (say yes to|answer) all 3 of this buyer's conditions( clearly: [\w ]+?(?= What| Your| $))?/, '').replace(/\(\/[\w/-]+\)|\/(pages|policies|products)\/[\w-]+/g, '')
     expect(own).not.toMatch(/this store|the merchant|buyer's|budget|\$|\d/i)
     expect(own.replace('Sales channels', '')).not.toMatch(/\b(win|wins|winning|won|lose|loses|losing|lost|beat|ahead|behind|rank|best|worse|competitor|sales|revenue|conversion|chose|skipped)\b/i)
     expect(own).toMatch(/your store/i)
@@ -189,16 +189,16 @@ test('Merchant view follows the rules for each kind of row', () => {
   const view = (check: Check, domain: string) =>
     text(renderToStaticMarkup(<MerchantStore store={check.stores.find((store) => store.domain === domain)!} />))
   const novilla = view(data.final, 'novillashop.com')
-  expect(novilla).toContain("Your pages answer all 3 of this buyer's conditions")
+  expect(novilla).toContain("Your pages say yes to all 3 of this buyer's conditions")
   expect(novilla).toContain('Your pages answer sale-item returns clearly. The answer is: yes.')
-  expect(novilla).toContain('This answer sits on a sale page (/pages/black-friday-sale) that will end. Add it to your return policy so it stays.')
+  expect(novilla).toContain('This answer sits on a sale page (/pages/black-friday-sale) that may change when the sale ends. Add it to your return policy so it stays.')
   expect(novilla).toContain('Nothing is missing.')
   expect(novilla).toContain('Where to add it')
 
   const napqueen = view(data.final, 'napqueensleep.com')
   expect(napqueen).toContain("Your store's assistant says yes to sale-item returns, but your pages don't say it. You can add it in your return policy.")
   expect(napqueen).toContain('Buyers who ask about free return shipping get no answer from your pages. You can add it in your return policy.')
-  expect(napqueen).not.toContain('Your pages answer all')
+  expect(napqueen).not.toMatch(/Your pages (answer|say yes to) all/)
 
   const bedstory = view(data.final, 'bedstory.com')
   expect(bedstory).toContain('Your pages /pages/return-policy and /pages/365-night-home-trial say different things about free return shipping. Make them agree.')
@@ -209,7 +209,12 @@ test('Merchant view follows the rules for each kind of row', () => {
   expect(lee).toContain('Pages were not read in this saved run.')
 
   const clearNo = view(data.latest, 'comformattress.com')
-  expect(clearNo).toContain("Your pages answer all 3 of this buyer's conditions")
+  expect(clearNo).toContain("Your pages answer all 3 of this buyer's conditions clearly: 3 no")
+  expect(clearNo).not.toContain('say yes to all')
+  const yesStore = data.final.stores.find((store) => store.domain === 'novillashop.com')!
+  const noStore = data.latest.stores.find((store) => store.domain === 'comformattress.com')!
+  const mixed = { ...yesStore, rows: [yesStore.rows[0], yesStore.rows[1], noStore.rows[2]] }
+  expect(text(renderToStaticMarkup(<MerchantStore store={mixed} />))).toContain("Your pages answer all 3 of this buyer's conditions clearly: 2 yes and 1 no")
   expect(clearNo).toContain('Your pages answer opened returns clearly. The answer is: no.')
   expect(clearNo).not.toMatch(/You can add|Add it to|Make them agree|Where to add it|change/i)
 })
@@ -227,6 +232,7 @@ test('the right side has two tabs, and Merchant view opens on no store by itself
   const unpicked = renderToStaticMarkup(<MerchantTab check={data.decided} domain={null} base="/check/2" />)
   expect(unpicked).not.toContain('<article')
   for (const store of data.decided.stores) expect(text(unpicked)).toContain(store.name!)
+  expect(text(unpicked)).toContain('Demo: view as')
   const picked = text(renderToStaticMarkup(<MerchantTab check={data.decided} domain="napqueensleep.com" base="/check/2" />))
   expect(picked).toContain('Your store: NapQueen')
   expect(picked).not.toMatch(/You chose|\$229|under \$400|94541/)
@@ -259,6 +265,8 @@ const coco: CocoState = {
     { id: 'free_return_shipping', label: 'Free return shipping', definition: 'the buyer pays nothing to send it back.' },
     { id: 'sale_item_returns', label: 'Sale-item returns', definition: 'an item bought at a sale price can still be returned.' },
   ],
+  zip: '94541',
+  backup_mode: false,
   lines: [],
   check_id: null,
   check_done: false,
@@ -272,7 +280,8 @@ test('Coco’s first run asks the buyer to confirm the three conditions', () => 
     expect(text(markup)).toContain(condition.definition)
   }
   expect(markup.match(/<button/g)).toHaveLength(1)
-  expect(text(markup)).toContain('Confirm my conditions')
+  expect(text(markup)).toContain('Save my conditions and ZIP')
+  expect(markup).toMatch(/<input[^>]*name="zip"[^>]*value="94541"/)
 })
 
 test('Coco is a message thread in our own style, and holds no conditions list', () => {
@@ -280,7 +289,12 @@ test('Coco is a message thread in our own style, and holds no conditions list', 
     { who: 'you' as const, text: 'a queen mattress under $400, shipping to 94541' },
     { who: 'coco' as const, text: "I searched for a Queen and found 6 stores. Buyer's Check is open." },
   ]
-  const markup = renderToStaticMarkup(<Talk lines={lines} working={false} />)
+  const markup = renderToStaticMarkup(<Talk state={coco} lines={lines} working={false} />)
+  expect(text(markup)).toContain('Your personal agent. Knows your 3 conditions and ships to 94541.')
+  const empty = renderToStaticMarkup(<Talk state={coco} lines={[]} working={false} />)
+  expect(text(empty)).toContain('What do you need?')
+  expect(empty).toContain('placeholder="I need a queen mattress under $400"')
+  expect(text(empty)).not.toMatch(/ZIP code|budget and/)
   const page = text(markup)
   expect(page.indexOf(lines[0].text)).toBeLessThan(page.indexOf(lines[1].text))
   expect(markup).toContain('class="bubble mine"')
@@ -357,6 +371,8 @@ test('the before-checkout screen repeats the three answers with the date and rec
 })
 
 test('with nothing being checked, the right side says so', () => {
-  const page = text(renderToStaticMarkup(<NothingYet />))
+  const page = text(renderToStaticMarkup(<NothingYet backup={false} />))
   expect(page).toContain('Nothing is being checked yet.')
+  expect(page).not.toMatch(/saved check/i)
+  expect(text(renderToStaticMarkup(<NothingYet backup={true} />))).toContain('Open the saved check from 2026-11-15')
 })

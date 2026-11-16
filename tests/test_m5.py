@@ -77,13 +77,18 @@ def test_a_checkout_link_is_refused_until_that_stores_check_has_finished(monkeyp
         assert client.get("/api/checks/2/checkout/example.com").status_code == 404
 
 
-def test_first_run_conditions_are_confirmed_once_and_saved():
+def test_first_run_saves_the_conditions_and_the_zip_together():
     with TestClient(app) as client:
         before = client.get("/api/coco").json()
-        assert before["conditions_confirmed"] is False and len(before["conditions"]) == 3
-        assert before["lines"] == [] and before["check_id"] is None
-        assert client.post("/api/buyer/conditions").json()["conditions_confirmed"] is True
-        assert client.get("/api/coco").json()["conditions_confirmed"] is True
+        assert before["conditions_confirmed"] is False and len(before["conditions"]) == 3 and before["zip"] is None
+        assert before["lines"] == [] and before["check_id"] is None and before["backup_mode"] is False
+        assert client.post("/api/buyer/conditions", json={"zip": "9454"}).status_code == 422
+        saved = client.post("/api/buyer/conditions", json={"zip": "94541"}).json()
+        assert saved["conditions_confirmed"] is True and saved["zip"] == "94541"
+        assert client.get("/api/coco").json()["zip"] == "94541"
+        conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
+        assert "Their saved ZIP code: 94541." in conv.system()
+        assert "never ask for it" in conv.system()
 
 
 def test_sentence_count():
@@ -98,6 +103,6 @@ def test_coco_instructions_hold_the_rules():
     conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
     db.reset()
     system = conv.system()
-    for phrase in ("one or two short sentences, never three", "never recommend", "never buy", "Buyer's Check", "Opened returns, Free return shipping, Sale-item returns"):
+    for phrase in ("one or two short sentences, never three", "never recommend", "never buy", "Buyer's Check", "Opened returns, Free return shipping, Sale-item returns", "the size and the budget"):
         assert phrase in system
     assert [tool["name"] for tool in coco.TOOLS] == ["search_products", "check_stores", "get_prices", "open_buyers_check"]

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { getCoco } from './api'
 import BuyersCheck from './BuyersCheck'
 import Coco from './Coco'
 import { MerchantTab } from './MerchantView'
@@ -22,15 +23,17 @@ export function parseRoute(url: URL) {
   }
 }
 
-export function NothingYet() {
+export function NothingYet({ backup }: { backup: boolean }) {
   return (
     <main>
       <h1>Buyer's Check</h1>
       <p className="plain">Nothing is being checked yet.</p>
       <p className="request">Tell Coco what you need. Each store's answers appear here as its pages are read.</p>
-      <p className="saved">
-        <Link to="/check/2">Open the saved check from 2026-11-15</Link>
-      </p>
+      {backup && (
+        <p className="saved">
+          <Link to="/check/2">Open the saved check from 2026-11-15</Link>
+        </p>
+      )}
     </main>
   )
 }
@@ -52,6 +55,10 @@ export default function App() {
   const url = useRoute()
   const route = parseRoute(url)
   const last = useRef<Record<string, string>>({})
+  const [backup, setBackup] = useState(false)
+  useEffect(() => {
+    getCoco().then((state) => setBackup(state.backup_mode))
+  }, [])
 
   useEffect(() => {
     if (route.screen === 'none') navigate('/', true)
@@ -79,7 +86,7 @@ export default function App() {
               merchant={route.tab === 'merchant' ? { store: route.merchantStore } : null}
             />
           )}
-          {!route.id && (route.tab === 'merchant' ? <MerchantTab check={null} domain={null} base="/" /> : <NothingYet />)}
+          {!route.id && (route.tab === 'merchant' ? <MerchantTab check={null} domain={null} base="/" /> : <NothingYet backup={backup} />)}
         </div>
       </div>
       <Footer />

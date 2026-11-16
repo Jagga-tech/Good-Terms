@@ -2,28 +2,38 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { confirmConditions, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState } from './api'
 import { navigate } from './router'
 
-export function FirstRun({ state, onConfirm }: { state: CocoState; onConfirm?: () => void }) {
+export function FirstRun({ state, onConfirm }: { state: CocoState; onConfirm?: (zip: string) => void }) {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const zip = String(new FormData(event.currentTarget).get('zip') ?? '').trim()
+    if (/^\d{5}$/.test(zip)) onConfirm?.(zip)
+  }
   return (
     <main className="coco">
       <h1>Coco</h1>
-      <p className="request">I'm your shopping agent. Before I search, confirm your three conditions.</p>
-      <dl className="terms">
-        {state.conditions.map((condition) => (
-          <div key={condition.id}>
-            <dt>{condition.label}</dt>
-            <dd>{condition.definition}</dd>
-          </div>
-        ))}
-      </dl>
-      <p className="request">They are saved, and every store is asked about them before you see a checkout.</p>
-      <button className="primary" onClick={onConfirm}>
-        Confirm my conditions
-      </button>
+      <p className="about">Your personal agent. Tell me once what matters to you, and I keep it.</p>
+      <form className="firstrun" onSubmit={submit}>
+        <dl className="terms">
+          {state.conditions.map((condition) => (
+            <div key={condition.id}>
+              <dt>{condition.label}</dt>
+              <dd>{condition.definition}</dd>
+            </div>
+          ))}
+        </dl>
+        <label htmlFor="zip">ZIP code you ship to</label>
+        <input id="zip" name="zip" inputMode="numeric" pattern="[0-9]{5}" maxLength={5} defaultValue="94541" required />
+        <p className="request">I save these, and every store is asked about your conditions before you see a checkout.</p>
+        <button type="submit" className="primary">
+          Save my conditions and ZIP
+        </button>
+      </form>
     </main>
   )
 }
 
 export function Talk({
+  state,
   lines,
   working,
   onSay,
@@ -49,8 +59,13 @@ export function Talk({
   return (
     <main className="coco">
       <h1>Coco</h1>
+      {state && (
+        <p className="about">
+          Your personal agent. Knows your {state.conditions.length} conditions and ships to {state.zip}.
+        </p>
+      )}
       <div className="thread" ref={thread}>
-        {lines.length === 0 && <p className="plain">Tell me what you need, with the size, your budget and your ZIP code.</p>}
+        {lines.length === 0 && <p className="plain">What do you need?</p>}
         {lines.map((line, index) => (
           <p key={index} className={`bubble ${line.who === 'you' ? 'mine' : 'theirs'}`}>
             <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
@@ -63,7 +78,7 @@ export function Talk({
         <label htmlFor="say" className="sr">
           Tell Coco what you need
         </label>
-        <input id="say" name="say" autoComplete="off" placeholder="A queen mattress under $400, shipping to 94541" disabled={working} />
+        <input id="say" name="say" autoComplete="off" placeholder="I need a queen mattress under $400" disabled={working} />
         <button type="submit" className="primary" disabled={working}>
           Send
         </button>
@@ -106,7 +121,7 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
   }, [waiting, working, state, settled])
 
   if (!state) return <main className="coco"><p>Loading Coco.</p></main>
-  if (!state.conditions_confirmed) return <FirstRun state={state} onConfirm={() => confirmConditions().then(refresh)} />
+  if (!state.conditions_confirmed) return <FirstRun state={state} onConfirm={(zip) => confirmConditions(zip).then(refresh)} />
 
   const say = async (text: string) => {
     setWorking(true)
@@ -132,5 +147,5 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     resetCoco()
       .then(refresh)
       .then(() => navigate('/'))
-  return <Talk lines={lines} working={working} onSay={say} onReset={reset} />
+  return <Talk state={state} lines={lines} working={working} onSay={say} onReset={reset} />
 }

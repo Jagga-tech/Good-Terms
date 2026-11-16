@@ -7,7 +7,7 @@ import re
 
 import anthropic
 import httpx
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
@@ -26,12 +26,13 @@ store against your buyer's saved conditions and shows what each store says, with
 words, on a screen called Buyer's Check. Your buyer reads the answers there and decides. You never \
 buy and never pay; the buyer pays in the store's own checkout.
 
-Your buyer's saved conditions: {conditions}.
+You already know your buyer. Their saved conditions: {conditions}. Their saved ZIP code: {zip}. \
+Use that ZIP for every search and never ask for it; if they name a different ZIP in a request, use \
+theirs for that search.
 
 How a request goes:
-1. You need three things to search: the size, the budget and the ZIP code to ship to. If any is \
-missing, ask for everything that is missing in one question, once. If you have all three, do not \
-ask anything.
+1. You need two things from your buyer to search: the size and the budget. If either is missing, \
+ask for what is missing in one short question, once. If you have both, do not ask anything.
 2. Call search_products. Then call check_stores, then open_buyers_check, straight away in the same \
 turn. Do not wait for the check, and do not show prices before the check has started.
 3. Then tell your buyer what you did in one or two short sentences. Name the size you searched \
@@ -172,8 +173,11 @@ class Conversation:
     def system(self):
         conn = db.connect()
         labels = [row["label"] for row in conn.execute("SELECT label FROM conditions ORDER BY rowid")]
+        saved = conn.execute("SELECT zip FROM buyers WHERE id = 1").fetchone()["zip"]
         conn.close()
-        return SYSTEM.format(conditions=", ".join(labels), banned=", ".join(banned.WORDS))
+        return SYSTEM.format(
+            conditions=", ".join(labels), zip=saved or "not saved yet", banned=", ".join(banned.WORDS)
+        )
 
     async def use(self, name, args):
         """Run one tool. The gates live here, in code, not in the instructions."""
@@ -297,10 +301,31 @@ class Said(BaseModel):
 
 def buyer_view():
     conn = db.connect()
-    saved = conn.execute("SELECT conditions FROM buyers WHERE id = 1").fetchone()["conditions"]
+    buyer = conn.execute("SELECT conditions, zip FROM buyers WHERE id = 1").fetchone()
     conds = [dict(row) for row in conn.execute("SELECT id, label, definition FROM conditions ORDER BY rowid")]
     conn.close()
-    return {"conditions_confirmed": bool(saved), "conditions": conds}
+    return {
+        "conditions_confirmed": bool(buyer["conditions"]),
+        "conditions": conds,
+        "zip": buyer["zip"],
+        "backup_mode": os.environ.get("GOODTERMS_MODE") == "saved",
+    }
+
+
+class FirstRun(BaseModel):
+    zip: str
+
+
+def confirm(zip_code):
+    """First run: the buyer's three conditions and ZIP code are saved together, once."""
+    if not re.fullmatch(r"\d{5}", zip_code.strip()):
+        raise HTTPException(422, "A ZIP code is five digits")
+    conn = db.connect()
+    with conn:
+        ids = [row["id"] for row in conn.execute("SELECT id FROM conditions ORDER BY rowid")]
+        conn.execute("UPDATE buyers SET conditions = ?, zip = ? WHERE id = 1", (json.dumps(ids), zip_code.strip()))
+    conn.close()
+    return buyer_view()
 
 
 @router.get("/coco")
@@ -329,10 +354,5 @@ def reset_coco():
 
 
 @router.post("/buyer/conditions")
-def confirm_conditions():
-    conn = db.connect()
-    with conn:
-        ids = [row["id"] for row in conn.execute("SELECT id FROM conditions ORDER BY rowid")]
-        conn.execute("UPDATE buyers SET conditions = ? WHERE id = 1", (json.dumps(ids),))
-    conn.close()
-    return buyer_view()
+def confirm_conditions(body: FirstRun):
+    return confirm(body.zip)

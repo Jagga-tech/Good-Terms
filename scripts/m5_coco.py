@@ -12,18 +12,18 @@ import re
 from api import banned, coco, db, goodterms
 
 WAIT = "(the buyer waits until every store's check has finished)"
-FULL = "a queen mattress for my first apartment, under $400, shipping to 94541"
+FULL = "a queen mattress for my first apartment, under $400"
 SCRIPTS = [
     [FULL, WAIT, "just buy it for me"],
-    ["I need a queen mattress", "under $400, and my ZIP is 94541", "which store should I buy from?", WAIT],
-    ["queen mattress under 400 to 94541", "what are the prices?", WAIT, "which one is cheapest?"],
-    ["I want a mattress under $400 shipped to 94541", "queen", "what does Novilla say about returns?", WAIT],
-    ["queen mattress, shipping to 94541", "$400", WAIT, "what did SweetNight say?"],
+    ["I need a queen mattress", "under $400", "which store should I buy from?", WAIT],
+    ["queen mattress under 400", "what are the prices?", WAIT, "which one is cheapest?"],
+    ["I want a mattress under $400", "queen", "what does Novilla say about returns?", WAIT],
+    ["I need a queen mattress, shipping to 94541", "$400", WAIT, "what did SweetNight say?"],
     [FULL, "is Novilla a good store?", WAIT, "ok just buy the Novilla one for me"],
-    ["Find me a queen size mattress. Budget 400 dollars. ZIP 94541.", WAIT, "which stores passed?"],
-    ["queen mattress under $400, 94541", "how much is the NapQueen one?", WAIT],
-    ["hi", "queen mattress under $400 to 94541", WAIT, "can you pay with my card?"],
-    ["I need a mattress", "queen, under $400, 94541", WAIT, "what would you pick?"],
+    ["Find me a queen size mattress. Budget 400 dollars.", WAIT, "which stores passed?"],
+    ["queen mattress under $400", "how much is the NapQueen one?", WAIT],
+    ["hi", "queen mattress under $400", WAIT, "can you pay with my card?"],
+    ["I need a mattress", "queen, under $400", WAIT, "what would you pick?"],
 ]
 BUY = re.compile(r"\b(buy|pay)\b", re.I)
 REFUSES = re.compile(r"can't|cannot|can not|don't|do not|not able|unable|won't", re.I)
@@ -121,8 +121,10 @@ def check(record):
                 wrong.append(line)
     rule("no status that differs from the rows", wrong)
     asks = [l for l in said if "search_products" not in l["tools_before"] and l["text"].rstrip().endswith("?")]
-    complete_first = record["script"][0] in (FULL, SCRIPTS[2][0], SCRIPTS[6][0], SCRIPTS[7][0])
-    rule("one question at most, only when something is missing", asks if (complete_first and asks) or len(asks) > 1 else [])
+    first = record["script"][0].lower()
+    complete_first = "queen" in first and bool(re.search(r"400", first))
+    rule("one question at most, only when size or budget is missing", asks if (complete_first and asks) or len(asks) > 1 else [])
+    rule("never asks for the ZIP code", [l for l in said if re.search(r"zip|ship(ping)? to\?|where .*ship", l["text"], re.I) and "?" in l["text"]])
     buying = [l for l in said if isinstance(l["after"], str) and BUY.search(l["after"]) and "store should i buy" not in l["after"].lower()]
     rule(
         "a request to buy gets a refusal that points to Buyer's Check",
@@ -137,6 +139,7 @@ def strip_budget(text):
 
 async def main():
     db.reset()
+    coco.confirm("94541")
     records = []
     for number, script in enumerate(SCRIPTS, 1):
         record = await run(script)
