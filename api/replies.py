@@ -12,6 +12,7 @@ from pathlib import Path
 from api import db
 
 FILE = Path(os.environ.get("GOODTERMS_STATE") or db.ROOT / "labels.db")
+ask_new = True
 
 
 def connect():

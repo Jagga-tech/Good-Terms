@@ -23,6 +23,14 @@ export function parseRoute(url: URL) {
   }
 }
 
+export function Banner({ date }: { date: string }) {
+  return (
+    <p className="banner" role="status">
+      Backup mode. These are saved results from {date}, replayed. This is not a live check.
+    </p>
+  )
+}
+
 export function NothingYet({ backup }: { backup: boolean }) {
   return (
     <div className="view">
@@ -56,9 +64,12 @@ export function Switch({ tab, buyer, merchant }: { tab: 'buyer' | 'merchant'; bu
 export default function App() {
   const url = useRoute()
   const route = parseRoute(url)
-  const [backup, setBackup] = useState(false)
+  const [backup, setBackup] = useState<string | null>(null)
+  const [down, setDown] = useState(false)
   useEffect(() => {
-    getCoco().then((state) => setBackup(state.backup_mode))
+    getCoco()
+      .then((state) => setBackup(state.backup_mode ? (state.backup_date ?? 'an earlier day') : null))
+      .catch(() => setDown(true))
   }, [])
   useEffect(() => {
     if (route.screen === 'none') navigate('/', true)
@@ -68,6 +79,12 @@ export default function App() {
   const merchant = route.tab === 'merchant'
   return (
     <>
+      {backup && <Banner date={backup} />}
+      {down && (
+        <p className="banner" role="alert">
+          The app's server can't be reached. Start it with make dev, then reload this page.
+        </p>
+      )}
       <div className="page">
         <aside className="left">
           <p className="brand">GoodTerms</p>
@@ -83,7 +100,7 @@ export default function App() {
               merchant={merchant ? { store: route.merchantStore } : null}
             />
           )}
-          {!route.id && (merchant ? <MerchantPanel check={null} domain={null} /> : <NothingYet backup={backup} />)}
+          {!route.id && (merchant ? <MerchantPanel check={null} domain={null} /> : <NothingYet backup={Boolean(backup)} />)}
         </div>
       </div>
       <Footer />

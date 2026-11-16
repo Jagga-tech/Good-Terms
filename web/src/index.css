@@ -64,6 +64,19 @@ select:focus-visible {
   align-items: start;
 }
 
+.banner {
+  margin: 0;
+  padding: 10px 24px;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 600;
+  text-align: center;
+}
+
+.loading {
+  padding: 16px;
+}
+
 .card {
   background: var(--white);
   border: 1px solid var(--line);

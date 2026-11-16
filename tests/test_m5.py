@@ -206,3 +206,38 @@ def test_when_no_store_says_yes_to_all_3_coco_is_told_so_and_nothing_opens(monke
     told = conv.open_review("", False)
     assert told["opened"] is False and told["no_store_says_yes_to_all_3"] is True and conv.review is None
     assert len(told["stores"]) == 6 and all("Meets all 3" not in s["result"] for s in told["stores"])
+
+
+def test_a_failed_model_call_ends_in_a_plain_line_and_leaves_the_conversation_usable():
+    db.reset()
+
+    class Broken:
+        class messages:
+            @staticmethod
+            def stream(**request):
+                raise RuntimeError("model is down")
+
+    conv = coco.Conversation(backend=coco.SavedBackend(), client=Broken())
+
+    async def say(text):
+        return [event async for event in conv.turn(text)]
+
+    events = asyncio.run(say("I need a queen mattress under $400"))
+    assert [e["type"] for e in events] == ["you", "delta", "line", "end"]
+    assert conv.lines[-1] == {"who": "coco", "text": "I couldn't finish that. Please ask me again."}
+    assert conv.messages == [] and not conv.lock.locked()
+    asyncio.run(say("again"))
+    assert len(conv.lines) == 4 and conv.messages == []
+
+
+def test_backup_mode_is_off_unless_switched_on_by_hand(monkeypatch):
+    with TestClient(app) as client:
+        monkeypatch.delenv("GOODTERMS_MODE", raising=False)
+        assert client.get("/api/coco").json()["backup_mode"] is False
+        assert isinstance(coco.make_backend(), coco.LiveBackend)
+        monkeypatch.setenv("GOODTERMS_MODE", "saved")
+        state = client.get("/api/coco").json()
+        assert state["backup_mode"] is True and state["backup_date"] == "2026-11-15"
+        assert isinstance(coco.make_backend(), coco.SavedBackend)
+        replay = client.post("/api/checks/2/replay").json()["id"]
+        assert client.get(f"/api/checks/{replay}").json()["saved_on"] == "2026-11-15"

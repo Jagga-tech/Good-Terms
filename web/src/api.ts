@@ -95,6 +95,7 @@ export type CocoState = {
   conditions: Condition[]
   zip: string | null
   backup_mode: boolean
+  backup_date?: string
   lines: CocoLine[]
   check_id: number | null
   check_done: boolean

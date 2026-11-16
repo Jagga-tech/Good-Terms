@@ -23,6 +23,9 @@ The full spec is `GoodTerms prototype spec and build plan.pdf` in this folder. R
 - `make smoke` runs the four live Shopify calls with our own agent profile.
 - `uv run python -m api.mcp_server` runs the MCP tool `check_stores` (add `--http` for HTTP).
 - `make frozen` runs the labeler and pipeline on frozen page text and saved replies, scored against the answer key. It calls the model and never calls a store.
+- `make backup` starts the app in backup mode: saved results, with a banner and recorded dates. Live is the default.
+- `make predemo` checks the profile and runs the demo request live twice. It sends no new Ask question unless `--ask` is added.
+- `make coco` runs ten scripted conversations with Coco against saved data.
 - `make live` runs five timed live checks: real search, Ask calls, paced page reads and model labels.
 - `uv run python -m scripts.freeze_pages <product url or domain>` reads a store's pages once and freezes the text under `fixtures/`.
 - `uv run python -m scripts.capture_search` runs the demo search once, live, and saves every raw response as a fixture. It calls the catalog and stores' public `/.well-known/ucp` files only, never Ask.

@@ -395,3 +395,20 @@ def test_after_a_long_429_no_further_question_is_sent(monkeypatch):
 
     asyncio.run(two_asks())
     assert calls == ["a.myshopify.com"]
+
+
+def test_with_new_questions_switched_off_no_store_is_asked(api, monkeypatch):
+    from api import replies
+
+    monkeypatch.setattr(replies, "ask_new", False)
+    asked = []
+
+    async def fake_ask(client, endpoint, question, variant):
+        asked.append(question)
+        return "Yes."
+
+    store = run_store_with_ask(fake_ask, monkeypatch, api)
+    assert asked == []
+    for row in store["rows"]:
+        assert row["assistant_reply"] is None and row["assistant_status"] == "unavailable"
+        assert row["assistant_text"].startswith("The store's assistant was not asked in this run.")

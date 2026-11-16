@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, test } from 'vitest'
 import raw from '../test-data.json'
-import { Footer, NothingYet, Switch, parseRoute } from './App'
+import { Banner, Footer, NothingYet, Switch, parseRoute } from './App'
 import type { Check, CheckStore, Row, Store, StoreName } from './api'
 import { CheckView, ConditionRow, Decision, Review, StoreEntry } from './BuyersCheck'
 import { Steps, Talk, doing } from './Coco'
@@ -432,4 +432,30 @@ test('each store row shows the catalog’s own product photo, or a plain letter 
   expect(merchant.indexOf('The product that was checked')).toBeLessThan(merchant.indexOf('What your pages answer clearly'))
   expect(merchant).toContain(`src="${withPhoto.offer!.image_url}"`)
   expect(text(merchant)).toContain(withPhoto.offer!.price_text)
+})
+
+test('backup mode cannot be mistaken for live: a banner, and the recorded date on every row and price', () => {
+  const banner = text(renderToStaticMarkup(<Banner date="2026-11-15" />))
+  expect(banner).toContain('Backup mode.')
+  expect(banner).toContain('saved results from 2026-11-15')
+  expect(banner).toContain('This is not a live check.')
+  const saved = data.latest
+  expect(saved.saved_on).toBe('2026-11-15')
+  for (const store of saved.stores) {
+    const row = text(renderToStaticMarkup(<StoreEntry store={store} open={false} to="/" recorded={saved.saved_on} />))
+    expect(row).toContain(`${store.offer!.price_text} recorded 2026-11-15`)
+    expect(row.split('recorded 2026-11-15').length).toBe(1 + 1 + store.rows.length)
+  }
+  const page = text(renderToStaticMarkup(<CheckView check={saved} openStore={null} />))
+  expect(page).toContain('Saved rows from 2026-11-15.')
+  expect(page.split('recorded 2026-11-15').length).toBe(1 + 6 * 4)
+  const live = { ...saved, saved_on: null }
+  expect(text(renderToStaticMarkup(<CheckView check={live} openStore={null} />))).not.toMatch(/recorded|Saved rows/)
+})
+
+test('trouble reaching Coco is said in the chat card, in place of the status line', () => {
+  const markup = renderToStaticMarkup(<Talk state={coco} lines={[]} working={true} trouble="Your message did not reach Coco. Try again." />)
+  expect(text(markup)).toContain('Your message did not reach Coco. Try again.')
+  expect(markup).toContain('role="alert"')
+  expect(text(markup)).not.toContain('Working on your message')
 })

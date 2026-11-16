@@ -26,7 +26,7 @@ export function ConditionRow({ row }: { row: Row }) {
 
 type Act = (store: CheckStore, action: Action) => void
 
-export function StoreEntry({ store, open, to }: { store: CheckStore; open: boolean; to: string }) {
+export function StoreEntry({ store, open, to, recorded }: { store: CheckStore; open: boolean; to: string; recorded?: string | null }) {
   return (
     <li className="store" data-store={store.domain} data-result={store.result}>
       <Link to={to} current={open}>
@@ -35,7 +35,12 @@ export function StoreEntry({ store, open, to }: { store: CheckStore; open: boole
           <span className="name">{store.offer?.product_title ?? store.name ?? store.domain}</span>
           {store.offer && <span className="small">{store.name ?? store.domain}</span>}
         </span>
-        {store.offer && <span className="price">{store.offer.price_text}</span>}
+        {store.offer && (
+          <span className="price">
+            {store.offer.price_text}
+            {recorded && <span className="small"> recorded {recorded}</span>}
+          </span>
+        )}
       </Link>
       <p className="result">{store.result_text}</p>
       {store.card_note && <p className="note">{store.card_note}</p>}
@@ -43,7 +48,10 @@ export function StoreEntry({ store, open, to }: { store: CheckStore; open: boole
         {store.rows.map((row) => (
           <li key={row.condition}>
             <span>{row.condition_label}</span>
-            <Status status={row.status_shown} text={row.status_text} />
+            <span>
+              <Status status={row.status_shown} text={row.status_text} />
+              {recorded && <span className="small"> recorded {recorded}</span>}
+            </span>
           </li>
         ))}
       </ul>
@@ -226,7 +234,7 @@ export function CheckView({
                   <ul className="stores">
                     {group.stores.map((store) => {
                       const open = store.domain === openStore
-                      return <StoreEntry key={store.domain} store={store} open={open} to={withParam('store', open ? null : store.domain)} />
+                      return <StoreEntry key={store.domain} store={store} open={open} to={withParam('store', open ? null : store.domain)} recorded={check.saved_on} />
                     })}
                   </ul>
                 </div>
@@ -253,6 +261,7 @@ export default function BuyersCheck({
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
   const [link, setLink] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
     let timer = 0
@@ -280,16 +289,39 @@ export default function BuyersCheck({
         .catch(() => setLink(null))
   }, [id, review, version])
 
-  if (error) return <p className="plain">We could not load this check. {error}</p>
+  if (error)
+    return (
+      <p className="plain" role="alert">
+        We could not load this check. {error}{' '}
+        <button className="link" onClick={() => (setError(null), setVersion((now) => now + 1))}>
+          Try again
+        </button>
+      </p>
+    )
   if (!check || String(check.id) !== id) return <p className="plain">Loading the check.</p>
   if (merchant) return <MerchantPanel check={check} domain={merchant.store} />
   const reload = () => setVersion((now) => now + 1)
   const act: Act = async (store, action) => {
-    if (action.action !== 'review') await decide(check.id, store.domain, action.action)
+    setNotice(null)
+    try {
+      if (action.action !== 'review') await decide(check.id, store.domain, action.action)
+    } catch {
+      setNotice('That choice could not be saved. Try again.')
+      return
+    }
     if (action.action === 'skip') reload()
     else navigate(withParam('review', store.domain))
   }
   const replay = () => replayCheck(check.id).then((made) => navigate(`/check/${made.id}`))
   const checkout = () => review && decide(check.id, review, 'checkout').then(reload)
-  return <CheckView check={check} openStore={openStore} review={review} link={link} onReplay={replay} onAct={act} onCheckout={checkout} />
+  return (
+    <>
+      {notice && (
+        <p className="plain" role="alert">
+          {notice}
+        </p>
+      )}
+      <CheckView check={check} openStore={openStore} review={review} link={link} onReplay={replay} onAct={act} onCheckout={checkout} />
+    </>
+  )
 }

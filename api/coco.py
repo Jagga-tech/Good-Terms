@@ -268,6 +268,55 @@ class Conversation:
             return self.open_review(args.get("store") or "", bool(args.get("buyer_confirmed")))
         return {"error": f"No such tool: {name}"}
 
+    async def think(self):
+        """The model and its tools, until Coco has spoken. A failure here is the caller's to report."""
+        for _ in range(6):
+            spoken = ""
+            async with self.client.messages.stream(
+                model=MODEL,
+                max_tokens=1000,
+                system=self.system(),
+                tools=TOOLS,
+                messages=self.messages,
+                output_config={"effort": "low"},
+            ) as stream:
+                async for delta in stream.text_stream:
+                    spoken += delta
+                    yield {"type": "delta", "text": delta}
+                message = await stream.get_final_message()
+            self.messages.append({"role": "assistant", "content": message.content})
+            if spoken.strip():
+                self.lines.append({"who": "coco", "text": first_two(spoken)})
+                yield {"type": "line"}
+            if message.stop_reason != "tool_use":
+                if message.stop_reason != "end_turn" and not spoken.strip():
+                    self.lines.append({"who": "coco", "text": COULD_NOT_FINISH})
+                    yield {"type": "delta", "text": COULD_NOT_FINISH}
+                    yield {"type": "line"}
+                break
+            results = []
+            for block in message.content:
+                if block.type != "tool_use":
+                    continue
+                if block.name == "search_products":
+                    self.step = {"who": "steps", "stores": None, "check_id": None}
+                    self.lines.append(self.step)
+                    yield {"type": "steps"}
+                try:
+                    result = await self.use(block.name, block.input)
+                except Exception as problem:
+                    result = {"error": f"This step failed ({type(problem).__name__}). Tell your buyer it did not work and to try again."}
+                    if self.step and self.step["stores"] is None:
+                        self.lines.remove(self.step)
+                        self.step = None
+                yield {"type": "steps"}
+                if block.name == "open_buyers_check" and result.get("opened"):
+                    yield {"type": "open", "check_id": self.check_id}
+                if block.name == "open_review" and result.get("opened"):
+                    yield {"type": "review", "check_id": self.check_id, "store": self.review}
+                results.append({"type": "tool_result", "tool_use_id": block.id, "content": json.dumps(result)})
+            self.messages.append({"role": "user", "content": results})
+
     def open_review(self, named, confirmed):
         """Go ahead toward checkout at one store. Every gate is here, in code.
 
@@ -318,47 +367,16 @@ class Conversation:
                 self.turns += 1
                 self.lines.append({"who": "you", "text": text})
                 yield {"type": "you", "text": text}
+            kept = len(self.messages)
             self.messages.append({"role": "user", "content": text})
-            for _ in range(6):
-                spoken = ""
-                async with self.client.messages.stream(
-                    model=MODEL,
-                    max_tokens=1000,
-                    system=self.system(),
-                    tools=TOOLS,
-                    messages=self.messages,
-                    output_config={"effort": "low"},
-                ) as stream:
-                    async for delta in stream.text_stream:
-                        spoken += delta
-                        yield {"type": "delta", "text": delta}
-                    message = await stream.get_final_message()
-                self.messages.append({"role": "assistant", "content": message.content})
-                if spoken.strip():
-                    self.lines.append({"who": "coco", "text": first_two(spoken)})
-                    yield {"type": "line"}
-                if message.stop_reason != "tool_use":
-                    if message.stop_reason != "end_turn" and not spoken.strip():
-                        self.lines.append({"who": "coco", "text": COULD_NOT_FINISH})
-                        yield {"type": "delta", "text": COULD_NOT_FINISH}
-                        yield {"type": "line"}
-                    break
-                results = []
-                for block in message.content:
-                    if block.type != "tool_use":
-                        continue
-                    if block.name == "search_products":
-                        self.step = {"who": "steps", "stores": None, "check_id": None}
-                        self.lines.append(self.step)
-                        yield {"type": "steps"}
-                    result = await self.use(block.name, block.input)
-                    yield {"type": "steps"}
-                    if block.name == "open_buyers_check" and result.get("opened"):
-                        yield {"type": "open", "check_id": self.check_id}
-                    if block.name == "open_review" and result.get("opened"):
-                        yield {"type": "review", "check_id": self.check_id, "store": self.review}
-                    results.append({"type": "tool_result", "tool_use_id": block.id, "content": json.dumps(result)})
-                self.messages.append({"role": "user", "content": results})
+            try:
+                async for event in self.think():
+                    yield event
+            except Exception:
+                del self.messages[kept:]
+                self.lines.append({"who": "coco", "text": COULD_NOT_FINISH})
+                yield {"type": "delta", "text": COULD_NOT_FINISH}
+                yield {"type": "line"}
             yield {"type": "end"}
 
     async def when_finished(self, check_id):
@@ -452,6 +470,7 @@ def get_coco():
         "conditions": condition_list(),
         "zip": saved["zip"],
         "backup_mode": os.environ.get("GOODTERMS_MODE") == "saved",
+        "backup_date": db.load("live_check_2026-11-15.json")["saved_on"],
         "lines": lines_view(conv),
         "check_id": conv.check_id,
         "check_done": done,

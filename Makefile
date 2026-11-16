@@ -1,7 +1,10 @@
-.PHONY: dev test smoke frozen live coco
+.PHONY: dev backup test smoke frozen live coco predemo
 
 dev:
 	@sh -c 'trap "kill 0" EXIT; uv run --env-file .env uvicorn api.main:app --reload --port 8000 & npm --prefix web run dev'
+
+backup:
+	@GOODTERMS_MODE=saved $(MAKE) dev
 
 test:
 	uv run pytest -q
@@ -19,3 +22,6 @@ live:
 
 coco:
 	uv run --env-file .env python -m scripts.m5_coco
+
+predemo:
+	uv run --env-file .env python -m scripts.predemo

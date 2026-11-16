@@ -166,6 +166,7 @@ def test_no_cart_no_checkout_no_deprecated_tool_and_no_shopify_credential_anywhe
             assert name not in source, (path.name, name)
         assert not credential.search(source), path.name
         read |= set(re.findall(r"environ(?:\.get)?[\[(]\s*\"([A-Z_]+)\"", source))
-    assert read == {"AGENT_PROFILE_URL", "LABELER_MODEL", "LABELER_EFFORT", "LABEL_CACHE", "COCO_MODEL", "GOODTERMS_MODE", "GOODTERMS_DB", "GOODTERMS_STATE"}
+    assert read == {"AGENT_PROFILE_URL", "LABELER_MODEL", "LABELER_EFFORT", "LABEL_CACHE", "COCO_MODEL", "GOODTERMS_MODE", "GOODTERMS_DB", "GOODTERMS_STATE", "ANTHROPIC_API_KEY"}
+    assert sum("ANTHROPIC_API_KEY" in p.read_text() for p in SOURCES) == 1
     for line in (db.ROOT / ".env.example").read_text().split():
         assert not line.upper().startswith("SHOPIFY")

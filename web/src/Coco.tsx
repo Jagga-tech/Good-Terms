@@ -31,9 +31,11 @@ export function doing(lines: CocoLine[], working: boolean) {
 export function Talk({
   lines,
   working,
+  trouble,
   onSay,
   onReset,
 }: {
+  trouble?: string | null
   state?: CocoState
   lines: CocoLine[]
   working: boolean
@@ -70,7 +72,12 @@ export function Talk({
         })}
       </div>
       <div className="composer">
-        {status && <p className="small doing">{status}</p>}
+        {trouble && (
+          <p className="small" role="alert">
+            {trouble}
+          </p>
+        )}
+        {status && !trouble && <p className="small doing">{status}</p>}
         <form className="say" onSubmit={submit}>
           <label htmlFor="say" className="sr">
             Message Coco
@@ -96,13 +103,17 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
   const [state, setState] = useState<CocoState | null>(null)
   const [lines, setLines] = useState<CocoLine[]>([])
   const [working, setWorking] = useState(false)
+  const [trouble, setTrouble] = useState<string | null>(null)
 
   const refresh = () =>
-    getCoco().then((next) => {
-      setState(next)
-      setLines(next.lines)
-      setWorking(next.busy)
-    })
+    getCoco()
+      .then((next) => {
+        setState(next)
+        setLines(next.lines)
+        setWorking(next.busy)
+        setTrouble(null)
+      })
+      .catch(() => setTrouble("Coco can't be reached right now."))
 
   useEffect(() => {
     refresh()
@@ -129,7 +140,15 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     return () => window.clearTimeout(timer)
   }, [waiting, working, state, lines])
 
-  if (!state) return <section className="card chat"><p className="small">Loading Coco.</p></section>
+  if (!state)
+    return (
+      <section className="card chat">
+        <header>
+          <h1>Coco, your agent</h1>
+        </header>
+        <p className="small loading">{trouble ?? 'Loading Coco.'}</p>
+      </section>
+    )
 
   const say = async (text: string) => {
     setWorking(true)
@@ -149,13 +168,16 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
         if (event.type === 'open') navigate(`/check/${event.check_id}`)
         if (event.type === 'review') navigate(`/check/${event.check_id}?review=${event.store}`)
       })
+    } catch {
+      setTrouble('Your message did not reach Coco. Try again.')
     } finally {
-      await refresh()
+      await refresh().catch(() => undefined)
+      setWorking(false)
     }
   }
   const reset = () =>
     resetCoco()
       .then(refresh)
       .then(() => navigate('/'))
-  return <Talk state={state} lines={lines} working={working} onSay={say} onReset={reset} />
+  return <Talk state={state} lines={lines} working={working} trouble={trouble} onSay={say} onReset={reset} />
 }

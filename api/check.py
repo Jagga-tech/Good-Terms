@@ -203,6 +203,8 @@ class StoreCheck:
             reply, note = None, texts.NO_ASSISTANT
         elif replies.lookup(*asking):
             reply, asked = replies.lookup(*asking)
+        elif not replies.ask_new:
+            reply, note = None, texts.NOT_ASKED
         else:
             endpoint = self.offer.get("endpoint") or f"https://{self.offer['myshopify_domain']}/api/ucp/mcp"
             try:

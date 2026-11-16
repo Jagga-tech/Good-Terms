@@ -4,6 +4,7 @@ import time
 
 STILL_READING = "Still reading this store's pages"
 ASK_FAILED = "The store's assistant did not answer."
+NOT_ASKED = "The store's assistant was not asked in this run. No reply from today was saved for this product."
 NO_ASSISTANT = "No reply available. This store does not offer an assistant to ask."
 PRICE_NOTE = "Prices are from Shopify's catalog. Shipping and tax are added at checkout."
 FINAL_TOTAL = "The final total, with shipping and tax, appears on the store's own checkout page."
