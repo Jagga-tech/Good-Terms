@@ -40,12 +40,11 @@ body {
 .coco,
 .pane {
   border: 1px solid var(--navy);
+  height: calc(100vh - 190px);
+  min-height: 26rem;
 }
 
 .coco {
-  position: sticky;
-  top: 24px;
-  height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
   padding: 20px 24px;
@@ -155,6 +154,7 @@ body {
 .pane {
   min-width: 0;
   padding: 0 24px;
+  overflow-y: auto;
 }
 
 h1,
@@ -618,7 +618,7 @@ blockquote,
 }
 
 footer {
-  padding: 16px 0 32px;
+  padding: 16px 0 24px;
   border-top: 1px solid var(--line);
   font-size: 14px;
   color: var(--quiet);
@@ -633,9 +633,11 @@ footer {
     gap: 16px;
   }
 
-  .coco {
-    position: static;
+  .coco,
+  .pane {
     height: auto;
+    min-height: 0;
+    overflow: visible;
   }
 
   .thread {
