@@ -8,8 +8,10 @@ Usage: uv run --env-file .env python -m scripts.m5_coco
 import asyncio
 import json
 import re
+import tempfile
+from pathlib import Path
 
-from api import banned, coco, db, goodterms
+from api import banned, coco, db, goodterms, replies
 
 WAIT = "(the buyer waits until every store's check has finished)"
 FULL = "a queen mattress for my first apartment, under $400"
@@ -55,7 +57,8 @@ async def run(script):
         if said == WAIT:
             record["lines"].append({"who": "note", "text": WAIT})
             await conv.finishing
-            for line in conv.lines[len([l for l in record["lines"] if l["who"] != "note"]):]:
+            spoken = [l for l in conv.lines if l["who"] in ("you", "coco")]
+            for line in spoken[len([l for l in record["lines"] if l["who"] != "note"]):]:
                 record["lines"].append({**line, "tools_before": list(conv.tools_called), "unfinished": [], "after": "finished"})
             continue
         tools_at_start = len(conv.tools_called)
@@ -139,6 +142,7 @@ def strip_budget(text):
 
 async def main():
     db.reset()
+    replies.FILE = Path(tempfile.mkdtemp()) / "buyer.db"
     coco.confirm("94541")
     records = []
     for number, script in enumerate(SCRIPTS, 1):

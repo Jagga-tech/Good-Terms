@@ -72,5 +72,6 @@ def test_nothing_looks_like_a_product_grid_or_a_chat_thread():
         assert not re.search(r"avatar|typing|add to cart|rating|badge|★|⭐|sale-tag|carousel|imessage", source), path
     css = read(WEB / "src" / "index.css")
     assert len(set(re.findall(r"font-weight:\s*(\w+)", css)) | {"400"}) == 2
-    assert len(re.findall(r"font(?:-family)?:[^;]*serif", css)) == 1
+    assert len(re.findall(r"font(?:-family)?:[^;]*sans-serif", css)) == 1
+    assert not re.search(r"Iowan|Palatino|Georgia|[^-]serif", css)
     assert not re.search(r"border-(left|right)[^;]*var\(--(green|navy)\)", css)

@@ -77,18 +77,72 @@ def test_a_checkout_link_is_refused_until_that_stores_check_has_finished(monkeyp
         assert client.get("/api/checks/2/checkout/example.com").status_code == 404
 
 
-def test_first_run_saves_the_conditions_and_the_zip_together():
+def test_first_run_is_one_question_in_the_chat_with_two_replies(monkeypatch):
+    monkeypatch.setattr(coco, "current", None)
     with TestClient(app) as client:
-        before = client.get("/api/coco").json()
-        assert before["conditions_confirmed"] is False and len(before["conditions"]) == 3 and before["zip"] is None
-        assert before["lines"] == [] and before["check_id"] is None and before["backup_mode"] is False
-        assert client.post("/api/buyer/conditions", json={"zip": "9454"}).status_code == 422
-        saved = client.post("/api/buyer/conditions", json={"zip": "94541"}).json()
-        assert saved["conditions_confirmed"] is True and saved["zip"] == "94541"
-        assert client.get("/api/coco").json()["zip"] == "94541"
+        first = client.get("/api/coco").json()
+        assert first["conditions_confirmed"] is False and first["zip"] is None and first["backup_mode"] is False
+        assert first["lines"] == [
+            {
+                "who": "coco",
+                "text": "I check every store on your three conditions (opened returns, free return shipping and"
+                " sale-item returns) and ship to 94541. Is that right?",
+                "choices": ["Looks right", "Change"],
+            }
+        ]
+        assert coco.sentences(first["lines"][0]["text"]) == 2
+        after = client.post("/api/coco/first-run", json={"choice": "right"}).json()
+        assert after["conditions_confirmed"] is True and after["zip"] == "94541"
+        assert [line["text"] for line in after["lines"][1:]] == ["Looks right", "Saved. What do you need?"]
+        assert not any("choices" in line for line in after["lines"])
+        client.post("/api/coco/reset")
+        again = client.get("/api/coco").json()
+        assert again["lines"] == [] and again["conditions_confirmed"] is True
         conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
-        assert "Their saved ZIP code: 94541." in conv.system()
-        assert "never ask for it" in conv.system()
+        assert "Their saved ZIP code: 94541." in conv.system() and "never ask for it" in conv.system()
+
+
+def test_change_takes_a_new_zip_in_the_chat_with_no_form(monkeypatch):
+    monkeypatch.setattr(coco, "current", None)
+    with TestClient(app) as client:
+        client.get("/api/coco")
+        asked = client.post("/api/coco/first-run", json={"choice": "change"}).json()
+        assert asked["lines"][-1] == {"who": "coco", "text": "Which ZIP code should I ship to?"}
+        assert not any("choices" in line for line in asked["lines"]) and asked["conditions_confirmed"] is False
+        client.post("/api/coco", json={"text": "the usual one"})
+        assert client.get("/api/coco").json()["lines"][-1]["text"] == "I need a five-digit ZIP code to ship to."
+        client.post("/api/coco", json={"text": "ship to 10001 please"})
+        saved = client.get("/api/coco").json()
+        assert saved["zip"] == "10001" and saved["conditions_confirmed"] is True
+        assert saved["lines"][-1]["text"] == "Saved. I ship to 10001 from now on, so what do you need?"
+
+
+def test_step_lines_come_from_the_real_search_and_check(monkeypatch):
+    db.reset()
+    now = {"t": 1000.0}
+    monkeypatch.setattr(goodterms, "now", lambda: now["t"])
+    conv = coco.Conversation(backend=coco.SavedBackend(), client=object())
+    conv.step = {"who": "steps", "stores": None, "check_id": None}
+    assert coco.step_view(conv.step) == [{"text": "Searching Shopify's catalog", "done": False}]
+
+    async def flow():
+        await conv.use("search_products", REQUEST)
+        await conv.use("check_stores", {})
+        conv.finishing.cancel()
+
+    asyncio.run(flow())
+    texts = lambda: [(s["text"], s["done"]) for s in coco.step_view(conv.step)]
+    assert texts() == [
+        ("Searched Shopify's catalog · 6 stores", True),
+        ("Asking each store's assistant · 0 of 18", False),
+        ("Reading store pages · 0 of 6", False),
+    ]
+    now["t"] += 2.2
+    assert texts()[1] == ("Asking each store's assistant · 9 of 18", False)
+    now["t"] += 6
+    assert texts()[1:] == [("Asked each store's assistant · 18 answers", True), ("Reading store pages · 2 of 6", False)]
+    now["t"] += 60
+    assert texts()[2] == ("Read store pages · 6 of 6", True)
 
 
 def test_sentence_count():

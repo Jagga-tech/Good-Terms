@@ -11,7 +11,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from api import banned, db, goodterms
+from api import banned, db, goodterms, replies
 from api.check import run_check, start_check
 from api.search import search
 
@@ -98,6 +98,9 @@ TOOLS = [
     },
 ]
 COULD_NOT_FINISH = "I couldn't finish that. Please ask me again."
+DEFAULT_ZIP = "94541"
+LOOKS_RIGHT = "Looks right"
+CHANGE = "Change"
 
 
 class LiveBackend:
@@ -169,14 +172,15 @@ class Conversation:
         self.check_id = None
         self.lock = asyncio.Lock()
         self.finishing = None
+        self.awaiting_zip = False
+        self.step = None
 
     def system(self):
         conn = db.connect()
         labels = [row["label"] for row in conn.execute("SELECT label FROM conditions ORDER BY rowid")]
-        saved = conn.execute("SELECT zip FROM buyers WHERE id = 1").fetchone()["zip"]
         conn.close()
         return SYSTEM.format(
-            conditions=", ".join(labels), zip=saved or "not saved yet", banned=", ".join(banned.WORDS)
+            conditions=", ".join(labels), zip=buyer()["zip"] or "not saved yet", banned=", ".join(banned.WORDS)
         )
 
     async def use(self, name, args):
@@ -191,6 +195,8 @@ class Conversation:
             }
             self.offers = await self.backend.search(**self.request)
             self.check_id = None
+            if self.step:
+                self.step["stores"] = len(self.offers)
             return {
                 "size_searched": args["size"],
                 "stores_found": len(self.offers),
@@ -204,6 +210,8 @@ class Conversation:
                 return {"error": "There are no stores to check. Search first."}
             if self.check_id is None:
                 self.check_id = await self.backend.start(self.offers, self.request)
+                if self.step:
+                    self.step["check_id"] = self.check_id
                 self.finishing = asyncio.create_task(self.when_finished(self.check_id))
             return {
                 "started": True,
@@ -231,6 +239,13 @@ class Conversation:
             if said_by == "you":
                 self.lines.append({"who": "you", "text": text})
                 yield {"type": "you", "text": text}
+                if not buyer()["confirmed"]:
+                    reply = self.first_run_reply(text)
+                    self.lines.append({"who": "coco", "text": reply})
+                    yield {"type": "delta", "text": reply}
+                    yield {"type": "line"}
+                    yield {"type": "end"}
+                    return
             self.messages.append({"role": "user", "content": text})
             for _ in range(6):
                 spoken = ""
@@ -260,12 +275,28 @@ class Conversation:
                 for block in message.content:
                     if block.type != "tool_use":
                         continue
+                    if block.name == "search_products":
+                        self.step = {"who": "steps", "stores": None, "check_id": None}
+                        self.lines.append(self.step)
+                        yield {"type": "steps"}
                     result = await self.use(block.name, block.input)
+                    yield {"type": "steps"}
                     if block.name == "open_buyers_check" and result.get("opened"):
                         yield {"type": "open", "check_id": self.check_id}
                     results.append({"type": "tool_result", "tool_use_id": block.id, "content": json.dumps(result)})
                 self.messages.append({"role": "user", "content": results})
             yield {"type": "end"}
+
+    def first_run_reply(self, text):
+        """Before the buyer's details are saved, Coco settles them here, without the model."""
+        found = re.search(r"\b\d{5}\b", text)
+        if self.awaiting_zip and found:
+            confirm(found.group())
+            self.awaiting_zip = False
+            return f"Saved. I ship to {found.group()} from now on, so what do you need?"
+        if self.awaiting_zip:
+            return "I need a five-digit ZIP code to ship to."
+        return "Tell me first whether that is right."
 
     async def when_finished(self, check_id):
         """When every store is done, GoodTerms tells Coco, with each store's result word for word."""
@@ -284,9 +315,12 @@ current = None
 
 
 def conversation():
+    """The one conversation. On the very first run it opens with Coco's one question."""
     global current
     if current is None:
         current = Conversation()
+    if not current.lines and not buyer()["confirmed"]:
+        current.lines.append({"who": "coco", "text": first_run_text(), "choices": [LOOKS_RIGHT, CHANGE]})
     return current
 
 
@@ -299,40 +333,91 @@ class Said(BaseModel):
     text: str
 
 
-def buyer_view():
+def buyer():
+    """The one buyer's saved details. They outlive restarts, so Coco asks only once."""
+    conn = replies.connect()
+    conn.execute("CREATE TABLE IF NOT EXISTS buyer (id INTEGER PRIMARY KEY, conditions TEXT, zip TEXT)")
+    row = conn.execute("SELECT conditions, zip FROM buyer WHERE id = 1").fetchone()
+    conn.close()
+    return {"confirmed": bool(row and row[0]), "zip": row[1] if row else None}
+
+
+def condition_list():
     conn = db.connect()
-    buyer = conn.execute("SELECT conditions, zip FROM buyers WHERE id = 1").fetchone()
     conds = [dict(row) for row in conn.execute("SELECT id, label, definition FROM conditions ORDER BY rowid")]
     conn.close()
-    return {
-        "conditions_confirmed": bool(buyer["conditions"]),
-        "conditions": conds,
-        "zip": buyer["zip"],
-        "backup_mode": os.environ.get("GOODTERMS_MODE") == "saved",
-    }
-
-
-class FirstRun(BaseModel):
-    zip: str
+    return conds
 
 
 def confirm(zip_code):
     """First run: the buyer's three conditions and ZIP code are saved together, once."""
     if not re.fullmatch(r"\d{5}", zip_code.strip()):
         raise HTTPException(422, "A ZIP code is five digits")
-    conn = db.connect()
+    buyer()
+    conn = replies.connect()
     with conn:
-        ids = [row["id"] for row in conn.execute("SELECT id FROM conditions ORDER BY rowid")]
-        conn.execute("UPDATE buyers SET conditions = ?, zip = ? WHERE id = 1", (json.dumps(ids), zip_code.strip()))
+        ids = json.dumps([c["id"] for c in condition_list()])
+        conn.execute("INSERT OR REPLACE INTO buyer VALUES (1, ?, ?)", (ids, zip_code.strip()))
     conn.close()
-    return buyer_view()
+
+
+def first_run_text():
+    labels = [c["label"].lower() for c in condition_list()]
+    listed = ", ".join(labels[:-1]) + " and " + labels[-1]
+    return f"I check every store on your three conditions ({listed}) and ship to {DEFAULT_ZIP}. Is that right?"
+
+
+def step_view(step):
+    """The work Coco has really done so far, read from the search and the check themselves."""
+    if step["stores"] is None:
+        return [{"text": "Searching Shopify's catalog", "done": False}]
+    count = step["stores"]
+    out = [{"text": f"Searched Shopify's catalog · {count} store{'' if count == 1 else 's'}", "done": True}]
+    if step["check_id"]:
+        stores = goodterms.get_check(step["check_id"])["stores"]
+        rows = [row for store in stores for row in store["rows"]]
+        answers = sum(bool(row["assistant_reply"]) for row in rows)
+        asked = all(store["progress"]["replies_in"] for store in stores)
+        waiting = f"Asking each store's assistant · {answers} of {len(rows)}"
+        out.append({"text": f"Asked each store's assistant · {answers} answers" if asked else waiting, "done": asked})
+        read = sum(store["progress"]["pages_read"] for store in stores)
+        reading = f"Reading store pages · {read} of {len(stores)}"
+        out.append({"text": f"Read store pages · {read} of {len(stores)}" if read == len(stores) else reading, "done": read == len(stores)})
+    return out
+
+
+def lines_view(conv):
+    confirmed = buyer()["confirmed"]
+    out = []
+    for line in conv.lines:
+        if line["who"] == "steps":
+            out.append({"who": "steps", "steps": step_view(line)})
+        elif line.get("choices") and (confirmed or conv.awaiting_zip or line is not conv.lines[-1]):
+            out.append({"who": line["who"], "text": line["text"]})
+        else:
+            out.append(line)
+    return out
+
+
+class Choice(BaseModel):
+    choice: str
 
 
 @router.get("/coco")
 def get_coco():
     conv = conversation()
+    saved = buyer()
     done = bool(conv.check_id) and goodterms.get_check(conv.check_id)["done"]
-    return {**buyer_view(), "lines": conv.lines, "check_id": conv.check_id, "check_done": done, "busy": conv.lock.locked()}
+    return {
+        "conditions_confirmed": saved["confirmed"],
+        "conditions": condition_list(),
+        "zip": saved["zip"],
+        "backup_mode": os.environ.get("GOODTERMS_MODE") == "saved",
+        "lines": lines_view(conv),
+        "check_id": conv.check_id,
+        "check_done": done,
+        "busy": conv.lock.locked(),
+    }
 
 
 @router.post("/coco")
@@ -346,13 +431,23 @@ async def say(body: Said):
     return StreamingResponse(stream(), media_type="application/x-ndjson")
 
 
+@router.post("/coco/first-run")
+def first_run(body: Choice):
+    """The buyer's reply to Coco's one first-run question: Looks right, or Change."""
+    conv = conversation()
+    if buyer()["confirmed"]:
+        return get_coco()
+    if body.choice == "right":
+        confirm(DEFAULT_ZIP)
+        conv.lines += [{"who": "you", "text": LOOKS_RIGHT}, {"who": "coco", "text": "Saved. What do you need?"}]
+    else:
+        conv.awaiting_zip = True
+        conv.lines += [{"who": "you", "text": CHANGE}, {"who": "coco", "text": "Which ZIP code should I ship to?"}]
+    return get_coco()
+
+
 @router.post("/coco/reset")
 def reset_coco():
     global current
     current = None
     return {"ok": True}
-
-
-@router.post("/buyer/conditions")
-def confirm_conditions(body: FirstRun):
-    return confirm(body.zip)

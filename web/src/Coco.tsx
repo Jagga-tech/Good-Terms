@@ -1,34 +1,20 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { confirmConditions, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState } from './api'
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { answerFirstRun, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState, type Step } from './api'
 import { navigate } from './router'
 
-export function FirstRun({ state, onConfirm }: { state: CocoState; onConfirm?: (zip: string) => void }) {
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const zip = String(new FormData(event.currentTarget).get('zip') ?? '').trim()
-    if (/^\d{5}$/.test(zip)) onConfirm?.(zip)
-  }
+export function Steps({ steps }: { steps: Step[] }) {
   return (
-    <main className="coco">
-      <h1>Coco</h1>
-      <p className="about">Your personal agent. Tell me once what matters to you, and I keep it.</p>
-      <form className="firstrun" onSubmit={submit}>
-        <dl className="terms">
-          {state.conditions.map((condition) => (
-            <div key={condition.id}>
-              <dt>{condition.label}</dt>
-              <dd>{condition.definition}</dd>
-            </div>
-          ))}
-        </dl>
-        <label htmlFor="zip">ZIP code you ship to</label>
-        <input id="zip" name="zip" inputMode="numeric" pattern="[0-9]{5}" maxLength={5} defaultValue="94541" required />
-        <p className="request">I save these, and every store is asked about your conditions before you see a checkout.</p>
-        <button type="submit" className="primary">
-          Save my conditions and ZIP
-        </button>
-      </form>
-    </main>
+    <ul className="steps">
+      {steps.map((step) => (
+        <li key={step.text} className={step.done ? 'done' : 'doing'}>
+          <span className="tick" aria-hidden="true">
+            {step.done ? '✓' : '·'}
+          </span>
+          <span>{step.text}</span>
+          {!step.done && <span className="sr"> (in progress)</span>}
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -37,53 +23,89 @@ export function Talk({
   lines,
   working,
   onSay,
+  onChoose,
   onReset,
 }: {
-  state?: CocoState
+  state: CocoState
   lines: CocoLine[]
   working: boolean
   onSay?: (text: string) => void
+  onChoose?: (choice: 'right' | 'change') => void
   onReset?: () => void
 }) {
   const thread = useRef<HTMLDivElement>(null)
+  const [draft, setDraft] = useState('')
   useEffect(() => {
     if (thread.current) thread.current.scrollTop = thread.current.scrollHeight
   }, [lines, working])
+  const send = () => {
+    const text = draft.trim()
+    if (!text || working || !onSay) return
+    onSay(text)
+    setDraft('')
+  }
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const field = event.currentTarget.elements.namedItem('say') as HTMLInputElement
-    const text = field.value.trim()
-    if (text && onSay) onSay(text)
-    field.value = ''
+    send()
   }
+  const keys = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+      event.preventDefault()
+      send()
+    }
+  }
+  const remembers = state.conditions_confirmed && state.zip
   return (
     <main className="coco">
-      <h1>Coco</h1>
-      {state && (
-        <p className="about">
-          Your personal agent. Knows your {state.conditions.length} conditions and ships to {state.zip}.
-        </p>
-      )}
-      <div className="thread" ref={thread}>
-        {lines.length === 0 && <p className="plain">What do you need?</p>}
-        {lines.map((line, index) => (
-          <p key={index} className={`bubble ${line.who === 'you' ? 'mine' : 'theirs'}`}>
-            <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
-            {line.text}
+      <div className="agent">
+        <h1>Coco</h1>
+        <p className="about">Your personal agent</p>
+        {remembers && (
+          <p className="memory">
+            Remembers: your {state.conditions.length} conditions · ships to {state.zip}
           </p>
-        ))}
-        {working && <p className="working">Coco is working on it.</p>}
+        )}
+      </div>
+      <div className="thread" ref={thread} aria-live="polite">
+        {lines.length === 0 && <p className="theirs">What do you need?</p>}
+        {lines.map((line, index) => {
+          if (line.who === 'steps') return <Steps key={index} steps={line.steps} />
+          return (
+            <div key={index} className={line.who === 'you' ? 'mine' : 'theirs'}>
+              <span className="sr">{line.who === 'you' ? 'You: ' : 'Coco: '}</span>
+              {line.text}
+              {line.choices && (
+                <p className="choices">
+                  <button className="primary" onClick={() => onChoose?.('right')}>
+                    {line.choices[0]}
+                  </button>
+                  <button className="button" onClick={() => onChoose?.('change')}>
+                    {line.choices[1]}
+                  </button>
+                </p>
+              )}
+            </div>
+          )
+        })}
       </div>
       <form className="say" onSubmit={submit}>
         <label htmlFor="say" className="sr">
-          Tell Coco what you need
+          Message Coco
         </label>
-        <input id="say" name="say" autoComplete="off" placeholder="I need a queen mattress under $400" disabled={working} />
-        <button type="submit" className="primary" disabled={working}>
+        <textarea
+          id="say"
+          rows={1}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          onKeyDown={keys}
+          placeholder="Message Coco"
+          disabled={working}
+        />
+        <button type="submit" className="primary" disabled={working || !draft.trim()}>
           Send
         </button>
       </form>
-      {lines.length > 0 && (
+      {lines.some((line) => line.who === 'you') && state.conditions_confirmed && (
         <p className="saved">
           <button onClick={onReset}>Start a new request</button>
         </p>
@@ -112,16 +134,15 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     if (state?.check_id && !checkShown) navigate(`/check/${state.check_id}`, true)
   }, [state?.check_id, checkShown])
 
-  const waiting = Boolean(state?.check_id) && !state?.check_done
-  const settled = lines.length === (state?.lines.length ?? 0)
+  const stepsOpen = lines.some((line) => line.who === 'steps' && line.steps.some((step) => !step.done))
+  const waiting = (Boolean(state?.check_id) && !state?.check_done) || stepsOpen
   useEffect(() => {
-    if (!(waiting || state?.busy) || working) return
-    const timer = window.setTimeout(refresh, 2000)
+    if (!(waiting || state?.busy)) return
+    const timer = window.setTimeout(refresh, 1000)
     return () => window.clearTimeout(timer)
-  }, [waiting, working, state, settled])
+  }, [waiting, working, state, lines])
 
   if (!state) return <main className="coco"><p>Loading Coco.</p></main>
-  if (!state.conditions_confirmed) return <FirstRun state={state} onConfirm={(zip) => confirmConditions(zip).then(refresh)} />
 
   const say = async (text: string) => {
     setWorking(true)
@@ -129,6 +150,7 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
     try {
       await sayToCoco(text, (event) => {
         if (event.type === 'you') setLines((now) => [...now, { who: 'you', text: event.text }])
+        if (event.type === 'steps') getCoco().then((next) => setLines(next.lines))
         if (event.type === 'delta')
           setLines((now) => {
             const last = now[now.length - 1]
@@ -143,9 +165,10 @@ export default function Coco({ checkShown }: { checkShown?: string | null }) {
       await refresh()
     }
   }
+  const choose = (choice: 'right' | 'change') => answerFirstRun(choice).then(refresh)
   const reset = () =>
     resetCoco()
       .then(refresh)
       .then(() => navigate('/'))
-  return <Talk state={state} lines={lines} working={working} onSay={say} onReset={reset} />
+  return <Talk state={state} lines={lines} working={working} onSay={say} onChoose={choose} onReset={reset} />
 }

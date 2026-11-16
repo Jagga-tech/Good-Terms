@@ -4,7 +4,7 @@ import raw from '../test-data.json'
 import { Footer, NothingYet, Tabs, parseRoute } from './App'
 import type { Check, CheckStore, Row, Store, StoreName } from './api'
 import { CheckView, ConditionRow, Review, StoreEntry } from './BuyersCheck'
-import { FirstRun, Talk } from './Coco'
+import { Steps, Talk } from './Coco'
 import type { CocoState } from './api'
 import { MerchantStore, MerchantTab } from './MerchantView'
 
@@ -273,42 +273,55 @@ const coco: CocoState = {
   busy: false,
 }
 
-test('Coco’s first run asks the buyer to confirm the three conditions', () => {
-  const markup = renderToStaticMarkup(<FirstRun state={{ ...coco, conditions_confirmed: false }} />)
-  for (const condition of coco.conditions) {
-    expect(text(markup)).toContain(condition.label)
-    expect(text(markup)).toContain(condition.definition)
-  }
-  expect(markup.match(/<button/g)).toHaveLength(1)
-  expect(text(markup)).toContain('Save my conditions and ZIP')
-  expect(markup).toMatch(/<input[^>]*name="zip"[^>]*value="94541"/)
+test('Coco’s first run is one message in the chat with two reply buttons, no form', () => {
+  const lines = [{ who: 'coco' as const, text: 'I check every store on your three conditions and ship to 94541. Is that right?', choices: ['Looks right', 'Change'] }]
+  const markup = renderToStaticMarkup(<Talk state={{ ...coco, conditions_confirmed: false, zip: null }} lines={lines} working={false} />)
+  expect(text(markup)).toContain(lines[0].text)
+  expect([...markup.matchAll(/<button[^>]*>([^<]+)</g)].map((m) => m[1])).toEqual(['Looks right', 'Change', 'Send'])
+  expect(markup).not.toMatch(/<input|<dl|Save my conditions/)
+  expect(text(markup)).not.toContain('Remembers:')
 })
 
-test('Coco is a message thread in our own style, and holds no conditions list', () => {
+
+test('Coco is an agent window: header with memory, messages, step lines, one message box', () => {
   const lines = [
-    { who: 'you' as const, text: 'a queen mattress under $400, shipping to 94541' },
+    { who: 'you' as const, text: 'I need a queen mattress under $400' },
+    { who: 'steps' as const, steps: [
+      { text: "Searched Shopify's catalog · 6 stores", done: true },
+      { text: "Asked each store's assistant · 18 answers", done: true },
+      { text: 'Reading store pages · 4 of 6', done: false },
+    ] },
     { who: 'coco' as const, text: "I searched for a Queen and found 6 stores. Buyer's Check is open." },
   ]
   const markup = renderToStaticMarkup(<Talk state={coco} lines={lines} working={false} />)
-  expect(text(markup)).toContain('Your personal agent. Knows your 3 conditions and ships to 94541.')
-  const empty = renderToStaticMarkup(<Talk state={coco} lines={[]} working={false} />)
-  expect(text(empty)).toContain('What do you need?')
-  expect(empty).toContain('placeholder="I need a queen mattress under $400"')
-  expect(text(empty)).not.toMatch(/ZIP code|budget and/)
   const page = text(markup)
-  expect(page.indexOf(lines[0].text)).toBeLessThan(page.indexOf(lines[1].text))
-  expect(markup).toContain('class="bubble mine"')
-  expect(markup).toContain('class="bubble theirs"')
-  expect(markup).not.toMatch(/class="bubble (you|coco)"/)
-  expect(markup).not.toMatch(/avatar|typing|<img|<svg|…|\.\.\./i)
+  expect(page).toContain('Your personal agent')
+  expect(page).toContain('Remembers: your 3 conditions · ships to 94541')
+  expect(markup).toContain('class="mine"')
+  expect(markup).toContain('class="theirs"')
+  expect(markup).not.toMatch(/class="bubble|avatar|typing|<img|<svg|…|\.\.\./i)
+  expect(page.indexOf(lines[0].text)).toBeLessThan(page.indexOf('Searched Shopify'))
+  expect(page.indexOf('Reading store pages')).toBeLessThan(page.indexOf(lines[2].text))
+  expect(markup.match(/<textarea/g)).toHaveLength(1)
+  expect(markup).toContain('placeholder="Message Coco"')
+  expect(markup).not.toMatch(/<input/)
   expect(markup.indexOf('class="thread"')).toBeLessThan(markup.indexOf('<form'))
   for (const condition of coco.conditions) expect(page).not.toContain(condition.label)
+  const empty = text(renderToStaticMarkup(<Talk state={coco} lines={[]} working={false} />))
+  expect(empty).toContain('What do you need?')
   const check = text(renderToStaticMarkup(<CheckView check={data.final} openStore={null} />))
-  for (const condition of coco.conditions) expect(check.split(condition.label).length).toBeGreaterThan(1)
   expect(check.indexOf('Your conditions:')).toBeLessThan(check.indexOf('Within budget'))
   expect(greenIn(markup)).toBe(0)
   expect(parseRoute(new URL('http://app/'))).toMatchObject({ screen: 'shop', id: null, tab: 'buyer' })
 })
+
+test('a step line shows a tick only when that step is done', () => {
+  const markup = renderToStaticMarkup(<Steps steps={[{ text: 'Searched Shopify’s catalog · 6 stores', done: true }, { text: 'Reading store pages · 4 of 6', done: false }]} />)
+  expect(markup.match(/✓/g)).toHaveLength(1)
+  expect(markup.indexOf('✓')).toBeLessThan(markup.indexOf('6 stores'))
+  expect(text(markup)).toContain('Reading store pages · 4 of 6 (in progress)')
+})
+
 
 test('one price line above the list, and no price basis on any row', () => {
   for (const name of ['final', 'latest', 'replay_replies']) {

@@ -4,12 +4,14 @@ A reply is reused for the same store, product and question for the rest of the d
 store's assistant is asked each question once a day at most. The file outlives restarts.
 """
 
+import os
 import sqlite3
 from datetime import datetime
+from pathlib import Path
 
 from api import db
 
-FILE = db.ROOT / "labels.db"
+FILE = Path(os.environ.get("GOODTERMS_STATE") or db.ROOT / "labels.db")
 
 
 def connect():

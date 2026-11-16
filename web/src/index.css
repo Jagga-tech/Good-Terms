@@ -15,7 +15,7 @@ body {
   margin: 0;
   background: var(--white);
   color: var(--navy);
-  font: 400 17px/1.5 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  font: 400 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
@@ -50,31 +50,22 @@ body {
   padding: 20px 24px;
 }
 
+.agent {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.agent h1 {
+  font-size: 24px;
+}
+
 .about {
-  margin-top: 4px;
   font-size: 15px;
-  color: var(--quiet);
 }
 
-.firstrun {
-  display: grid;
-  gap: 8px;
-  justify-items: start;
-  overflow-y: auto;
-}
-
-.firstrun input {
-  width: 8rem;
-  padding: 8px 12px;
-  border: 1px solid var(--navy);
-  border-radius: 0;
-  background: var(--white);
-  color: var(--navy);
-  font: inherit;
-}
-
-.firstrun label {
-  font-size: 14px;
+.memory {
+  margin-top: 6px;
+  font-size: 13px;
   color: var(--quiet);
 }
 
@@ -84,30 +75,54 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-  padding: 16px 0;
-  border-top: 1px solid var(--line);
+  gap: 14px;
+  padding: 18px 0;
 }
 
-.bubble {
-  max-width: 85%;
-  padding: 10px 14px;
-  border: 1px solid var(--navy);
-  border-radius: 3px;
-  font-size: 18px;
-}
-
-.bubble.mine {
+.mine {
   align-self: flex-end;
+  max-width: 82%;
+  padding: 9px 14px;
+  border-radius: 14px 14px 4px 14px;
   background: var(--navy);
   color: var(--white);
 }
 
-.bubble.theirs {
+.theirs {
   align-self: flex-start;
-  background: var(--white);
-  font-weight: 400;
+  max-width: 92%;
+}
+
+.choices {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.choices .primary {
+  margin-top: 0;
+}
+
+.steps {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--quiet);
+}
+
+.steps li {
+  display: flex;
+  gap: 8px;
+}
+
+.tick {
+  width: 1em;
+  text-align: center;
+  font-weight: 700;
+}
+
+.steps .done .tick {
+  color: var(--navy);
 }
 
 .sr {
@@ -388,7 +403,7 @@ h4 {
 
 blockquote,
 .plain {
-  font-size: 23px;
+  font-size: 20px;
   line-height: 1.35;
 }
 
@@ -536,10 +551,6 @@ blockquote,
 }
 
 
-.working {
-  color: var(--quiet);
-  font-size: 15px;
-}
 
 
 .coco .saved {
@@ -556,14 +567,25 @@ blockquote,
 }
 
 
-.say input {
-  flex: 1 1 16rem;
-  padding: 8px 12px;
+.say {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+}
+
+.say textarea {
+  flex: 1 1 auto;
+  min-height: 42px;
+  max-height: 140px;
+  padding: 10px 12px;
   border: 1px solid var(--navy);
-  border-radius: 0;
+  border-radius: 8px;
   background: var(--white);
   color: var(--navy);
   font: inherit;
+  resize: none;
+  field-sizing: content;
 }
 
 .say .primary {

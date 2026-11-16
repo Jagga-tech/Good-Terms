@@ -84,7 +84,10 @@ export const getCheckoutLink = (id: number, store: string) =>
 export const getStores = () => call<StoreName[]>('/stores')
 export const getStore = (domain: string) => call<Store>(`/stores/${encodeURIComponent(domain)}`)
 
-export type CocoLine = { who: 'you' | 'coco'; text: string }
+export type Step = { text: string; done: boolean }
+export type CocoLine =
+  | { who: 'you' | 'coco'; text: string; choices?: string[] }
+  | { who: 'steps'; steps: Step[] }
 export type Condition = { id: string; label: string; definition: string }
 export type CocoState = {
   conditions_confirmed: boolean
@@ -101,10 +104,11 @@ export type CocoEvent =
   | { type: 'delta'; text: string }
   | { type: 'line' }
   | { type: 'open'; check_id: number }
+  | { type: 'steps' }
   | { type: 'end' }
 
 export const getCoco = () => call<CocoState>('/coco')
-export const confirmConditions = (zip: string) => call<CocoState>('/buyer/conditions', 'POST', { zip })
+export const answerFirstRun = (choice: 'right' | 'change') => call<CocoState>('/coco/first-run', 'POST', { choice })
 export const resetCoco = () => call<{ ok: boolean }>('/coco/reset', 'POST')
 
 export async function sayToCoco(text: string, onEvent: (event: CocoEvent) => void) {

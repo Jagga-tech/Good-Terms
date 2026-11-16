@@ -19,11 +19,6 @@ CREATE TABLE conditions (
     question TEXT NOT NULL,
     definition TEXT NOT NULL
 );
-CREATE TABLE buyers (
-    id INTEGER PRIMARY KEY,
-    conditions TEXT,
-    zip TEXT
-);
 CREATE TABLE checks (
     id INTEGER PRIMARY KEY,
     search_text TEXT,
@@ -184,7 +179,6 @@ def reset():
                         case.get("read_note"),
                     ),
                 )
-        conn.execute("INSERT INTO buyers (id) VALUES (1)")
         seed_saved_check(conn)
     conn.close()
 
