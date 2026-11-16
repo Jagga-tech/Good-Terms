@@ -65,6 +65,12 @@ CREATE TABLE pages (
     fetched TEXT,
     text TEXT
 );
+CREATE TABLE decisions (
+    check_id INTEGER NOT NULL REFERENCES checks(id),
+    store_domain TEXT NOT NULL,
+    choice TEXT NOT NULL CHECK (choice IN ('skip', 'continue', 'buy_anyway', 'checkout')),
+    time TEXT NOT NULL
+);
 CREATE TABLE findings (
     check_id INTEGER NOT NULL REFERENCES checks(id),
     store_domain TEXT NOT NULL,

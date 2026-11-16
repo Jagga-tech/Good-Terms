@@ -40,7 +40,15 @@ export type Offer = {
   within_budget: boolean
 }
 
-export type CheckStore = Store & { offer: Offer | null }
+export type Action = { action: string; label: string; first: boolean }
+export type Decision = { choice: string; time: string; text: string }
+export type CheckStore = Store & {
+  offer: Offer | null
+  card_note?: string | null
+  actions?: Action[]
+  decision?: Decision | null
+  review_allowed?: boolean
+}
 
 export type Check = {
   id: number
@@ -49,20 +57,30 @@ export type Check = {
   requested_size: string | null
   conditions: string[]
   done: boolean
+  price_note?: string
+  final_total_note?: string
   price_gap: { text: string } | null
   stores: CheckStore[]
 }
 
 export type StoreName = { domain: string; name: string }
 
-async function call<T>(path: string, method = 'GET'): Promise<T> {
-  const response = await fetch(`/api${path}`, { method })
+async function call<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+  const response = await fetch(`/api${path}`, {
+    method,
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    body: body ? JSON.stringify(body) : undefined,
+  })
   if (!response.ok) throw new Error(`${response.status} on ${path}`)
   return response.json()
 }
 
 export const getCheck = (id: string) => call<Check>(`/checks/${id}`)
 export const replayCheck = (id: number) => call<{ id: number }>(`/checks/${id}/replay`, 'POST')
+export const decide = (id: number, store: string, choice: string) =>
+  call<Decision>(`/checks/${id}/decisions`, 'POST', { store, choice })
+export const getCheckoutLink = (id: number, store: string) =>
+  call<{ url: string }>(`/checks/${id}/checkout/${encodeURIComponent(store)}`)
 export const getStores = () => call<StoreName[]>('/stores')
 export const getStore = (domain: string) => call<Store>(`/stores/${encodeURIComponent(domain)}`)
 

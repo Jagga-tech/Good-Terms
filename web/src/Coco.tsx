@@ -1,10 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { confirmConditions, getCoco, resetCoco, sayToCoco, type CocoLine, type CocoState } from './api'
-import { Link, navigate } from './router'
+import { navigate } from './router'
 
 export function FirstRun({ state, onConfirm }: { state: CocoState; onConfirm?: () => void }) {
   return (
-    <main>
+    <main className="coco">
       <h1>Coco</h1>
       <p className="request">I'm your shopping agent. Before I search, confirm your three conditions.</p>
       <dl className="terms">
@@ -44,7 +44,7 @@ export function Talk({
     field.value = ''
   }
   return (
-    <main>
+    <main className="coco">
       <h1>Coco</h1>
       <p className="conditions">
         Your conditions:{' '}
@@ -63,11 +63,6 @@ export function Talk({
         ))}
         {working && <p className="plain working">Coco is working on it.</p>}
       </div>
-      {state.check_id && (
-        <p className="opened">
-          <Link to={`/check/${state.check_id}`}>Open Buyer's Check</Link>
-        </p>
-      )}
       <form className="say" onSubmit={submit}>
         <label htmlFor="say">Tell Coco what you need</label>
         <input id="say" name="say" autoComplete="off" placeholder="A queen mattress under $400, shipping to 94541" disabled={working} />
@@ -84,7 +79,7 @@ export function Talk({
   )
 }
 
-export default function Coco() {
+export default function Coco({ checkShown }: { checkShown?: string | null }) {
   const [state, setState] = useState<CocoState | null>(null)
   const [lines, setLines] = useState<CocoLine[]>([])
   const [working, setWorking] = useState(false)
@@ -100,6 +95,10 @@ export default function Coco() {
     refresh()
   }, [])
 
+  useEffect(() => {
+    if (state?.check_id && !checkShown) navigate(`/check/${state.check_id}`, true)
+  }, [state?.check_id, checkShown])
+
   const waiting = Boolean(state?.check_id) && !state?.check_done
   const settled = lines.length === (state?.lines.length ?? 0)
   useEffect(() => {
@@ -108,7 +107,7 @@ export default function Coco() {
     return () => window.clearTimeout(timer)
   }, [waiting, working, state, settled])
 
-  if (!state) return <main><p>Loading Coco.</p></main>
+  if (!state) return <main className="coco"><p>Loading Coco.</p></main>
   if (!state.conditions_confirmed) return <FirstRun state={state} onConfirm={() => confirmConditions().then(refresh)} />
 
   const say = async (text: string) => {

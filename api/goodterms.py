@@ -79,7 +79,9 @@ def store_view(conn, store, offer, replies_in=None, pages_read=None):
             }
         )
     result = store_result(rows, pages_read)
+    disagree = pages_read and any(row["pages_disagree"] for row in found)
     return {
+        "card_note": texts.PAGES_DISAGREE if disagree else None,
         "domain": store,
         "name": offer["seller_name"] if offer else None,
         "storefront_url": offer["storefront_url"] if offer else None,
@@ -211,6 +213,9 @@ def get_check(check_id: int):
             progress = replay_progress(check, index, offer) if check["replay_started"] else ()
             view = store_view(conn, offer["store_domain"], offer, *progress)
             view["offer"] = offer_view(offer, check["budget_cents"])
+            view["actions"] = texts.actions(view["result"])
+            view["decision"] = decision_view(conn, check_id, offer["store_domain"])
+            view["review_allowed"] = may_review(view)
             stores.append(view)
         done = all(not s["checked"] or s["progress"]["pages_read"] for s in stores)
         if done:
@@ -231,11 +236,55 @@ def get_check(check_id: int):
                 row["label"] for row in conn.execute("SELECT label FROM conditions ORDER BY rowid")
             ],
             "done": done,
+            "price_note": texts.PRICE_NOTE,
+            "final_total_note": texts.FINAL_TOTAL,
             "price_gap": texts.price_gap(stores) if done else None,
             "stores": stores,
         }
     finally:
         conn.close()
+
+
+def decision_view(conn, check_id, store):
+    row = conn.execute(
+        "SELECT choice, time FROM decisions WHERE check_id = ? AND store_domain = ? ORDER BY rowid DESC LIMIT 1",
+        (check_id, store),
+    ).fetchone()
+    return {"choice": row["choice"], "time": row["time"], "text": texts.DECISIONS[row["choice"]]} if row else None
+
+
+def may_review(view):
+    """The before-checkout screen is for a store that meets all 3, or one the buyer chose to go on with."""
+    chosen = (view.get("decision") or {}).get("choice")
+    return view["result"] == "meets_all_3" or (
+        chosen in ("continue", "buy_anyway", "checkout") and view["result"] in ("says_no", "not_answered_on_pages")
+    )
+
+
+class Decision(BaseModel):
+    store: str
+    choice: str
+
+
+@router.post("/checks/{check_id}/decisions")
+def decide(check_id: int, body: Decision):
+    """Record the buyer's choice at one store. Only a choice its result offers is accepted."""
+    view = next((s for s in get_check(check_id)["stores"] if s["domain"] == domain(body.store)), None)
+    if not view:
+        raise HTTPException(404, "No such store in this check")
+    offered = {action["action"] for action in view["actions"]}
+    allowed = body.choice in offered or (body.choice == "checkout" and view["review_allowed"])
+    if not allowed:
+        raise HTTPException(409, "That choice is not open at this store")
+    conn = db.connect()
+    with conn:
+        conn.execute(
+            "INSERT INTO decisions VALUES (?, ?, ?, ?)",
+            (check_id, view["domain"], body.choice, datetime.now().strftime("%Y-%m-%d %H:%M")),
+        )
+        saved = decision_view(conn, check_id, view["domain"])
+    conn.close()
+    return saved
 
 
 def checkout_link(check_id, store):
@@ -256,6 +305,9 @@ def checkout_link(check_id, store):
     link = offer["checkout_url"] or ""
     if not done:
         raise HTTPException(409, "This store's check has not finished, so its checkout link is not given yet.")
+    view = next(s for s in get_check(check_id)["stores"] if s["domain"] == offer["store_domain"])
+    if not view["review_allowed"]:
+        raise HTTPException(409, "The checkout link is given after the buyer's choice at this store.")
     if not link.startswith("https://"):
         raise HTTPException(404, "The catalog gave no checkout link for this offer")
     return {"url": link}

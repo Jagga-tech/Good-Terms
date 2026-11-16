@@ -5,6 +5,26 @@ import time
 STILL_READING = "Still reading this store's pages"
 ASK_FAILED = "The store's assistant did not answer."
 NO_ASSISTANT = "No reply available. This store does not offer an assistant to ask."
+PRICE_NOTE = "Prices are from Shopify's catalog. Shipping and tax are added at checkout."
+FINAL_TOTAL = "The final total, with shipping and tax, appears on the store's own checkout page."
+PAGES_DISAGREE = "Its pages say different things"
+ACTIONS = {
+    "meets_all_3": [("review", "Review before checkout", True)],
+    "says_no": [("skip", "Skip this store", True), ("buy_anyway", "Buy anyway", False)],
+    "not_answered_on_pages": [("skip", "Skip this store", False), ("continue", "Continue without an answer", False)],
+    "could_not_read": [("skip", "Skip this store", False), ("open_site", "Open the store's site", False)],
+}
+DECISIONS = {
+    "skip": "You skipped this store.",
+    "continue": "You chose to continue without an answer.",
+    "buy_anyway": "You chose to buy anyway.",
+    "checkout": "You went to this store's checkout.",
+}
+
+
+def actions(result):
+    """What the buyer can do at a store, by its result. Nothing until its pages are read."""
+    return [{"action": a, "label": label, "first": first} for a, label, first in ACTIONS.get(result, [])]
 COULD_NOT_READ = "We couldn't read this store's pages"
 
 

@@ -20,9 +20,32 @@ body {
 }
 
 #root {
-  max-width: 54rem;
+  max-width: 86rem;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+.single {
+  max-width: 54rem;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.coco {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.pane {
+  min-width: 0;
+  max-width: 54rem;
 }
 
 h1,
@@ -404,11 +427,10 @@ blockquote,
 
 .line {
   display: grid;
-  grid-template-columns: 4rem minmax(0, 1fr);
-  gap: 16px;
-  padding: 16px 0;
+  gap: 2px;
+  padding: 14px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 19px;
+  font-size: 18px;
 }
 
 .line.coco {
@@ -423,11 +445,10 @@ blockquote,
   font-size: 14px;
   font-weight: 400;
   color: var(--quiet);
-  padding-top: 5px;
 }
 
 .working {
-  padding: 16px 0 16px calc(4rem + 16px);
+  padding: 14px 0;
   font-size: 17px;
 }
 
@@ -464,11 +485,72 @@ blockquote,
   margin-top: 0;
 }
 
+.pricenote {
+  margin-top: 12px;
+  color: var(--quiet);
+}
+
+.note,
+.decision {
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.actions .primary {
+  margin-top: 0;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button {
+  padding: 8px 20px;
+  border: 1px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.review .condition:first-of-type {
+  margin-top: 16px;
+}
+
+.review .result {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-weight: 700;
+}
+
 footer {
   padding: 16px 0 32px;
   border-top: 1px solid var(--line);
   font-size: 14px;
   color: var(--quiet);
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .coco {
+    position: static;
+    max-height: none;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 640px) {

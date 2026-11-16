@@ -64,13 +64,14 @@ def test_a_checkout_link_is_refused_until_that_stores_check_has_finished(monkeyp
         assert refused.value.status_code == 409
     now["t"] += 6
     first, last = stores[0], stores[-1]
+    assert first == "novillashop.com"
     assert goodterms.checkout_link(check_id, first)["url"].startswith("https://")
     with pytest.raises(HTTPException):
         goodterms.checkout_link(check_id, last)
     now["t"] += 60
-    for store in stores:
+    for store in ("novillashop.com", "sweetnight.com"):
         link = goodterms.checkout_link(check_id, store)["url"]
-        assert link.startswith(f"https://") and "/buy/" in link
+        assert link.startswith("https://") and "/buy/" in link
     with TestClient(app) as client:
         assert client.get(f"/api/checks/2/checkout/{first}").json()["url"].startswith("https://")
         assert client.get("/api/checks/2/checkout/example.com").status_code == 404

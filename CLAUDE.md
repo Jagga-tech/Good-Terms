@@ -63,6 +63,13 @@ Rulings made during M1:
 8. A yes is dropped in code when its sentence does not use the words its condition is about (return or refund for opened returns, free or prepaid for return shipping, sale or discount for sale items). This follows the owner's ruling that a trial length alone is not a clean yes.
 7. The "couldn't read" state has no saved store. It is covered in tests only; no made-up store goes on screen.
 
+Rulings made during M5 and M6:
+
+9. Coco and Buyer's Check share one screen: Coco in a narrow column on the left, Buyer's Check on the right, stacked on a phone. This replaces the plan's separate routes for those two. Merchant View stays its own screen and is never in the split.
+10. Prices: no "catalog price" on any row. One line above the list says "Prices are from Shopify's catalog. Shipping and tax are added at checkout."
+11. A card whose store's pages disagree says "Its pages say different things" on the card itself.
+12. Coco may quote a store's result in the row's exact words when asked about it after its check has finished.
+
 ## Guardrails
 
 From the plan, as written.

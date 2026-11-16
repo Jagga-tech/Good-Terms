@@ -33,6 +33,14 @@ def main():
     with TestClient(app) as client:
         data["final"] = client.get("/api/checks/1").json()
         data["latest"] = client.get("/api/checks/2").json()
+        for store, choice in (("napqueensleep.com", "continue"), ("comformattress.com", "buy_anyway"), ("dwellinhaus.com", "skip")):
+            client.post("/api/checks/2/decisions", json={"store": store, "choice": choice})
+        data["decided"] = client.get("/api/checks/2").json()
+        data["checkout_links"] = {
+            store: client.get(f"/api/checks/2/checkout/{store}").json()["url"]
+            for store in ("novillashop.com", "napqueensleep.com")
+        }
+        db.reset()
         replay = client.post("/api/checks/1/replay").json()["id"]
         for name, seconds in (("replay_start", 0.5), ("replay_replies", 4), ("replay_partial", 8)):
             clock["t"] += seconds
