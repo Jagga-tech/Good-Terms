@@ -283,14 +283,14 @@ const coco: CocoState = {
   busy: false,
 }
 
-test('Coco asks no setup question: it opens on What do you need, with no buttons to answer', () => {
+test('the chat starts empty: only the header and the message box, and Coco says nothing first', () => {
   const markup = renderToStaticMarkup(<Talk state={coco} lines={[]} working={false} />)
-  expect(text(markup)).toContain('What do you need?')
-  expect(text(markup)).toContain('Remembers: your 3 conditions · ships to 94541')
-  expect([...markup.matchAll(/<button[^>]*>([^<]+)</g)].map((m) => m[1])).toEqual(['Send'])
-  expect(markup).not.toMatch(/Looks right|Is that right|<dl/)
+  expect(text(markup).replace(/\s+/g, ' ').trim()).toBe('Coco, your agent Message Coco Send')
+  expect(markup).toMatch(/<div class="thread"[^>]*><\/div>/)
+  expect(markup).not.toMatch(/What do you need|Remembers|Looks right|Is that right/)
   expect(markup.match(/<input/g)).toHaveLength(1)
 })
+
 
 
 
@@ -309,7 +309,7 @@ test('Coco is one chat card: header, messages, step lines, a status line and one
   const page = text(markup)
   expect(markup).toMatch(/^<section class="card chat">/)
   expect(page).toContain('Coco, your agent')
-  expect(page).toContain('Remembers: your 3 conditions · ships to 94541')
+  expect(page).not.toContain('Remembers')
   expect(markup).toContain('class="mine"')
   expect(markup).toContain('class="theirs"')
   expect(markup).not.toMatch(/avatar|typing|<img|<svg|…|\.\.\./i)

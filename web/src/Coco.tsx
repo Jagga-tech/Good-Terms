@@ -29,13 +29,12 @@ export function doing(lines: CocoLine[], working: boolean) {
 }
 
 export function Talk({
-  state,
   lines,
   working,
   onSay,
   onReset,
 }: {
-  state: CocoState
+  state?: CocoState
   lines: CocoLine[]
   working: boolean
   onSay?: (text: string) => void
@@ -58,14 +57,8 @@ export function Talk({
     <section className="card chat">
       <header>
         <h1>Coco, your agent</h1>
-        {state.zip && (
-          <p className="small">
-            Remembers: your {state.conditions.length} conditions · ships to {state.zip}
-          </p>
-        )}
       </header>
       <div className="thread" ref={thread} aria-live="polite">
-        {lines.length === 0 && <p className="theirs">What do you need?</p>}
         {lines.map((line, index) => {
           if (line.who === 'steps') return <Steps key={index} steps={line.steps} />
           return (
