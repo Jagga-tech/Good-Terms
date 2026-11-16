@@ -144,9 +144,9 @@ class Labeler:
 
     def __init__(self, model=None, effort=None, cache=None):
         self.client = anthropic.AsyncAnthropic()
-        self.model = model or os.environ.get("LABELER_MODEL", "claude-sonnet-5-5")
-        self.effort = effort or os.environ.get("LABELER_EFFORT", "low")
-        self.mode = os.environ.get("LABEL_CACHE", "on")
+        self.model = model or os.environ.get("LABELER_MODEL") or "claude-sonnet-5-5"
+        self.effort = effort or os.environ.get("LABELER_EFFORT") or "low"
+        self.mode = os.environ.get("LABEL_CACHE") or "on"
         self.cache = cache or CACHE
         self.limit = asyncio.Semaphore(16)
         self.asked = 0

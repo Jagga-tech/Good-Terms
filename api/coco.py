@@ -16,7 +16,7 @@ from api.check import run_check, start_check
 from api.search import search
 
 router = APIRouter(prefix="/api")
-MODEL = os.environ.get("COCO_MODEL", "claude-sonnet-5-5")
+MODEL = os.environ.get("COCO_MODEL") or "claude-sonnet-5-5"
 
 SYSTEM = """You are Coco, a personal shopping agent. You work for one person, your buyer, and you speak \
 to them directly: "I" for yourself, "you" and "your conditions" for them.
