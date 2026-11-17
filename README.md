@@ -1,8 +1,8 @@
 # GoodTerms
 
-GoodTerms checks each store against a buyer's own conditions before checkout. It shows whether the store says yes, says no or doesn't say, with the store's own words as the evidence.
+GoodTerms checks each store against a buyer's own conditions before checkout. It shows whether the store says yes, says no or doesn't say, with the store's own words as the evidence. The same check shows a merchant which buyer questions their pages leave unanswered.
 
-This is a prototype. It runs on your laptop against live Shopify stores. It is not affiliated with Shopify.
+This is a prototype, built by Chanpreet Singh for Shopify's APM take-home assignment in November 2026. It runs on your laptop against live Shopify stores. It is not affiliated with Shopify.
 
 ## The problem
 
@@ -47,7 +47,15 @@ One screen, two halves.
 
 Before checkout, one screen repeats the three answers and records the buyer's choice. "Go to checkout" opens the store's own checkout page in a new tab. The buyer enters their details and pays there.
 
-**Merchant view**, the other tab on the right. The same rows from the store's side, written to the store owner: what your pages answer clearly, what is missing, and where to add it. It is built from the check, not from Shopify's data, and it shows nothing about the buyer's budget or choices.
+**Merchant view**, the other tab on the right. The same rows from the store's side, written to the store owner. You pick a store from the check, and it opens with one headline, such as "Your pages say yes to all 3 of this buyer's conditions" or "Your pages say different things about free return shipping". Under it: what your pages answer clearly, what is missing, and where to add it. A store that clearly says no is told its pages are clear, and is not told to change its policy. It is built from the check, not from Shopify's data, and it shows nothing about the buyer's budget or choices.
+
+### The demo request
+
+The video uses one request, sent to Coco word for word:
+
+> I just moved into my first apartment and need a queen mattress under $400. Shop for it on Shopify. I only want stores where I can return it after opening, return shipping is free, and both hold for sale items.
+
+On November 16, 2026 this returned six stores. Two said yes to all three conditions on their own pages (Novilla at $164.99 and SweetNight at $399.99), one answered none of them, one said no to all three, and two had pages that said different things. The search is live, so a run today can differ.
 
 ## How it uses Shopify
 
@@ -162,9 +170,13 @@ Space live runs out. They read real stores' pages, paced and within each store's
 ## Limitations
 
 - **A row is a dated statement, not a promise.** It says what a store's pages said on the day they were read. Nothing checks that the store honors it.
+- **"Can I return it" is not "do I get all my money back".** The opened-returns condition asks whether an opened mattress can be returned. It does not ask whether the refund is full. In one run, another shopping agent reported that a store marked yes here may refund only part of the price for a slept-on mattress. GoodTerms did not check that claim.
 - **The labeler can be wrong.** It errs toward "doesn't say", and a wrong yes has not appeared in testing, but a wrong no or a missed yes can. A saved label stays until the page text changes.
 - **The answer key was not checked independently.** Its labels came from a research session with an AI assistant, some of them signed off by the project's owner. Someone else should label the stores without seeing these.
 - **One category, three conditions, one buyer.** The demo is a queen mattress under $400. The three conditions are fixed and the ZIP code is fixed at 94541.
+- **Long pages are cut.** Only the first 40,000 characters of a page are labeled, and the quote check runs on the same text. An answer further down a long page is missed and shows as "doesn't say".
+- **Speed is measured on a few runs only.** On November 15 one full live check of six stores finished in about 24 seconds. On November 16 the first yes showed about 17 seconds after sending, and all six stores were done in under 40 seconds.
+- **Coco's messages are cut to two sentences in code.** A longer reply loses its ending.
 - **The search is not pinned.** Stores and prices change between runs.
 - **Prices are catalog prices.** Shipping and tax appear only on the store's checkout page.
 - **No credentials means the lowest access tier.** Catalog and Ask traffic share small limits that Shopify does not guarantee. Fine for a demo, not for a launch.
@@ -172,3 +184,15 @@ Space live runs out. They read real stores' pages, paced and within each store's
 - **Saved replies and labels live in one local file, `labels.db`.** A fresh clone asks and labels from scratch.
 - **The typeface loads from Google Fonts.** Offline, the system font is used.
 - **Terms.** Commercial use falls under Shopify's API terms, and one store in the fixtures reportedly bars automated access; that store is never read. Have both looked at before any public launch.
+
+## What I would build next
+
+- **Ask real first-time renters which conditions matter.** The three conditions here are my own guess.
+- **Add a full-refund condition,** so a yes on returns also says how much money comes back.
+- **More categories and conditions,** beyond mattresses and returns.
+- **Put the buyer's conditions into Shopify's checkout,** so every agent has to pass them and not only the ones that call GoodTerms.
+- **Independent labels.** Have someone who has not seen these results label the stores, and score the labeler against that.
+
+## How it was built
+
+I used Claude (Cowork) to research the problem and plan the build, and Claude Code to write the code, one milestone at a time. The decisions made along the way are recorded in `CLAUDE.md`. The AI chat transcripts were submitted with the assignment.
